@@ -23,8 +23,7 @@
                     "textStyle": {
                       "fontFamily": "Segoe UI Semibold",
                       "fontSize": "12pt",
-                      "color": "#a8c0dc",
-                      "fontWeight": "bold"
+                      "color": "#a8c0dc"
                     }
                   }
                 ]
