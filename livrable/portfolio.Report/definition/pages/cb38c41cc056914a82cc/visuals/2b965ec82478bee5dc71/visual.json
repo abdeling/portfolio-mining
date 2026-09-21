@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
   "name": "2b965ec82478bee5dc71",
   "position": {
-    "x": 45.153583617747437,
-    "y": 603.58361774744026,
+    "x": 45.15358361774744,
+    "y": 603.5836177474403,
     "z": 10000,
     "height": 255.25597269624572,
-    "width": 844.09556313993164,
+    "width": 620.0,
     "tabOrder": 10000
   },
   "visual": {
@@ -568,7 +568,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Time usage Cascade'"
+                  "Value": "'Class Scorecard'"
                 }
               }
             },

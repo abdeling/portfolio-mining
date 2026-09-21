@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
-  "name": "b4527da5919682cdc1be",
+  "name": "bcf89d18ea694b37bbdb",
   "position": {
-    "x": 45.15,
+    "x": 980.0,
     "y": 305.94,
-    "z": 9000,
+    "z": 9500,
     "height": 274.61,
     "width": 895.0,
-    "tabOrder": 9000
+    "tabOrder": 9500
   },
   "visual": {
     "visualType": "SimpleWaterfall",
@@ -23,23 +23,23 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "Calendar Hours"
+                  "Property": "Bridge Budget Tonnes"
                 }
               },
-              "queryRef": "_Measures.Calendar Hours",
-              "nativeQueryRef": "Calendar",
-              "displayName": "Calendar"
+              "queryRef": "_Measures.Bridge Budget Tonnes",
+              "nativeQueryRef": "Budget",
+              "displayName": "Budget"
             },
             {
               "field": {
                 "NativeVisualCalculation": {
                   "Language": "dax",
-                  "Expression": "-[Unscheduled Hours]",
-                  "Name": "Unscheduled"
+                  "Expression": "-[Bridge Schedule Impact]",
+                  "Name": "Sched h"
                 }
               },
               "queryRef": "select",
-              "nativeQueryRef": "Unscheduled"
+              "nativeQueryRef": "Sched h"
             },
             {
               "field": {
@@ -49,38 +49,23 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "Unscheduled Hours"
+                  "Property": "Bridge Schedule Impact"
                 }
               },
-              "queryRef": "_Measures.Unscheduled Hours",
-              "nativeQueryRef": "Unscheduled Hours",
+              "queryRef": "_Measures.Bridge Schedule Impact",
+              "nativeQueryRef": "Bridge Schedule Impact",
               "hidden": true
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Measures"
-                    }
-                  },
-                  "Property": "Scheduled Hours"
-                }
-              },
-              "queryRef": "_Measures.Scheduled Hours",
-              "nativeQueryRef": "Scheduled",
-              "displayName": "Scheduled"
             },
             {
               "field": {
                 "NativeVisualCalculation": {
                   "Language": "dax",
-                  "Expression": "-[Downtime Hours]",
-                  "Name": "Downtime"
+                  "Expression": "-[Bridge Availability Impact]",
+                  "Name": "Avail."
                 }
               },
               "queryRef": "select1",
-              "nativeQueryRef": "Downtime"
+              "nativeQueryRef": "Avail."
             },
             {
               "field": {
@@ -90,38 +75,23 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "Downtime Hours"
+                  "Property": "Bridge Availability Impact"
                 }
               },
-              "queryRef": "_Measures.Downtime Hours",
-              "nativeQueryRef": "Downtime Hours",
+              "queryRef": "_Measures.Bridge Availability Impact",
+              "nativeQueryRef": "Bridge Availability Impact",
               "hidden": true
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Measures"
-                    }
-                  },
-                  "Property": "Available Hours"
-                }
-              },
-              "queryRef": "_Measures.Available Hours",
-              "nativeQueryRef": "Available",
-              "displayName": "Available"
             },
             {
               "field": {
                 "NativeVisualCalculation": {
                   "Language": "dax",
-                  "Expression": "-[Standby Hours]",
-                  "Name": "Standby"
+                  "Expression": "-[Bridge Utilisation Impact]",
+                  "Name": "Utilis."
                 }
               },
               "queryRef": "select2",
-              "nativeQueryRef": "Standby"
+              "nativeQueryRef": "Utilis."
             },
             {
               "field": {
@@ -131,38 +101,23 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "Standby Hours"
+                  "Property": "Bridge Utilisation Impact"
                 }
               },
-              "queryRef": "_Measures.Standby Hours",
-              "nativeQueryRef": "Standby Hours",
+              "queryRef": "_Measures.Bridge Utilisation Impact",
+              "nativeQueryRef": "Bridge Utilisation Impact",
               "hidden": true
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Measures"
-                    }
-                  },
-                  "Property": "Operating Hours"
-                }
-              },
-              "queryRef": "_Measures.Operating Hours",
-              "nativeQueryRef": "Operating",
-              "displayName": "Operating"
             },
             {
               "field": {
                 "NativeVisualCalculation": {
                   "Language": "dax",
-                  "Expression": "-[Operating Delay Hours]",
-                  "Name": "Operating Delay"
+                  "Expression": "-[Bridge Working Efficiency Impact]",
+                  "Name": "Prod eff."
                 }
               },
               "queryRef": "select3",
-              "nativeQueryRef": "Operating Delay"
+              "nativeQueryRef": "Prod eff."
             },
             {
               "field": {
@@ -172,38 +127,23 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "Operating Delay Hours"
+                  "Property": "Bridge Working Efficiency Impact"
                 }
               },
-              "queryRef": "_Measures.Operating Delay Hours",
-              "nativeQueryRef": "Operating Delay Hours",
+              "queryRef": "_Measures.Bridge Working Efficiency Impact",
+              "nativeQueryRef": "Bridge Working Efficiency Impact",
               "hidden": true
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Measures"
-                    }
-                  },
-                  "Property": "Working Hours"
-                }
-              },
-              "queryRef": "_Measures.Working Hours",
-              "nativeQueryRef": "Working",
-              "displayName": "Working"
             },
             {
               "field": {
                 "NativeVisualCalculation": {
                   "Language": "dax",
-                  "Expression": "-[Non-Productive Hours]",
-                  "Name": "Non Productive"
+                  "Expression": "-[Bridge Rate Impact]",
+                  "Name": "Rate"
                 }
               },
               "queryRef": "select4",
-              "nativeQueryRef": "Non Productive"
+              "nativeQueryRef": "Rate"
             },
             {
               "field": {
@@ -213,11 +153,11 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "Non-Productive Hours"
+                  "Property": "Bridge Rate Impact"
                 }
               },
-              "queryRef": "_Measures.Non-Productive Hours",
-              "nativeQueryRef": "Non-Productive Hours",
+              "queryRef": "_Measures.Bridge Rate Impact",
+              "nativeQueryRef": "Bridge Rate Impact",
               "hidden": true
             },
             {
@@ -228,12 +168,12 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "Productive Hours"
+                  "Property": "Tonnes Hauled"
                 }
               },
-              "queryRef": "_Measures.Productive Hours",
-              "nativeQueryRef": "Productive",
-              "displayName": "Productive"
+              "queryRef": "_Measures.Tonnes Hauled",
+              "nativeQueryRef": "Actual",
+              "displayName": "Actual"
             }
           ]
         }
@@ -248,7 +188,7 @@
                     "Entity": "_Measures"
                   }
                 },
-                "Property": "Calendar Hours"
+                "Property": "Bridge Budget Tonnes"
               }
             },
             "direction": "Descending"
@@ -264,41 +204,13 @@
             "pillars": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "_Measures.Unscheduled Hours"
-          }
-        },
-        {
-          "properties": {
-            "pillars": {
-              "expr": {
-                "Literal": {
                   "Value": "true"
                 }
               }
             }
           },
           "selector": {
-            "metadata": "_Measures.Calendar Hours"
-          }
-        },
-        {
-          "properties": {
-            "pillars": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "_Measures.Scheduled Hours"
+            "metadata": "_Measures.Bridge Budget Tonnes"
           }
         },
         {
@@ -320,13 +232,55 @@
             "pillars": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             }
           },
           "selector": {
-            "metadata": "_Measures.Available Hours"
+            "metadata": "select1"
+          }
+        },
+        {
+          "properties": {
+            "pillars": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "select2"
+          }
+        },
+        {
+          "properties": {
+            "pillars": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "select3"
+          }
+        },
+        {
+          "properties": {
+            "pillars": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "select4"
           }
         },
         {
@@ -340,35 +294,7 @@
             }
           },
           "selector": {
-            "metadata": "_Measures.Operating Hours"
-          }
-        },
-        {
-          "properties": {
-            "pillars": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "_Measures.Working Hours"
-          }
-        },
-        {
-          "properties": {
-            "pillars": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "_Measures.Productive Hours"
+            "metadata": "_Measures.Tonnes Hauled"
           }
         }
       ],
@@ -477,7 +403,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Time Usage Cascade \u2014 Where 315,360 Hours Went'"
+                  "Value": "'Haulage Variance Bridge \u2014 kt'"
                 }
               }
             },
