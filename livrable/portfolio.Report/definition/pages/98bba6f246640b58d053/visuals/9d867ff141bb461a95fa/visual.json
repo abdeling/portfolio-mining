@@ -10,7 +10,7 @@
     "tabOrder": 5500
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "lineClusteredColumnComboChart",
     "query": {
       "queryState": {
         "Category": {
@@ -46,8 +46,13 @@
                 }
               },
               "queryRef": "_Measures.MTBF",
-              "nativeQueryRef": "MTBF"
-            },
+              "nativeQueryRef": "MTBF",
+              "displayName": "MTBF"
+            }
+          ]
+        },
+        "Y2": {
+          "projections": [
             {
               "field": {
                 "Measure": {
@@ -56,11 +61,12 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "MTTR"
+                  "Property": "MTBF Class Median"
                 }
               },
-              "queryRef": "_Measures.MTTR",
-              "nativeQueryRef": "MTTR"
+              "queryRef": "_Measures.MTBF Class Median",
+              "nativeQueryRef": "Class median",
+              "displayName": "Class median"
             }
           ]
         }
@@ -80,7 +86,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'MTBF & MTTR \u2014 Last 12 Months'"
+                  "Value": "'MTBF vs Class Median \u2014 by Month'"
                 }
               }
             },

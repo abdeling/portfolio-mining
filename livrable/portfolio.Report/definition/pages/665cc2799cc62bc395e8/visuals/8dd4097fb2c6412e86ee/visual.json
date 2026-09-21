@@ -10,7 +10,7 @@
     "tabOrder": 7000
   },
   "visual": {
-    "visualType": "columnChart",
+    "visualType": "barChart",
     "query": {
       "queryState": {
         "Category": {

@@ -10,7 +10,7 @@
     "tabOrder": 11000
   },
   "visual": {
-    "visualType": "columnChart",
+    "visualType": "clusteredColumnChart",
     "query": {
       "queryState": {
         "Category": {
