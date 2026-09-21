@@ -1,0 +1,174 @@
+table FactWorkOrder
+	lineageTag: b79874ed-2c52-42b2-af61-5946899ba66c
+
+	column WorkOrderID
+		dataType: string
+		lineageTag: 0c8566cb-db19-438c-841a-1f766aab4e44
+		summarizeBy: none
+		sourceColumn: WorkOrderID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CreatedTimestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d6257dcc-6e9f-440e-a2f3-df48bca8543a
+		summarizeBy: none
+		sourceColumn: CreatedTimestamp
+
+		variation Variation
+			isDefault
+			relationship: a419f2f7-90b9-48ed-9fd3-dfc770704045
+			defaultHierarchy: LocalDateTable_10238839-9cc7-4b7a-9c38-c625e1edb420.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column StartTimestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d1ba6996-9adc-4db7-93ac-10bfaaed84b8
+		summarizeBy: none
+		sourceColumn: StartTimestamp
+
+		variation Variation
+			isDefault
+			relationship: d6536780-37e5-417b-8e24-28db835dd50a
+			defaultHierarchy: LocalDateTable_e50d742a-c69a-4e02-9015-c96f3e9e0f43.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 641ad2a6-dd21-4b2e-89f0-dadcaff396c1
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CloseTimestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 2f8a5b88-b05b-4f40-8ebd-75f1d7360538
+		summarizeBy: none
+		sourceColumn: CloseTimestamp
+
+		variation Variation
+			isDefault
+			relationship: a1e3073c-c13d-43df-980b-cadef045975d
+			defaultHierarchy: LocalDateTable_3ac58ce1-754f-4c71-9c17-bea558fa5734.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitCode
+		dataType: string
+		lineageTag: e0cdfb08-7c60-4434-8156-b3b6b957253c
+		summarizeBy: none
+		sourceColumn: UnitCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column ComponentID
+		dataType: string
+		lineageTag: 583b632a-4bc4-4164-9e95-745761288717
+		summarizeBy: none
+		sourceColumn: ComponentID
+
+		annotation SummarizationSetBy = Automatic
+
+	column WorkType
+		dataType: string
+		lineageTag: d109d7e8-e672-4c05-9b95-144883d05611
+		summarizeBy: none
+		sourceColumn: WorkType
+
+		annotation SummarizationSetBy = Automatic
+
+	column Priority
+		dataType: string
+		lineageTag: 970b95be-e9d3-4a92-ad28-7893a01ead9b
+		summarizeBy: none
+		sourceColumn: Priority
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: 2382d4b5-408e-4d40-9285-56bfc88d83af
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column WaitHours
+		dataType: double
+		lineageTag: 2906ba12-a409-4e2d-967b-228db2fb652e
+		summarizeBy: sum
+		sourceColumn: WaitHours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ActiveRepairHours
+		dataType: double
+		lineageTag: 78ee56dd-f101-4fa0-a8cf-45e6c97ec717
+		summarizeBy: sum
+		sourceColumn: ActiveRepairHours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LabourHours
+		dataType: double
+		lineageTag: 26c6f3b3-29bd-449b-9086-7998b548f914
+		summarizeBy: sum
+		sourceColumn: LabourHours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column EstimatedRemainingLabourHours
+		dataType: double
+		lineageTag: d5abab4c-bc2c-44f0-a5d6-469fe65e37db
+		summarizeBy: sum
+		sourceColumn: EstimatedRemainingLabourHours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DelayReasonID
+		dataType: string
+		lineageTag: 909fb255-9385-4f9a-9626-6e9f20edab77
+		summarizeBy: none
+		sourceColumn: DelayReasonID
+
+		annotation SummarizationSetBy = Automatic
+
+	column StateEventID
+		dataType: string
+		lineageTag: 5b24a5d0-06cb-4868-91ab-2784f6ecf1dd
+		summarizeBy: none
+		sourceColumn: StateEventID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactWorkOrder = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data"),
+				    #"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_FactWorkOrder csv" = Source{[#"Folder Path"="C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\",Name="FactWorkOrder.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_FactWorkOrder csv",[Delimiter=",", Columns=16, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"WorkOrderID", type text}, {"CreatedTimestamp", type datetime}, {"StartTimestamp", type datetime}, {"DateKey", Int64.Type}, {"CloseTimestamp", type datetime}, {"UnitCode", type text}, {"ComponentID", type text}, {"WorkType", type text}, {"Priority", type text}, {"Status", type text}, {"WaitHours", type number}, {"ActiveRepairHours", type number}, {"LabourHours", type number}, {"EstimatedRemainingLabourHours", type number}, {"DelayReasonID", type text}, {"StateEventID", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

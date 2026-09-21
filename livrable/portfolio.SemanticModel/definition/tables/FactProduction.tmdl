@@ -1,0 +1,184 @@
+table FactProduction
+	lineageTag: 98a438b7-add5-4de1-9843-a0996a091dbc
+
+	column ProductionEventID
+		dataType: string
+		lineageTag: 6cf70607-4cde-4ede-a57f-1ae3181ff042
+		summarizeBy: none
+		sourceColumn: ProductionEventID
+
+		annotation SummarizationSetBy = Automatic
+
+	column EventTimestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 5dce3f1f-f79d-4860-83b5-f7d9e6a11bc5
+		summarizeBy: none
+		sourceColumn: EventTimestamp
+
+		variation Variation
+			isDefault
+			relationship: 3e90d4d9-6446-4716-a881-8c81b3929350
+			defaultHierarchy: LocalDateTable_caa2b588-4583-486b-ab1a-86d8cb0b3e77.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 6d058f63-169e-4e5d-ab3e-f77ecccc945e
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitCode
+		dataType: string
+		lineageTag: cb1306ca-a3a7-45f0-b8dd-c30b3702799d
+		summarizeBy: none
+		sourceColumn: UnitCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShiftKey
+		dataType: string
+		lineageTag: 236be856-133f-4b87-b534-e0e094dcc6f5
+		summarizeBy: none
+		sourceColumn: ShiftKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClockHour
+		dataType: int64
+		formatString: 0
+		lineageTag: 288902a6-66e2-45b7-99ee-3eab31d10a2b
+		summarizeBy: sum
+		sourceColumn: ClockHour
+
+		annotation SummarizationSetBy = Automatic
+
+	column HourOfShift
+		dataType: int64
+		formatString: 0
+		lineageTag: e8dd1f30-fdfc-4b55-b58d-940b63caab8d
+		summarizeBy: sum
+		sourceColumn: HourOfShift
+
+		annotation SummarizationSetBy = Automatic
+
+	column AreaID
+		dataType: string
+		lineageTag: c483a274-46a9-43b6-a8be-4092e2e49bbf
+		summarizeBy: none
+		sourceColumn: AreaID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ActivityID
+		dataType: string
+		lineageTag: 9063c4a2-dad6-4c06-b020-d0024e1fd941
+		summarizeBy: none
+		sourceColumn: ActivityID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity
+		dataType: double
+		lineageTag: e7d5d827-7198-4c1b-9611-1f11f24366f3
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column UnitOfMeasure
+		dataType: string
+		lineageTag: 7b53f5f4-c9ce-44a1-9a04-41f11a6a92fb
+		summarizeBy: none
+		sourceColumn: UnitOfMeasure
+
+		annotation SummarizationSetBy = Automatic
+
+	column EventDurationMinutes
+		dataType: double
+		lineageTag: 36bba75a-d158-4f95-9bde-5edc203872ea
+		summarizeBy: sum
+		sourceColumn: EventDurationMinutes
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column HaulDistanceKm
+		dataType: double
+		lineageTag: 34ca5d4f-4ee6-4247-8715-6ed3f45a3b05
+		summarizeBy: sum
+		sourceColumn: HaulDistanceKm
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RoadConditionIndex
+		dataType: double
+		lineageTag: 0010d81e-42c4-4e20-a2de-5aec253ddeda
+		summarizeBy: sum
+		sourceColumn: RoadConditionIndex
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CongestionIndex
+		dataType: double
+		lineageTag: 5cfb9486-f182-4738-b888-83178cb2590a
+		summarizeBy: sum
+		sourceColumn: CongestionIndex
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PayloadTonnes
+		dataType: double
+		lineageTag: bd332175-2b7b-463c-891f-330c2a697994
+		summarizeBy: sum
+		sourceColumn: PayloadTonnes
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MaterialType
+		dataType: string
+		lineageTag: e61be64e-3747-4088-b755-e6df4193d997
+		summarizeBy: none
+		sourceColumn: MaterialType
+
+		annotation SummarizationSetBy = Automatic
+
+	column SourceSystem
+		dataType: string
+		lineageTag: e863f799-e3ef-489e-936d-da97451e01c9
+		summarizeBy: none
+		sourceColumn: SourceSystem
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactProduction = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data"),
+				    #"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_FactProduction csv" = Source{[#"Folder Path"="C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\",Name="FactProduction.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_FactProduction csv",[Delimiter=",", Columns=18, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ProductionEventID", type text}, {"EventTimestamp", type datetime}, {"DateKey", Int64.Type}, {"UnitCode", type text}, {"ShiftKey", type text}, {"ClockHour", Int64.Type}, {"HourOfShift", Int64.Type}, {"AreaID", type text}, {"ActivityID", type text}, {"Quantity", type number}, {"UnitOfMeasure", type text}, {"EventDurationMinutes", type number}, {"HaulDistanceKm", type number}, {"RoadConditionIndex", type number}, {"CongestionIndex", type number}, {"PayloadTonnes", type number}, {"MaterialType", type text}, {"SourceSystem", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

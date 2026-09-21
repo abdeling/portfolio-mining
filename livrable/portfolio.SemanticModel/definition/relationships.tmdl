@@ -1,0 +1,189 @@
+relationship 1385a4c7-53d1-4536-b805-a2c80eb69a02
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimDate.Date
+	toColumn: LocalDateTable_a4c5e01e-238a-465e-9494-c6a1fecef1e8.Date
+
+relationship c55b2364-571c-4466-9164-443e894a87f2
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimDate.WeekStart
+	toColumn: LocalDateTable_65909ad6-6cbb-4b96-a203-f86b7691d2f7.Date
+
+relationship 9726b6b1-2b1f-42fe-8565-42f3ab7b9049
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimEquipment.CommissionDate
+	toColumn: LocalDateTable_d6c4516d-6c23-4a56-9e95-220f4658def5.Date
+
+relationship 39a6baa7-5bf3-4595-b2da-ac58e310af3c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactCondition.ReadingTimestamp
+	toColumn: LocalDateTable_2d96bd40-e3f3-41cd-be1d-f2686d6fa349.Date
+
+relationship 83d8a3e4-f580-427f-a767-3fbc9c4fb4b5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactFailure.FailureTimestamp
+	toColumn: LocalDateTable_6bc998ce-e560-4165-a864-2c4534a04c25.Date
+
+relationship 091584cc-f5b2-4cef-b6b3-d1b942f22e48
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactFailure.RepairStart
+	toColumn: LocalDateTable_55a60e4f-d9ca-4141-9345-d135a2d0c4da.Date
+
+relationship 6d9ad02a-c942-4a14-bb93-2653f9b2f150
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactFailure.RepairEnd
+	toColumn: LocalDateTable_e760afb8-f2f8-499d-8ae9-14a13c7a673e.Date
+
+relationship 3e73f598-18a1-462c-bae2-aa973ddb7367
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactPlan.MonthStart
+	toColumn: LocalDateTable_1e07e56e-03a6-4d68-b4ed-1f71dcf71799.Date
+
+relationship 7ffafce8-5717-4858-b36b-63b7b4d921e8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactPM.ServiceDate
+	toColumn: LocalDateTable_a6ca752f-ca4a-4714-bb87-a98e6cb0e09a.Date
+
+relationship 3e90d4d9-6446-4716-a881-8c81b3929350
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactProduction.EventTimestamp
+	toColumn: LocalDateTable_caa2b588-4583-486b-ab1a-86d8cb0b3e77.Date
+
+relationship 53ee4f71-b5de-4f75-b00f-1417b334eb2c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactState.TimestampStart
+	toColumn: LocalDateTable_3bfd1fd1-2ec0-4ac3-babf-00d754e02554.Date
+
+relationship 7ea61765-04c4-461d-9d30-ac3ac5061606
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactState.TimestampEnd
+	toColumn: LocalDateTable_46c02103-cf59-45b4-a0aa-c40852348bc9.Date
+
+relationship a419f2f7-90b9-48ed-9fd3-dfc770704045
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactWorkOrder.CreatedTimestamp
+	toColumn: LocalDateTable_10238839-9cc7-4b7a-9c38-c625e1edb420.Date
+
+relationship d6536780-37e5-417b-8e24-28db835dd50a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactWorkOrder.StartTimestamp
+	toColumn: LocalDateTable_e50d742a-c69a-4e02-9015-c96f3e9e0f43.Date
+
+relationship a1e3073c-c13d-43df-980b-cadef045975d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactWorkOrder.CloseTimestamp
+	toColumn: LocalDateTable_3ac58ce1-754f-4c71-9c17-bea558fa5734.Date
+
+relationship AutoDetected_84c31bd6-15c2-48f6-a606-5a409ba94461
+	fromColumn: FactPlan.ActivityID
+	toColumn: DimActivity.ActivityID
+
+relationship AutoDetected_896aeaab-d7ed-48d0-b492-8ab6d073c98b
+	fromColumn: FactProduction.ActivityID
+	toColumn: DimActivity.ActivityID
+
+relationship AutoDetected_3dd640bb-967d-43ad-bd64-0e70bf95de70
+	fromColumn: FactProduction.AreaID
+	toColumn: DimArea.AreaID
+
+relationship AutoDetected_000a3dfc-f534-4974-b50c-a436411feec4
+	fromColumn: FactState.AreaID
+	toColumn: DimArea.AreaID
+
+relationship AutoDetected_ebcde4fb-59d2-4d19-9d17-86ab0588d370
+	fromColumn: FactFailure.ComponentID
+	toColumn: DimComponent.ComponentID
+
+relationship AutoDetected_07777beb-40e8-46a3-8568-74674103c56e
+	fromColumn: FactPM.ComponentID
+	toColumn: DimComponent.ComponentID
+
+relationship AutoDetected_8dd71f33-96cc-4514-9437-4ca5179c2778
+	fromColumn: FactWorkOrder.ComponentID
+	toColumn: DimComponent.ComponentID
+
+relationship AutoDetected_e436f95e-25ff-4984-8b47-d530458d302e
+	fromColumn: FactCondition.DateKey
+	toColumn: DimDate.DateKey
+
+relationship AutoDetected_1837b95a-df9e-4542-89d5-39226e9889ee
+	fromColumn: FactFailure.DateKey
+	toColumn: DimDate.DateKey
+
+relationship AutoDetected_42977a4a-7c1c-44f5-830a-664346e4b02d
+	fromColumn: FactPM.DateKey
+	toColumn: DimDate.DateKey
+
+relationship AutoDetected_2f5bfb9e-748c-4e56-b896-359f62cef797
+	fromColumn: FactProduction.DateKey
+	toColumn: DimDate.DateKey
+
+relationship AutoDetected_cd52e7bd-d996-4dc5-bba1-080f5691554b
+	fromColumn: FactRoster.DateKey
+	toColumn: DimDate.DateKey
+
+relationship AutoDetected_5701823f-fa75-496f-a517-9eb243be672e
+	fromColumn: FactState.DateKey
+	toColumn: DimDate.DateKey
+
+relationship AutoDetected_7201c976-2240-4f77-88eb-9cb3023e7df6
+	fromColumn: FactWorkOrder.DateKey
+	toColumn: DimDate.DateKey
+
+relationship AutoDetected_e55400c4-be4c-44a0-afd7-dc547da708a0
+	fromColumn: FactCondition.UnitCode
+	toColumn: DimEquipment.UnitCode
+
+relationship AutoDetected_9086e8c5-8f2e-4b7a-a0c5-5cc399a6406f
+	fromColumn: FactFailure.UnitCode
+	toColumn: DimEquipment.UnitCode
+
+relationship AutoDetected_3106fbf7-2bd6-44b0-b696-9dcbd3c9c11f
+	fromColumn: FactPM.UnitCode
+	toColumn: DimEquipment.UnitCode
+
+relationship AutoDetected_b3259e1c-15e8-4a39-8787-f90f8174d140
+	fromColumn: FactProduction.UnitCode
+	toColumn: DimEquipment.UnitCode
+
+relationship AutoDetected_9c8a42c5-53cd-488f-b82c-542a13ffa7c2
+	fromColumn: FactRoster.UnitCode
+	toColumn: DimEquipment.UnitCode
+
+relationship AutoDetected_4d7cb0ca-298c-47db-9fc9-22be8ef95cc4
+	fromColumn: FactState.UnitCode
+	toColumn: DimEquipment.UnitCode
+
+relationship AutoDetected_ce48c45d-9706-43eb-aed4-a0d39fc34acf
+	fromColumn: FactWorkOrder.UnitCode
+	toColumn: DimEquipment.UnitCode
+
+relationship AutoDetected_d1778d33-a5eb-426b-82e7-2f7b92afaa68
+	fromColumn: FactProduction.ShiftKey
+	toColumn: DimShift.ShiftKey
+
+relationship AutoDetected_0a34b0f0-2bc7-4cba-ba06-063a80243714
+	fromColumn: FactRoster.ShiftKey
+	toColumn: DimShift.ShiftKey
+
+relationship AutoDetected_4565a421-4ce8-4f70-b3af-7227c2390b0c
+	fromColumn: FactState.ShiftKey
+	toColumn: DimShift.ShiftKey
+
+relationship AutoDetected_d53af3c4-1d5f-46d7-b458-16dd11ad39a2
+	fromColumn: FactState.SystemStatusCode
+	toColumn: DimStatus.SystemStatusCode
+
+relationship AutoDetected_47606e09-df5d-41d9-8bca-c92c23bc319d
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: FactFailure.WorkOrderID
+	toColumn: FactWorkOrder.WorkOrderID
+
+relationship AutoDetected_d9fc30f1-7e40-4f22-bc6c-8befa615f07a
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: FactPM.WorkOrderID
+	toColumn: FactWorkOrder.WorkOrderID
+

@@ -1,0 +1,68 @@
+table DimReason
+	lineageTag: 8d118a70-4723-4175-806d-1daa967da43b
+
+	column ReasonID
+		dataType: string
+		lineageTag: 0ef812a3-29c0-4d1f-85a3-2a3c0b4de087
+		summarizeBy: none
+		sourceColumn: ReasonID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Reason
+		dataType: string
+		lineageTag: 968b7250-ac3c-44f6-8b3c-52103e220c0f
+		summarizeBy: none
+		sourceColumn: Reason
+
+		annotation SummarizationSetBy = Automatic
+
+	column ControlClass
+		dataType: string
+		lineageTag: 3f4698eb-1f20-482e-aac4-195c509550b7
+		summarizeBy: none
+		sourceColumn: ControlClass
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReasonFamily
+		dataType: string
+		lineageTag: b27422c2-36e0-45c4-8417-4a44ddad649e
+		summarizeBy: none
+		sourceColumn: ReasonFamily
+
+		annotation SummarizationSetBy = Automatic
+
+	column GMGLeafCode
+		dataType: string
+		lineageTag: 0c419afd-442f-421a-b2a9-13e8c7861fb2
+		summarizeBy: none
+		sourceColumn: GMGLeafCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column DefaultSystemStatusCode
+		dataType: string
+		lineageTag: ff89fb5c-e128-4618-849d-c54dce644394
+		summarizeBy: none
+		sourceColumn: DefaultSystemStatusCode
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimReason = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data"),
+				    #"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_DimReason csv" = Source{[#"Folder Path"="C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\",Name="DimReason.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_DimReason csv",[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Imported CSV",{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}, {"Column5", type text}, {"Column6", type text}}),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"ReasonID", type text}, {"Reason", type text}, {"ControlClass", type text}, {"ReasonFamily", type text}, {"GMGLeafCode", type text}, {"DefaultSystemStatusCode", type text}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

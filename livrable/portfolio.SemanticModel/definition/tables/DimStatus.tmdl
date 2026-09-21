@@ -1,0 +1,228 @@
+table DimStatus
+	lineageTag: 5c7a5778-0197-4ad0-b445-e1aef8ec028e
+
+	column SystemStatusCode
+		dataType: string
+		lineageTag: dff306ca-87b8-4aa3-affb-5acc57344731
+		summarizeBy: none
+		sourceColumn: SystemStatusCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column SystemStatusName
+		dataType: string
+		lineageTag: 76bcd446-27bf-4e82-b191-735c5063c3d5
+		summarizeBy: none
+		sourceColumn: SystemStatusName
+
+		annotation SummarizationSetBy = Automatic
+
+	column GMGLeafCode
+		dataType: string
+		lineageTag: 509c20a7-35f9-4930-8a7b-3a9b5d48fb9c
+		summarizeBy: none
+		sourceColumn: GMGLeafCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column GMGLeafName
+		dataType: string
+		lineageTag: dc30145c-2595-4051-b1b3-7d555e68065e
+		summarizeBy: none
+		sourceColumn: GMGLeafName
+
+		annotation SummarizationSetBy = Automatic
+
+	column StatusFamily
+		dataType: string
+		lineageTag: 7593f01d-5346-4ef4-a4cf-0ba1170964e7
+		summarizeBy: none
+		sourceColumn: StatusFamily
+
+		annotation SummarizationSetBy = Automatic
+
+	column GMGPath
+		dataType: string
+		lineageTag: 38f56c74-bc76-4f62-b1dc-385c60271c1b
+		summarizeBy: none
+		sourceColumn: GMGPath
+
+		annotation SummarizationSetBy = Automatic
+
+	column GMG_L1_Code
+		dataType: string
+		lineageTag: bcca0590-922a-46b5-b925-79e4fbff7df3
+		summarizeBy: none
+		sourceColumn: GMG_L1_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column GMG_L1_Name
+		dataType: string
+		lineageTag: 8f3b42c1-d12e-4252-a4ee-324eddca5f6e
+		summarizeBy: none
+		sourceColumn: GMG_L1_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column GMG_L2_Code
+		dataType: string
+		lineageTag: 57f9828e-27d5-46e5-a4c4-a46b0362c946
+		summarizeBy: none
+		sourceColumn: GMG_L2_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column GMG_L2_Name
+		dataType: string
+		lineageTag: f59800bd-d9f2-4a7e-900b-0c3913aec6dd
+		summarizeBy: none
+		sourceColumn: GMG_L2_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column GMG_L3_Code
+		dataType: string
+		lineageTag: 0e13917e-5bd8-4201-8940-a40b5bafcf99
+		summarizeBy: none
+		sourceColumn: GMG_L3_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column GMG_L3_Name
+		dataType: string
+		lineageTag: 266dd7e7-30ff-4b4a-a236-368679caeece
+		summarizeBy: none
+		sourceColumn: GMG_L3_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column GMG_L4_Code
+		dataType: string
+		lineageTag: 5bd3e322-b52c-4e8e-b750-7ba0ef38a6d5
+		summarizeBy: none
+		sourceColumn: GMG_L4_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column GMG_L4_Name
+		dataType: string
+		lineageTag: cc7c44d5-0b72-4186-95fd-71bdc7c39d64
+		summarizeBy: none
+		sourceColumn: GMG_L4_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column GMG_L5_Code
+		dataType: string
+		lineageTag: 3828d8de-c2d9-4b76-a0d2-0d646e4811c4
+		summarizeBy: none
+		sourceColumn: GMG_L5_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column GMG_L5_Name
+		dataType: string
+		lineageTag: e8dc63f2-860b-4a32-afc5-63548bfe8bf8
+		summarizeBy: none
+		sourceColumn: GMG_L5_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsScheduled
+		dataType: int64
+		formatString: 0
+		lineageTag: 0888e395-f9d3-4455-ade0-3155b4639bd4
+		summarizeBy: none
+		sourceColumn: IsScheduled
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsAvailable
+		dataType: int64
+		formatString: 0
+		lineageTag: 42f939d1-174a-4eee-be18-9ffc115c3c74
+		summarizeBy: none
+		sourceColumn: IsAvailable
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsOperating
+		dataType: int64
+		formatString: 0
+		lineageTag: 75d2efbc-801b-41fb-9e26-10b117ab67c9
+		summarizeBy: none
+		sourceColumn: IsOperating
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsWorking
+		dataType: int64
+		formatString: 0
+		lineageTag: 8193cb03-74a7-477e-bf1a-266efdde49d1
+		summarizeBy: none
+		sourceColumn: IsWorking
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsProductive
+		dataType: int64
+		formatString: 0
+		lineageTag: 6147d946-c0d3-4a90-8332-3394097a51c2
+		summarizeBy: none
+		sourceColumn: IsProductive
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsStandby
+		dataType: int64
+		formatString: 0
+		lineageTag: f5d7becf-2d14-4332-bc38-45c059c56817
+		summarizeBy: none
+		sourceColumn: IsStandby
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsDowntime
+		dataType: int64
+		formatString: 0
+		lineageTag: 4bbec6a7-cb9c-417d-a283-5734c1ee4a9d
+		summarizeBy: none
+		sourceColumn: IsDowntime
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsDelay
+		dataType: int64
+		formatString: 0
+		lineageTag: e9bd40ac-c21f-4cac-91e6-9819f76b9037
+		summarizeBy: none
+		sourceColumn: IsDelay
+
+		annotation SummarizationSetBy = Automatic
+
+	column SortOrder
+		dataType: int64
+		formatString: 0
+		lineageTag: d34efe7a-ace1-40c3-8555-43af802ed788
+		summarizeBy: none
+		sourceColumn: SortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimStatus = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data"),
+				    #"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_DimStatus csv" = Source{[#"Folder Path"="C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\",Name="DimStatus.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_DimStatus csv",[Delimiter=",", Columns=25, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"SystemStatusCode", type text}, {"SystemStatusName", type text}, {"GMGLeafCode", type text}, {"GMGLeafName", type text}, {"StatusFamily", type text}, {"GMGPath", type text}, {"GMG_L1_Code", type text}, {"GMG_L1_Name", type text}, {"GMG_L2_Code", type text}, {"GMG_L2_Name", type text}, {"GMG_L3_Code", type text}, {"GMG_L3_Name", type text}, {"GMG_L4_Code", type text}, {"GMG_L4_Name", type text}, {"GMG_L5_Code", type text}, {"GMG_L5_Name", type text}, {"IsScheduled", Int64.Type}, {"IsAvailable", Int64.Type}, {"IsOperating", Int64.Type}, {"IsWorking", Int64.Type}, {"IsProductive", Int64.Type}, {"IsStandby", Int64.Type}, {"IsDowntime", Int64.Type}, {"IsDelay", Int64.Type}, {"SortOrder", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

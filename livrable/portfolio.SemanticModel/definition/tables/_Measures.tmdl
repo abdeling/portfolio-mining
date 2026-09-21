@@ -1,0 +1,155 @@
+table _Measures
+	lineageTag: 99e81754-e687-4fce-928b-91b1166f5688
+
+	measure 'Calendar Hours' = ```
+			
+			SUM ( FactState[DurationHours] )
+			
+			```
+		displayFolder: TimeUsageModel
+		lineageTag: db60af42-d7a1-4cf1-86ce-eeba72cd2dcc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Available Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L2_Code]="AT")
+		displayFolder: TimeUsageModel
+		lineageTag: 56f50092-6a56-4e36-ae7e-e2fba3623feb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Downtime Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L2_Code]="DT")
+		displayFolder: TimeUsageModel
+		lineageTag: b8e02a3c-0949-42c8-b340-99c21e5023f4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'External Standby Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L4_Code]="SBE")
+		displayFolder: TimeUsageModel
+		lineageTag: a87397be-ce57-4cce-8aca-ce8660768922
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Non Productive Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L5_Code]="NP")
+		displayFolder: TimeUsageModel
+		lineageTag: 61e6e646-04c0-4324-9b12-55fb2939e1ff
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Operating Delay Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L4_Code]="OD")
+		displayFolder: TimeUsageModel
+		lineageTag: d08b01fd-2215-4c73-96db-f93a25e70bf2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Operating Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L3_Code]="OT")
+		displayFolder: TimeUsageModel
+		lineageTag: 128247bc-a9ad-453f-a3fd-b91c0234085c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Operating Standby Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L4_Code]="SBO")
+		displayFolder: TimeUsageModel
+		lineageTag: 473fe935-d8e5-4310-bf19-f8a4906695d7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Productive Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L5_Code]="PT")
+		displayFolder: TimeUsageModel
+		lineageTag: 0336987a-b02d-4259-abab-b3d90e67c891
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Scheduled Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L1_Code]="ST")
+		displayFolder: TimeUsageModel
+		lineageTag: f7cab108-ee37-4276-b133-5f8a84a97344
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Standby Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L3_Code]="SB")
+		displayFolder: TimeUsageModel
+		lineageTag: 2167d796-12be-4cf3-9998-de4aff435aca
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'UnScheScheduled Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L1_Code]="UT")
+		displayFolder: TimeUsageModel
+		lineageTag: 2e0cd980-56e2-4f92-b2e4-59156fe5e365
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Working Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L4_Code]="WT")
+		displayFolder: TimeUsageModel
+		lineageTag: ff23c75b-7203-4714-bb28-5104730e1b38
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Physical Availability' = ```
+			
+			DIVIDE ( [Available Hours], [Scheduled Hours] )
+			
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: de00c014-e725-4ca4-83cb-656fb7e97e2d
+
+	measure 'Use of Availability' = ```
+			
+			DIVIDE ( [Operating Hours], [Available Hours] )
+			
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: c6f723bc-b35b-44d2-b9fc-0c3315aff367
+
+	measure 'Productive Efficiency' = ```
+			
+			DIVIDE ( [Productive Hours], [Operating Hours] )
+			
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: d20bc652-2306-4220-be7c-f741f4957d8f
+
+	measure 'Failure Count' =
+			
+			COUNTROWS ( FactFailure )
+		formatString: 0
+		lineageTag: 7a6b405d-65e3-4868-aab7-3c11f632ec3c
+
+	measure MTBF =
+			
+			DIVIDE ( [Operating Hours], [Failure Count] )
+		formatString: " 0.0 h"
+		lineageTag: 75f0d865-9117-414e-af98-ac24d034eb83
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure MTTR = ```
+			
+			DIVIDE ( [Active Repair Hours], [Failure Count] )
+			
+			```
+		formatString: " 0.0 h"
+		lineageTag: b5b33c4e-1fe5-466b-a7d0-6bedae0ebad1
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'Active Repair Hours' = ```
+			
+			SUM ( FactFailure[ActiveRepairHours] )
+			
+			```
+		formatString: " 0.0 h"
+		lineageTag: e3d7b7a6-00a5-4e40-b92a-b0c7554fc8c6
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

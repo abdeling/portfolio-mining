@@ -1,0 +1,134 @@
+table FactCondition
+	lineageTag: 7f228b2a-2f1d-4e81-bce7-3da4a29d016f
+
+	column ReadingID
+		dataType: string
+		lineageTag: e1d5cfa8-b522-4c28-88ad-117bc35c9486
+		summarizeBy: none
+		sourceColumn: ReadingID
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 8c8667f3-a946-410f-9835-61bad220aafa
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReadingTimestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 7082f5dc-9116-494b-b25b-7b6a444378cd
+		summarizeBy: none
+		sourceColumn: ReadingTimestamp
+
+		variation Variation
+			isDefault
+			relationship: 39a6baa7-5bf3-4595-b2da-ac58e310af3c
+			defaultHierarchy: LocalDateTable_2d96bd40-e3f3-41cd-be1d-f2686d6fa349.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitCode
+		dataType: string
+		lineageTag: 5f7546c4-4c76-4540-8e77-2f8e42e75322
+		summarizeBy: none
+		sourceColumn: UnitCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column SMUHours
+		dataType: double
+		lineageTag: 380ef5d7-291b-4b71-a2d2-2389aaa99cf5
+		summarizeBy: sum
+		sourceColumn: SMUHours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ConditionIndex
+		dataType: double
+		lineageTag: 9da62934-f169-48b8-89e5-9a0916210745
+		summarizeBy: sum
+		sourceColumn: ConditionIndex
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column HydraulicOilTempC
+		dataType: double
+		lineageTag: e15cb91d-d72f-4ae5-9b17-5f087fe618c2
+		summarizeBy: sum
+		sourceColumn: HydraulicOilTempC
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FeParticlesPPM
+		dataType: double
+		lineageTag: e6faa8c2-28f0-4c62-aafc-d20c9f379122
+		summarizeBy: sum
+		sourceColumn: FeParticlesPPM
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column BrakeTestDaysOverdue
+		dataType: int64
+		formatString: 0
+		lineageTag: f9509270-1b66-4f86-9b72-e1e4ed8d162f
+		summarizeBy: sum
+		sourceColumn: BrakeTestDaysOverdue
+
+		annotation SummarizationSetBy = Automatic
+
+	column VibrationIndex
+		dataType: double
+		lineageTag: 000d607e-d2b1-4443-bf16-d3c194a3e1d1
+		summarizeBy: sum
+		sourceColumn: VibrationIndex
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ActiveAlertCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 0a9256b5-29ce-4726-a74f-fcf65e8c8292
+		summarizeBy: sum
+		sourceColumn: ActiveAlertCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column SourceSystem
+		dataType: string
+		lineageTag: 92d6edcb-51e5-4be1-b5ad-b31c032dd0a6
+		summarizeBy: none
+		sourceColumn: SourceSystem
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactCondition = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data"),
+				    #"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_FactCondition csv" = Source{[#"Folder Path"="C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\",Name="FactCondition.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_FactCondition csv",[Delimiter=",", Columns=12, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ReadingID", type text}, {"DateKey", Int64.Type}, {"ReadingTimestamp", type datetime}, {"UnitCode", type text}, {"SMUHours", type number}, {"ConditionIndex", type number}, {"HydraulicOilTempC", type number}, {"FeParticlesPPM", type number}, {"BrakeTestDaysOverdue", Int64.Type}, {"VibrationIndex", type number}, {"ActiveAlertCount", Int64.Type}, {"SourceSystem", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

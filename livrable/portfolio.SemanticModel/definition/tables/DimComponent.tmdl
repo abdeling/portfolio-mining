@@ -1,0 +1,44 @@
+table DimComponent
+	lineageTag: 1edd90d4-7340-47f4-b195-9b7e0861d383
+
+	column ComponentID
+		dataType: string
+		lineageTag: 4e50b6ef-45d5-4104-aa39-408a319be0b1
+		summarizeBy: none
+		sourceColumn: ComponentID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ComponentName
+		dataType: string
+		lineageTag: de6fe6bf-1625-4268-8b40-246a3b8baab0
+		summarizeBy: none
+		sourceColumn: ComponentName
+
+		annotation SummarizationSetBy = Automatic
+
+	column SystemGroup
+		dataType: string
+		lineageTag: b67ef81d-bd66-440f-bfe0-e08dcca32494
+		summarizeBy: none
+		sourceColumn: SystemGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimComponent = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data"),
+				    #"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_DimComponent csv" = Source{[#"Folder Path"="C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\",Name="DimComponent.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_DimComponent csv",[Delimiter=",", Columns=3, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Imported CSV",{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}}),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"ComponentID", type text}, {"ComponentName", type text}, {"SystemGroup", type text}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

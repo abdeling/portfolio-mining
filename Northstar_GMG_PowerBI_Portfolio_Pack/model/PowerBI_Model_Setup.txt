@@ -1,0 +1,29 @@
+POWER BI MODEL SETUP — NORTHSTAR GMG PACK
+
+Rename/import CSVs exactly as their filenames without .csv.
+
+Core relationships (single direction, 1:*):
+DimStatus[SystemStatusCode] -> FactState[SystemStatusCode]
+DimReason[ReasonID] -> FactState[ReasonID]
+DimDate[DateKey] -> FactState[DateKey]
+DimDate[DateKey] -> FactProduction[DateKey]
+DimDate[DateKey] -> FactWorkOrder[DateKey]
+DimDate[DateKey] -> FactFailure[DateKey]
+DimDate[DateKey] -> FactPM[DateKey]
+DimDate[DateKey] -> FactCondition[DateKey]
+DimDate[DateKey] -> FactRoster[DateKey]
+DimEquipment[UnitCode] -> FactState/FactProduction/FactWorkOrder/FactFailure/FactPM/FactCondition/FactRoster[UnitCode]
+DimShift[ShiftKey] -> FactState/FactProduction/FactRoster[ShiftKey]
+DimArea[AreaID] -> FactState/FactProduction[AreaID]
+DimComponent[ComponentID] -> FactState/FactWorkOrder/FactFailure[ComponentID]
+DimActivity[ActivityID] -> FactProduction[ActivityID]
+
+FactPlan is intentionally disconnected from DimDate and DimActivity in the supplied DAX. The plan measures use TREATAS for FiscalMonthNumber and ActivityID.
+
+MEASURES
+Create or keep a table called exactly: _measures
+Paste/apply model/Northstar_GMG_All_Measures.tmdl in TMDL View.
+BacklogAgeBucket is a small calculated table defined in docs/Northstar_GMG_PowerBI_Measures.dax and must be created for the backlog-age chart.
+
+IMPORTANT TIME MODEL RULE
+FactState has one terminal SystemStatusCode per time slice. CT/ST/AT/OT/WT are measures only.

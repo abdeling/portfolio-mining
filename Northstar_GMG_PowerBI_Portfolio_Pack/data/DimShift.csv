@@ -1,0 +1,5 @@
+ShiftKey,ShiftName,ShiftType,CrewTeam,StartHour,EndHour
+DAY-A,Day A,Day,A,6,18
+DAY-B,Day B,Day,B,6,18
+NIGHT-A,Night A,Night,A,18,6
+NIGHT-B,Night B,Night,B,18,6

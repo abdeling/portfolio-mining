@@ -1,0 +1,633 @@
+// NORTHSTAR MINING OPERATIONS ANALYTICS — GMG-ALIGNED DAX PACK
+// Synthetic/demo data only
+// FactState stores one terminal SystemStatusCode per time slice.
+// DimStatus maps system statuses to GMG leaves: UT, DT, SBO, SBE, OD, NP, PT.
+// Aggregate times CT/ST/AT/OT/WT are measures, not fact rows.
+// Measure table: _measures
+
+// OPTIONAL SUPPORTING CALCULATED TABLE (create only if you do not already have it)
+// _measures = DATATABLE ( "Key", INTEGER, { { 1 } } )
+
+BacklogAgeBucket =
+DATATABLE (
+    "Bucket", STRING,
+    "Sort", INTEGER,
+    {
+        { "<7 d", 1 },
+        { "7-14 d", 2 },
+        { "14-30 d", 3 },
+        { "30-60 d", 4 },
+        { "60+ d", 5 }
+    }
+)
+
+MEASURE '_measures'[Calendar Hours] =
+SUM ( FactState[DurationHours] )
+
+MEASURE '_measures'[Unscheduled Hours] =
+CALCULATE ( [Calendar Hours], DimStatus[GMGLeafCode] = "UT" )
+
+MEASURE '_measures'[Non-scheduled Hours] =
+[Unscheduled Hours]
+
+MEASURE '_measures'[Scheduled Hours] =
+[Calendar Hours] - [Unscheduled Hours]
+
+MEASURE '_measures'[Planned Maintenance Hours] =
+CALCULATE ( [Calendar Hours], DimStatus[StatusFamily] = "Planned Maintenance" )
+
+MEASURE '_measures'[Breakdown Hours] =
+CALCULATE ( [Calendar Hours], DimStatus[StatusFamily] = "Breakdown" )
+
+MEASURE '_measures'[Maintenance Delay Hours] =
+CALCULATE ( [Calendar Hours], DimStatus[StatusFamily] = "Maintenance Delay" )
+
+MEASURE '_measures'[Downtime Hours] =
+CALCULATE ( [Calendar Hours], DimStatus[GMGLeafCode] = "DT" )
+
+MEASURE '_measures'[Available Hours] =
+CALCULATE ( [Calendar Hours], DimStatus[IsAvailable] = 1 )
+
+MEASURE '_measures'[Operating Standby Hours] =
+CALCULATE ( [Calendar Hours], DimStatus[GMGLeafCode] = "SBO" )
+
+MEASURE '_measures'[External Standby Hours] =
+CALCULATE ( [Calendar Hours], DimStatus[GMGLeafCode] = "SBE" )
+
+MEASURE '_measures'[Standby Hours] =
+[Operating Standby Hours] + [External Standby Hours]
+
+MEASURE '_measures'[Operating Delay Hours] =
+CALCULATE ( [Calendar Hours], DimStatus[GMGLeafCode] = "OD" )
+
+MEASURE '_measures'[Operating Hours] =
+CALCULATE ( [Calendar Hours], DimStatus[IsOperating] = 1 )
+
+MEASURE '_measures'[Working Hours] =
+CALCULATE ( [Calendar Hours], DimStatus[IsWorking] = 1 )
+
+MEASURE '_measures'[Productive Hours] =
+CALCULATE ( [Calendar Hours], DimStatus[GMGLeafCode] = "PT" )
+
+MEASURE '_measures'[Non-Productive Hours] =
+CALCULATE ( [Calendar Hours], DimStatus[GMGLeafCode] = "NP" )
+
+MEASURE '_measures'[Physical Availability] =
+DIVIDE ( [Available Hours], [Scheduled Hours] )
+
+MEASURE '_measures'[Use of Availability] =
+DIVIDE ( [Operating Hours], [Available Hours] )
+
+MEASURE '_measures'[Working Efficiency] =
+DIVIDE ( [Working Hours], [Operating Hours] )
+
+MEASURE '_measures'[Productive Share of Working] =
+DIVIDE ( [Productive Hours], [Working Hours] )
+
+MEASURE '_measures'[Productive Efficiency] =
+DIVIDE ( [Productive Hours], [Operating Hours] )
+
+MEASURE '_measures'[Non-Productive % Working] =
+DIVIDE ( [Non-Productive Hours], [Working Hours] )
+
+MEASURE '_measures'[Productive % Calendar] =
+DIVIDE ( [Productive Hours], [Calendar Hours] )
+
+MEASURE '_measures'[Standby % Calendar] =
+DIVIDE ( [Standby Hours], [Calendar Hours] )
+
+MEASURE '_measures'[Downtime % Scheduled] =
+DIVIDE ( [Downtime Hours], [Scheduled Hours] )
+
+MEASURE '_measures'[Operating Delay % Operating] =
+DIVIDE ( [Operating Delay Hours], [Operating Hours] )
+
+MEASURE '_measures'[TUM Reconciliation Difference] =
+VAR _leaf = [Unscheduled Hours] + [Downtime Hours] + [Operating Standby Hours] + [External Standby Hours] + [Operating Delay Hours] + [Non-Productive Hours] + [Productive Hours]
+RETURN [Calendar Hours] - _leaf
+
+MEASURE '_measures'[TUM Reconciliation %] =
+DIVIDE ( [Calendar Hours] - ABS ( [TUM Reconciliation Difference] ), [Calendar Hours] )
+
+MEASURE '_measures'[Recon CT = ST + UT] =
+[Calendar Hours] - ( [Scheduled Hours] + [Unscheduled Hours] )
+
+MEASURE '_measures'[Recon ST = AT + DT] =
+[Scheduled Hours] - ( [Available Hours] + [Downtime Hours] )
+
+MEASURE '_measures'[Recon AT = OT + SB] =
+[Available Hours] - ( [Operating Hours] + [Standby Hours] )
+
+MEASURE '_measures'[Recon SB = SBO + SBE] =
+[Standby Hours] - ( [Operating Standby Hours] + [External Standby Hours] )
+
+MEASURE '_measures'[Recon OT = WT + OD] =
+[Operating Hours] - ( [Working Hours] + [Operating Delay Hours] )
+
+MEASURE '_measures'[Recon WT = PT + NP] =
+[Working Hours] - ( [Productive Hours] + [Non-Productive Hours] )
+
+MEASURE '_measures'[Fleet Median PA] =
+MEDIANX ( ALLSELECTED ( DimEquipment[UnitCode] ), CALCULATE ( [Physical Availability] ) )
+
+MEASURE '_measures'[PA vs Fleet Median] =
+( [Physical Availability] - [Fleet Median PA] ) * 100
+
+MEASURE '_measures'[PA Unit Rank] =
+RANKX ( ALLSELECTED ( DimEquipment[UnitCode] ), [Physical Availability], , DESC, DENSE )
+
+MEASURE '_measures'[Class Median PA] =
+VAR _class = SELECTEDVALUE ( DimEquipment[EquipmentClass] )
+RETURN MEDIANX ( FILTER ( ALLSELECTED ( DimEquipment ), DimEquipment[EquipmentClass] = _class ), CALCULATE ( [Physical Availability] ) )
+
+MEASURE '_measures'[Delay Hours] =
+CALCULATE ( [Calendar Hours], DimStatus[IsDelay] = 1 )
+
+MEASURE '_measures'[Controllable Delay Hours] =
+CALCULATE ( [Delay Hours], DimReason[ControlClass] = "Controllable" )
+
+MEASURE '_measures'[Inherent Delay Hours] =
+CALCULATE ( [Delay Hours], DimReason[ControlClass] = "Inherent" )
+
+MEASURE '_measures'[Planned Delay Hours] =
+CALCULATE ( [Delay Hours], DimReason[ControlClass] = "Planned" )
+
+MEASURE '_measures'[Controllable Share of Delay] =
+DIVIDE ( [Controllable Delay Hours], [Delay Hours] )
+
+MEASURE '_measures'[Delay Share of Calendar] =
+DIVIDE ( [Delay Hours], [Calendar Hours] )
+
+MEASURE '_measures'[Start-of-shift Delay Hours] =
+CALCULATE ( [Delay Hours], FactState[HourOfShift] = 0 )
+
+MEASURE '_measures'[Start-of-shift Delay Share] =
+DIVIDE ( [Start-of-shift Delay Hours], [Delay Hours] )
+
+MEASURE '_measures'[Largest Delay Reason Hours] =
+MAXX ( ALLSELECTED ( DimReason[Reason] ), CALCULATE ( [Delay Hours] ) )
+
+MEASURE '_measures'[Available-but-not-producing Hours] =
+[Standby Hours] + [Operating Delay Hours] + [Non-Productive Hours]
+
+MEASURE '_measures'[Controllable Loss Hours] =
+CALCULATE ( [Calendar Hours], DimReason[ControlClass] = "Controllable", NOT ISBLANK ( FactState[ReasonID] ) )
+
+MEASURE '_measures'[Planned Non-Productive Hours] =
+CALCULATE ( [Non-Productive Hours], DimReason[ControlClass] = "Planned" )
+
+MEASURE '_measures'[Failure Count] =
+COUNTROWS ( FactFailure )
+
+MEASURE '_measures'[Active Repair Hours] =
+SUM ( FactFailure[ActiveRepairHours] )
+
+MEASURE '_measures'[Logistics Wait Hours] =
+SUM ( FactFailure[LogisticsWaitHours] )
+
+MEASURE '_measures'[Failure Downtime Hours] =
+SUM ( FactFailure[TotalDownHours] )
+
+MEASURE '_measures'[MTBF] =
+DIVIDE ( [Operating Hours], [Failure Count] )
+
+MEASURE '_measures'[MTTR] =
+DIVIDE ( [Active Repair Hours], [Failure Count] )
+
+MEASURE '_measures'[MDT] =
+DIVIDE ( [Active Repair Hours] + [Logistics Wait Hours], [Failure Count] )
+
+MEASURE '_measures'[Failure Frequency / 100 Op h] =
+DIVIDE ( [Failure Count] * 100, [Operating Hours] )
+
+MEASURE '_measures'[Inherent Availability Ai] =
+DIVIDE ( [MTBF], [MTBF] + [MTTR] )
+
+MEASURE '_measures'[Achieved Availability Aa] =
+DIVIDE ( [Operating Hours], [Operating Hours] + [Active Repair Hours] + [Planned Maintenance Hours] )
+
+MEASURE '_measures'[Operational Availability Ao] =
+DIVIDE ( [Operating Hours], [Operating Hours] + [Active Repair Hours] + [Planned Maintenance Hours] + [Logistics Wait Hours] )
+
+MEASURE '_measures'[PM Burden] =
+( [Inherent Availability Ai] - [Achieved Availability Aa] ) * 100
+
+MEASURE '_measures'[Logistics Burden] =
+( [Achieved Availability Aa] - [Operational Availability Ao] ) * 100
+
+MEASURE '_measures'[MTBF Monthly Mean] =
+VAR _months = ALLSELECTED ( DimDate[FiscalMonthNumber] )
+RETURN AVERAGEX ( _months, CALCULATE ( [MTBF] ) )
+
+MEASURE '_measures'[MTBF Monthly StdDev] =
+VAR _months = ALLSELECTED ( DimDate[FiscalMonthNumber] )
+RETURN STDEVX.S ( _months, CALCULATE ( [MTBF] ) )
+
+MEASURE '_measures'[MTBF UCL] =
+[MTBF Monthly Mean] + 3 * [MTBF Monthly StdDev]
+
+MEASURE '_measures'[MTBF LCL] =
+MAX ( 0, [MTBF Monthly Mean] - 3 * [MTBF Monthly StdDev] )
+
+MEASURE '_measures'[Component Failure Share] =
+DIVIDE ( [Failure Count], CALCULATE ( [Failure Count], REMOVEFILTERS ( DimComponent ) ) )
+
+MEASURE '_measures'[Component Failure Downtime Share] =
+DIVIDE ( [Failure Downtime Hours], CALCULATE ( [Failure Downtime Hours], REMOVEFILTERS ( DimComponent ) ) )
+
+MEASURE '_measures'[Work Orders] =
+COUNTROWS ( FactWorkOrder )
+
+MEASURE '_measures'[WO Labour Hours] =
+SUM ( FactWorkOrder[LabourHours] )
+
+MEASURE '_measures'[Planned Labour Hours] =
+CALCULATE ( [WO Labour Hours], FactWorkOrder[WorkType] = "Preventive" )
+
+MEASURE '_measures'[Planned Work Ratio] =
+DIVIDE ( [Planned Labour Hours], [WO Labour Hours] )
+
+MEASURE '_measures'[Maintenance Ratio] =
+DIVIDE ( [WO Labour Hours], [Operating Hours] )
+
+MEASURE '_measures'[WO Wait Hours] =
+SUM ( FactWorkOrder[WaitHours] )
+
+MEASURE '_measures'[WO Active Repair Hours] =
+SUM ( FactWorkOrder[ActiveRepairHours] )
+
+MEASURE '_measures'[Wait Share of MDT] =
+DIVIDE ( [WO Wait Hours], [WO Wait Hours] + [WO Active Repair Hours] )
+
+MEASURE '_measures'[Open Work Orders As Of] =
+VAR _asof = MAX ( DimDate[Date] ) + 1
+RETURN
+CALCULATE (
+    COUNTROWS ( FactWorkOrder ),
+    REMOVEFILTERS ( DimDate ),
+    FILTER ( FactWorkOrder, FactWorkOrder[StartTimestamp] < _asof && ( ISBLANK ( FactWorkOrder[CloseTimestamp] ) || FactWorkOrder[CloseTimestamp] >= _asof ) )
+)
+
+MEASURE '_measures'[Open P1 Work Orders As Of] =
+VAR _asof = MAX ( DimDate[Date] ) + 1
+RETURN
+CALCULATE (
+    COUNTROWS ( FactWorkOrder ),
+    REMOVEFILTERS ( DimDate ),
+    FactWorkOrder[Priority] = "P1",
+    FILTER ( FactWorkOrder, FactWorkOrder[StartTimestamp] < _asof && ( ISBLANK ( FactWorkOrder[CloseTimestamp] ) || FactWorkOrder[CloseTimestamp] >= _asof ) )
+)
+
+MEASURE '_measures'[Open Backlog Hours As Of] =
+VAR _asof = MAX ( DimDate[Date] ) + 1
+RETURN
+CALCULATE (
+    SUM ( FactWorkOrder[EstimatedRemainingLabourHours] ),
+    REMOVEFILTERS ( DimDate ),
+    FILTER ( FactWorkOrder, FactWorkOrder[StartTimestamp] < _asof && ( ISBLANK ( FactWorkOrder[CloseTimestamp] ) || FactWorkOrder[CloseTimestamp] >= _asof ) )
+)
+
+MEASURE '_measures'[Average Open WO Age Days] =
+VAR _asof = MAX ( DimDate[Date] ) + 1
+RETURN
+CALCULATE (
+    AVERAGEX ( FILTER ( FactWorkOrder, FactWorkOrder[StartTimestamp] < _asof && ( ISBLANK ( FactWorkOrder[CloseTimestamp] ) || FactWorkOrder[CloseTimestamp] >= _asof ) ), DATEDIFF ( FactWorkOrder[StartTimestamp], _asof, DAY ) ),
+    REMOVEFILTERS ( DimDate )
+)
+
+MEASURE '_measures'[Open WO 30+ Days] =
+VAR _asof = MAX ( DimDate[Date] ) + 1
+RETURN
+CALCULATE (
+    COUNTROWS ( FactWorkOrder ),
+    REMOVEFILTERS ( DimDate ),
+    FILTER ( FactWorkOrder, FactWorkOrder[StartTimestamp] < _asof - 30 && ( ISBLANK ( FactWorkOrder[CloseTimestamp] ) || FactWorkOrder[CloseTimestamp] >= _asof ) )
+)
+
+MEASURE '_measures'[Open WO 30+ %] =
+DIVIDE ( [Open WO 30+ Days], [Open Work Orders As Of] )
+
+MEASURE '_measures'[PM Services] =
+COUNTROWS ( FactPM )
+
+MEASURE '_measures'[PM Within Tolerance] =
+CALCULATE ( [PM Services], FactPM[WithinTolerance10Pct] = 1 )
+
+MEASURE '_measures'[PM Compliance] =
+DIVIDE ( [PM Within Tolerance], [PM Services] )
+
+MEASURE '_measures'[PM Past Tolerance] =
+CALCULATE ( [PM Services], FactPM[IntervalDeviationPct] > 10 )
+
+MEASURE '_measures'[Average PM Interval Deviation] =
+DIVIDE ( AVERAGE ( FactPM[IntervalDeviationPct] ), 100 )
+
+MEASURE '_measures'[Component Downtime Rank] =
+RANKX ( ALLSELECTED ( DimComponent[ComponentName] ), [Breakdown Hours], , DESC, DENSE )
+
+MEASURE '_measures'[Component Downtime Cumulative] =
+VAR _rank = [Component Downtime Rank]
+RETURN SUMX ( TOPN ( _rank, ALLSELECTED ( DimComponent[ComponentName] ), [Breakdown Hours], DESC ), [Breakdown Hours] )
+
+MEASURE '_measures'[Component Downtime Cumulative %] =
+DIVIDE ( [Component Downtime Cumulative], CALCULATE ( [Breakdown Hours], REMOVEFILTERS ( DimComponent ) ) )
+
+MEASURE '_measures'[Production Quantity] =
+SUM ( FactProduction[Quantity] )
+
+MEASURE '_measures'[Plan Quantity] =
+VAR _months = VALUES ( DimDate[FiscalMonthNumber] )
+VAR _activities = VALUES ( DimActivity[ActivityID] )
+RETURN
+CALCULATE (
+    SUM ( FactPlan[PlanQuantity] ),
+    TREATAS ( _months, FactPlan[FiscalMonthNumber] ),
+    TREATAS ( _activities, FactPlan[ActivityID] )
+)
+
+MEASURE '_measures'[Achievement %] =
+DIVIDE ( [Production Quantity], [Plan Quantity] )
+
+MEASURE '_measures'[Tonnes Hauled] =
+CALCULATE ( [Production Quantity], DimActivity[ActivityID] = "ACT-HAUL" )
+
+MEASURE '_measures'[Haulage Plan Tonnes] =
+CALCULATE ( [Plan Quantity], DimActivity[ActivityID] = "ACT-HAUL" )
+
+MEASURE '_measures'[Haulage Achievement %] =
+DIVIDE ( [Tonnes Hauled], [Haulage Plan Tonnes] )
+
+MEASURE '_measures'[Loading Tonnes] =
+CALCULATE ( [Production Quantity], DimActivity[ActivityID] = "ACT-LOAD" )
+
+MEASURE '_measures'[Development Metres] =
+CALCULATE ( [Production Quantity], DimActivity[ActivityID] = "ACT-DEV" )
+
+MEASURE '_measures'[Ground Support Bolts] =
+CALCULATE ( [Production Quantity], DimActivity[ActivityID] = "ACT-GS" )
+
+MEASURE '_measures'[Auxiliary Trips] =
+CALCULATE ( [Production Quantity], DimActivity[ActivityID] = "ACT-AUX" )
+
+MEASURE '_measures'[Haul Truck Scheduled Hours] =
+CALCULATE ( [Scheduled Hours], DimEquipment[EquipmentClass] = "Haul truck" )
+
+MEASURE '_measures'[Haul Truck Available Hours] =
+CALCULATE ( [Available Hours], DimEquipment[EquipmentClass] = "Haul truck" )
+
+MEASURE '_measures'[Haul Truck Operating Hours] =
+CALCULATE ( [Operating Hours], DimEquipment[EquipmentClass] = "Haul truck" )
+
+MEASURE '_measures'[Haul Truck Working Hours] =
+CALCULATE ( [Working Hours], DimEquipment[EquipmentClass] = "Haul truck" )
+
+MEASURE '_measures'[Haul Truck Productive Hours] =
+CALCULATE ( [Productive Hours], DimEquipment[EquipmentClass] = "Haul truck" )
+
+MEASURE '_measures'[Haul Truck Non-Productive Hours] =
+CALCULATE ( [Non-Productive Hours], DimEquipment[EquipmentClass] = "Haul truck" )
+
+MEASURE '_measures'[Haul Truck PA] =
+CALCULATE ( [Physical Availability], DimEquipment[EquipmentClass] = "Haul truck" )
+
+MEASURE '_measures'[Haul Truck UoA] =
+CALCULATE ( [Use of Availability], DimEquipment[EquipmentClass] = "Haul truck" )
+
+MEASURE '_measures'[Haul Truck Working Efficiency] =
+CALCULATE ( [Working Efficiency], DimEquipment[EquipmentClass] = "Haul truck" )
+
+MEASURE '_measures'[Haul Truck Prod Eff] =
+CALCULATE ( [Productive Efficiency], DimEquipment[EquipmentClass] = "Haul truck" )
+
+MEASURE '_measures'[Tonnes / Productive h] =
+DIVIDE ( [Tonnes Hauled], [Haul Truck Productive Hours] )
+
+MEASURE '_measures'[Tonnes / Working h] =
+DIVIDE ( [Tonnes Hauled], [Haul Truck Working Hours] )
+
+MEASURE '_measures'[Tonnes / Operating h] =
+DIVIDE ( [Tonnes Hauled], [Haul Truck Operating Hours] )
+
+MEASURE '_measures'[Tonnes / Scheduled h] =
+DIVIDE ( [Tonnes Hauled], [Haul Truck Scheduled Hours] )
+
+MEASURE '_measures'[Tonnes / Unit] =
+DIVIDE ( [Tonnes Hauled], CALCULATE ( DISTINCTCOUNT ( DimEquipment[UnitCode] ), DimEquipment[EquipmentClass] = "Haul truck" ) * 1000 )
+
+MEASURE '_measures'[Haulage Variance Tonnes] =
+[Tonnes Hauled] - [Haulage Plan Tonnes]
+
+MEASURE '_measures'[Haulage Variance kt] =
+DIVIDE ( [Haulage Variance Tonnes], 1000 )
+
+MEASURE '_measures'[Mean Haul Distance] =
+CALCULATE ( AVERAGE ( FactProduction[HaulDistanceKm] ), DimActivity[ActivityID] = "ACT-HAUL" )
+
+MEASURE '_measures'[Mean Road Condition Index] =
+CALCULATE ( AVERAGE ( FactProduction[RoadConditionIndex] ), DimActivity[ActivityID] = "ACT-HAUL" )
+
+MEASURE '_measures'[Mean Congestion Index] =
+CALCULATE ( AVERAGE ( FactProduction[CongestionIndex] ), DimActivity[ActivityID] = "ACT-HAUL" )
+
+MEASURE '_measures'[Plan Scheduled Hours] =
+VAR _months = VALUES ( DimDate[FiscalMonthNumber] )
+RETURN CALCULATE ( SUM ( FactPlan[PlanScheduledHours] ), TREATAS ( _months, FactPlan[FiscalMonthNumber] ), FactPlan[ActivityID] = "ACT-HAUL" )
+
+MEASURE '_measures'[Target PA] =
+VAR _months = VALUES ( DimDate[FiscalMonthNumber] )
+RETURN CALCULATE ( AVERAGE ( FactPlan[TargetPA] ), TREATAS ( _months, FactPlan[FiscalMonthNumber] ), FactPlan[ActivityID] = "ACT-HAUL" )
+
+MEASURE '_measures'[Target UoA] =
+VAR _months = VALUES ( DimDate[FiscalMonthNumber] )
+RETURN CALCULATE ( AVERAGE ( FactPlan[TargetUoA] ), TREATAS ( _months, FactPlan[FiscalMonthNumber] ), FactPlan[ActivityID] = "ACT-HAUL" )
+
+MEASURE '_measures'[Target Working Efficiency] =
+VAR _months = VALUES ( DimDate[FiscalMonthNumber] )
+RETURN CALCULATE ( AVERAGE ( FactPlan[TargetWorkingEfficiency] ), TREATAS ( _months, FactPlan[FiscalMonthNumber] ), FactPlan[ActivityID] = "ACT-HAUL" )
+
+MEASURE '_measures'[Target Productive Efficiency] =
+VAR _months = VALUES ( DimDate[FiscalMonthNumber] )
+VAR _wt = CALCULATE ( AVERAGE ( FactPlan[TargetWorkingEfficiency] ), TREATAS ( _months, FactPlan[FiscalMonthNumber] ), FactPlan[ActivityID] = "ACT-HAUL" )
+VAR _ptwt = CALCULATE ( AVERAGE ( FactPlan[TargetProductiveShareOfWorking] ), TREATAS ( _months, FactPlan[FiscalMonthNumber] ), FactPlan[ActivityID] = "ACT-HAUL" )
+RETURN _wt * _ptwt
+
+MEASURE '_measures'[Target Productive Share of Working] =
+VAR _months = VALUES ( DimDate[FiscalMonthNumber] )
+RETURN CALCULATE ( AVERAGE ( FactPlan[TargetProductiveShareOfWorking] ), TREATAS ( _months, FactPlan[FiscalMonthNumber] ), FactPlan[ActivityID] = "ACT-HAUL" )
+
+MEASURE '_measures'[Target Haulage Rate] =
+VAR _months = VALUES ( DimDate[FiscalMonthNumber] )
+RETURN CALCULATE ( AVERAGE ( FactPlan[TargetRatePerWorkingHour] ), TREATAS ( _months, FactPlan[FiscalMonthNumber] ), FactPlan[ActivityID] = "ACT-HAUL" )
+
+MEASURE '_measures'[Bridge Budget Tonnes] =
+[Plan Scheduled Hours] * [Target PA] * [Target UoA] * [Target Working Efficiency] * [Target Haulage Rate]
+
+MEASURE '_measures'[Bridge Schedule Impact] =
+( [Haul Truck Scheduled Hours] - [Plan Scheduled Hours] ) * [Target PA] * [Target UoA] * [Target Working Efficiency] * [Target Haulage Rate]
+
+MEASURE '_measures'[Bridge Availability Impact] =
+[Haul Truck Scheduled Hours] * ( [Haul Truck PA] - [Target PA] ) * [Target UoA] * [Target Working Efficiency] * [Target Haulage Rate]
+
+MEASURE '_measures'[Bridge Utilisation Impact] =
+[Haul Truck Scheduled Hours] * [Haul Truck PA] * ( [Haul Truck UoA] - [Target UoA] ) * [Target Working Efficiency] * [Target Haulage Rate]
+
+MEASURE '_measures'[Bridge Working Efficiency Impact] =
+[Haul Truck Scheduled Hours] * [Haul Truck PA] * [Haul Truck UoA] * ( [Haul Truck Working Efficiency] - [Target Working Efficiency] ) * [Target Haulage Rate]
+
+MEASURE '_measures'[Bridge Productive Efficiency Impact] =
+[Bridge Working Efficiency Impact]
+
+MEASURE '_measures'[Bridge Rate Impact] =
+[Haul Truck Scheduled Hours] * [Haul Truck PA] * [Haul Truck UoA] * [Haul Truck Working Efficiency] * ( [Tonnes / Working h] - [Target Haulage Rate] )
+
+MEASURE '_measures'[Bridge Calculated Actual] =
+[Bridge Budget Tonnes] + [Bridge Schedule Impact] + [Bridge Availability Impact] + [Bridge Utilisation Impact] + [Bridge Working Efficiency Impact] + [Bridge Rate Impact]
+
+MEASURE '_measures'[Bridge Reconciliation Difference] =
+[Tonnes Hauled] - [Bridge Calculated Actual]
+
+MEASURE '_measures'[Correlation — Haul Distance vs Rate] =
+VAR _t = ADDCOLUMNS ( FILTER ( FactProduction, FactProduction[ActivityID] = "ACT-HAUL" && FactProduction[EventDurationMinutes] > 0 && NOT ISBLANK ( FactProduction[HaulDistanceKm] ) ), "__x", FactProduction[HaulDistanceKm], "__y", DIVIDE ( FactProduction[Quantity], FactProduction[EventDurationMinutes] / 60.0 ) )
+VAR _ax = AVERAGEX ( _t, [__x] )
+VAR _ay = AVERAGEX ( _t, [__y] )
+VAR _num = SUMX ( _t, ( [__x] - _ax ) * ( [__y] - _ay ) )
+VAR _dx = SUMX ( _t, POWER ( [__x] - _ax, 2 ) )
+VAR _dy = SUMX ( _t, POWER ( [__y] - _ay, 2 ) )
+RETURN DIVIDE ( _num, SQRT ( _dx * _dy ) )
+
+MEASURE '_measures'[Correlation — Road Condition vs Rate] =
+VAR _t = ADDCOLUMNS ( FILTER ( FactProduction, FactProduction[ActivityID] = "ACT-HAUL" && FactProduction[EventDurationMinutes] > 0 && NOT ISBLANK ( FactProduction[RoadConditionIndex] ) ), "__x", FactProduction[RoadConditionIndex], "__y", DIVIDE ( FactProduction[Quantity], FactProduction[EventDurationMinutes] / 60.0 ) )
+VAR _ax = AVERAGEX ( _t, [__x] )
+VAR _ay = AVERAGEX ( _t, [__y] )
+VAR _num = SUMX ( _t, ( [__x] - _ax ) * ( [__y] - _ay ) )
+VAR _dx = SUMX ( _t, POWER ( [__x] - _ax, 2 ) )
+VAR _dy = SUMX ( _t, POWER ( [__y] - _ay, 2 ) )
+RETURN DIVIDE ( _num, SQRT ( _dx * _dy ) )
+
+MEASURE '_measures'[Correlation — Congestion vs Rate] =
+VAR _t = ADDCOLUMNS ( FILTER ( FactProduction, FactProduction[ActivityID] = "ACT-HAUL" && FactProduction[EventDurationMinutes] > 0 && NOT ISBLANK ( FactProduction[CongestionIndex] ) ), "__x", FactProduction[CongestionIndex], "__y", DIVIDE ( FactProduction[Quantity], FactProduction[EventDurationMinutes] / 60.0 ) )
+VAR _ax = AVERAGEX ( _t, [__x] )
+VAR _ay = AVERAGEX ( _t, [__y] )
+VAR _num = SUMX ( _t, ( [__x] - _ax ) * ( [__y] - _ay ) )
+VAR _dx = SUMX ( _t, POWER ( [__x] - _ax, 2 ) )
+VAR _dy = SUMX ( _t, POWER ( [__y] - _ay, 2 ) )
+RETURN DIVIDE ( _num, SQRT ( _dx * _dy ) )
+
+MEASURE '_measures'[Correlation — Crew Skill vs Rate] =
+VAR _t = ADDCOLUMNS ( FILTER ( FactProduction, FactProduction[ActivityID] = "ACT-HAUL" && FactProduction[EventDurationMinutes] > 0 ), "__x", LOOKUPVALUE ( FactRoster[OperatorSkillIndex], FactRoster[DateKey], FactProduction[DateKey], FactRoster[UnitCode], FactProduction[UnitCode], FactRoster[ShiftKey], FactProduction[ShiftKey] ), "__y", DIVIDE ( FactProduction[Quantity], FactProduction[EventDurationMinutes] / 60.0 ) )
+VAR _valid = FILTER ( _t, NOT ISBLANK ( [__x] ) )
+VAR _ax = AVERAGEX ( _valid, [__x] )
+VAR _ay = AVERAGEX ( _valid, [__y] )
+VAR _num = SUMX ( _valid, ( [__x] - _ax ) * ( [__y] - _ay ) )
+VAR _dx = SUMX ( _valid, POWER ( [__x] - _ax, 2 ) )
+VAR _dy = SUMX ( _valid, POWER ( [__y] - _ay, 2 ) )
+RETURN DIVIDE ( _num, SQRT ( _dx * _dy ) )
+
+MEASURE '_measures'[Correlation — Unit Derating vs Rate] =
+VAR _t = ADDCOLUMNS ( FILTER ( FactProduction, FactProduction[ActivityID] = "ACT-HAUL" && FactProduction[EventDurationMinutes] > 0 ), "__x", 1 - LOOKUPVALUE ( FactCondition[ConditionIndex], FactCondition[DateKey], FactProduction[DateKey], FactCondition[UnitCode], FactProduction[UnitCode] ), "__y", DIVIDE ( FactProduction[Quantity], FactProduction[EventDurationMinutes] / 60.0 ) )
+VAR _valid = FILTER ( _t, NOT ISBLANK ( [__x] ) )
+VAR _ax = AVERAGEX ( _valid, [__x] )
+VAR _ay = AVERAGEX ( _valid, [__y] )
+VAR _num = SUMX ( _valid, ( [__x] - _ax ) * ( [__y] - _ay ) )
+VAR _dx = SUMX ( _valid, POWER ( [__x] - _ax, 2 ) )
+VAR _dy = SUMX ( _valid, POWER ( [__y] - _ay, 2 ) )
+RETURN DIVIDE ( _num, SQRT ( _dx * _dy ) )
+
+MEASURE '_measures'[Selected Unit] =
+SELECTEDVALUE ( DimEquipment[UnitCode], "Multiple units" )
+
+MEASURE '_measures'[Latest Condition Index] =
+MAXX ( TOPN ( 1, FactCondition, FactCondition[ReadingTimestamp], DESC ), FactCondition[ConditionIndex] )
+
+MEASURE '_measures'[Latest SMU] =
+MAXX ( TOPN ( 1, FactCondition, FactCondition[ReadingTimestamp], DESC ), FactCondition[SMUHours] )
+
+MEASURE '_measures'[Latest Hydraulic Oil Temp] =
+MAXX ( TOPN ( 1, FactCondition, FactCondition[ReadingTimestamp], DESC ), FactCondition[HydraulicOilTempC] )
+
+MEASURE '_measures'[Latest Fe Particles] =
+MAXX ( TOPN ( 1, FactCondition, FactCondition[ReadingTimestamp], DESC ), FactCondition[FeParticlesPPM] )
+
+MEASURE '_measures'[Brake Test Days Overdue] =
+MAXX ( TOPN ( 1, FactCondition, FactCondition[ReadingTimestamp], DESC ), FactCondition[BrakeTestDaysOverdue] )
+
+MEASURE '_measures'[Active Condition Alerts] =
+MAXX ( TOPN ( 1, FactCondition, FactCondition[ReadingTimestamp], DESC ), FactCondition[ActiveAlertCount] )
+
+MEASURE '_measures'[Last PM Actual SMU] =
+MAXX ( TOPN ( 1, FactPM, FactPM[ServiceDate], DESC ), FactPM[ActualSMU] )
+
+MEASURE '_measures'[Last PM Interval] =
+MAXX ( TOPN ( 1, FactPM, FactPM[ServiceDate], DESC ), FactPM[PMIntervalSMU] )
+
+MEASURE '_measures'[Next PM at SMU] =
+[Last PM Actual SMU] + [Last PM Interval]
+
+MEASURE '_measures'[SMU Remaining to PM] =
+MAX ( 0, [Next PM at SMU] - [Latest SMU] )
+
+MEASURE '_measures'[MTBF Class Median] =
+VAR _class = SELECTEDVALUE ( DimEquipment[EquipmentClass] )
+RETURN MEDIANX ( FILTER ( ALLSELECTED ( DimEquipment ), DimEquipment[EquipmentClass] = _class ), CALCULATE ( [MTBF] ) )
+
+MEASURE '_measures'[MTBF vs Class Median] =
+[MTBF] - [MTBF Class Median]
+
+MEASURE '_measures'[Availability Loss vs Fleet Median] =
+MAX ( 0, ( [Fleet Median PA] - [Physical Availability] ) * 100 )
+
+MEASURE '_measures'[Hydraulics Breakdown Share] =
+DIVIDE ( CALCULATE ( [Breakdown Hours], DimComponent[ComponentName] = "Hydraulics" ), [Breakdown Hours] )
+
+MEASURE '_measures'[Actual Loss Hours] =
+[Scheduled Hours] - [Productive Hours]
+
+MEASURE '_measures'[Opportunity Reduction %] =
+0.20
+
+MEASURE '_measures'[Top 2 Controllable Reasons Hours] =
+VAR _reasons = CALCULATETABLE ( VALUES ( DimReason[Reason] ), DimReason[ControlClass] = "Controllable" )
+RETURN SUMX ( TOPN ( 2, _reasons, [Delay Hours], DESC ), [Delay Hours] )
+
+MEASURE '_measures'[Reason Benchmark Gap Hours] =
+[Top 2 Controllable Reasons Hours] * [Opportunity Reduction %]
+
+MEASURE '_measures'[Estimated Opportunity Tonnes] =
+DIVIDE ( [Reason Benchmark Gap Hours] * [Haul Truck Working Efficiency] * [Tonnes / Working h], 1000 )
+
+MEASURE '_measures'[Unit Controllable Loss Rate] =
+DIVIDE ( [Controllable Delay Hours], [Calendar Hours] )
+
+MEASURE '_measures'[Best Quartile Unit Controllable Loss Rate] =
+VAR _units = ALLSELECTED ( DimEquipment[UnitCode] )
+RETURN PERCENTILEX.INC ( _units, CALCULATE ( [Unit Controllable Loss Rate] ), 0.25 )
+
+MEASURE '_measures'[Unit Benchmark Gap Hours] =
+VAR _bq = [Best Quartile Unit Controllable Loss Rate]
+VAR _units = ALLSELECTED ( DimEquipment[UnitCode] )
+RETURN
+SUMX (
+    _units,
+    VAR _rate = CALCULATE ( [Unit Controllable Loss Rate] )
+    VAR _cal = CALCULATE ( [Calendar Hours] )
+    RETURN MAX ( 0, ( _rate - _bq ) * _cal )
+)
+
+MEASURE '_measures'[Opportunity vs Plan %] =
+DIVIDE ( [Estimated Opportunity Tonnes] * 1000, [Haulage Plan Tonnes] )
+
+MEASURE '_measures'[Open WOs by Age Bucket] =
+VAR _asof = MAX ( DimDate[Date] ) + 1
+VAR _bucket = SELECTEDVALUE ( BacklogAgeBucket[Bucket] )
+RETURN
+CALCULATE (
+    COUNTROWS ( FactWorkOrder ),
+    REMOVEFILTERS ( DimDate ),
+    FILTER (
+        FactWorkOrder,
+        VAR _age = DATEDIFF ( FactWorkOrder[StartTimestamp], _asof, DAY )
+        VAR _open = FactWorkOrder[StartTimestamp] < _asof && ( ISBLANK ( FactWorkOrder[CloseTimestamp] ) || FactWorkOrder[CloseTimestamp] >= _asof )
+        RETURN _open && SWITCH ( _bucket, "<7 d", _age < 7, "7-14 d", _age >= 7 && _age < 14, "14-30 d", _age >= 14 && _age < 30, "30-60 d", _age >= 30 && _age < 60, "60+ d", _age >= 60, FALSE () )
+    )
+)
+

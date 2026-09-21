@@ -1,0 +1,166 @@
+table FactFailure
+	lineageTag: f8eb5363-0340-4d05-abab-aad7a852a6d1
+
+	column FailureID
+		dataType: string
+		lineageTag: e93c3dbc-6ee1-4894-b82e-39574d146db8
+		summarizeBy: none
+		sourceColumn: FailureID
+
+		annotation SummarizationSetBy = Automatic
+
+	column FailureTimestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 9b43f8f7-fe7e-476e-8786-a5c71c2f7020
+		summarizeBy: none
+		sourceColumn: FailureTimestamp
+
+		variation Variation
+			isDefault
+			relationship: 83d8a3e4-f580-427f-a767-3fbc9c4fb4b5
+			defaultHierarchy: LocalDateTable_6bc998ce-e560-4165-a864-2c4534a04c25.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 1188007b-fc37-48e7-a443-a175d91cfdd1
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitCode
+		dataType: string
+		lineageTag: d670fcf0-7bdd-4bc3-a492-15e9a53cc8c8
+		summarizeBy: none
+		sourceColumn: UnitCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column ComponentID
+		dataType: string
+		lineageTag: b03d801d-40fd-4f9c-b652-458c290bbb4a
+		summarizeBy: none
+		sourceColumn: ComponentID
+
+		annotation SummarizationSetBy = Automatic
+
+	column FailureMode
+		dataType: string
+		lineageTag: 889312ab-7c0b-43c7-a9f5-e1d129e23db6
+		summarizeBy: none
+		sourceColumn: FailureMode
+
+		annotation SummarizationSetBy = Automatic
+
+	column WorkOrderID
+		dataType: string
+		lineageTag: 1007de27-2cf2-4838-bff9-a1d8dd77bf71
+		summarizeBy: none
+		sourceColumn: WorkOrderID
+
+		annotation SummarizationSetBy = Automatic
+
+	column RepairStart
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: c1066a58-8892-4d1d-af0e-e8c2c6de21a6
+		summarizeBy: none
+		sourceColumn: RepairStart
+
+		variation Variation
+			isDefault
+			relationship: 091584cc-f5b2-4cef-b6b3-d1b942f22e48
+			defaultHierarchy: LocalDateTable_55a60e4f-d9ca-4141-9345-d135a2d0c4da.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column RepairEnd
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: bbf3b2a5-f334-4b35-a4c2-f13b146e0274
+		summarizeBy: none
+		sourceColumn: RepairEnd
+
+		variation Variation
+			isDefault
+			relationship: 6d9ad02a-c942-4a14-bb93-2653f9b2f150
+			defaultHierarchy: LocalDateTable_e760afb8-f2f8-499d-8ae9-14a13c7a673e.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column ActiveRepairHours
+		dataType: double
+		lineageTag: 295dbf9a-5013-4971-a2ad-a805d9066e5c
+		summarizeBy: sum
+		sourceColumn: ActiveRepairHours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LogisticsWaitHours
+		dataType: double
+		lineageTag: 4e07f84f-712b-435c-9f74-38d529614542
+		summarizeBy: sum
+		sourceColumn: LogisticsWaitHours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TotalDownHours
+		dataType: double
+		lineageTag: c60d7990-2d8f-4292-a3a1-52bc655b4941
+		summarizeBy: sum
+		sourceColumn: TotalDownHours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SMUHours
+		dataType: double
+		lineageTag: 30486f2b-55aa-4fdd-b601-a3a6549f7a92
+		summarizeBy: sum
+		sourceColumn: SMUHours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FailureCode
+		dataType: string
+		lineageTag: c7f8564e-5810-4788-b9d5-537532b7973a
+		summarizeBy: none
+		sourceColumn: FailureCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column SourceSystem
+		dataType: string
+		lineageTag: 46789365-23dc-46b0-a3ea-864577019f4c
+		summarizeBy: none
+		sourceColumn: SourceSystem
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactFailure = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data"),
+				    #"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_FactFailure csv" = Source{[#"Folder Path"="C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\",Name="FactFailure.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_FactFailure csv",[Delimiter=",", Columns=15, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"FailureID", type text}, {"FailureTimestamp", type datetime}, {"DateKey", Int64.Type}, {"UnitCode", type text}, {"ComponentID", type text}, {"FailureMode", type text}, {"WorkOrderID", type text}, {"RepairStart", type datetime}, {"RepairEnd", type datetime}, {"ActiveRepairHours", type number}, {"LogisticsWaitHours", type number}, {"TotalDownHours", type number}, {"SMUHours", type number}, {"FailureCode", type text}, {"SourceSystem", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,69 @@
+table DimShift
+	lineageTag: 43225be4-a683-4bf9-88d7-d4bb396804f4
+
+	column ShiftKey
+		dataType: string
+		lineageTag: aa7f16bd-2829-4652-8cf2-bafd456fc408
+		summarizeBy: none
+		sourceColumn: ShiftKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShiftName
+		dataType: string
+		lineageTag: 1dfb5008-f519-4d27-8e5f-f7d57eda7cc8
+		summarizeBy: none
+		sourceColumn: ShiftName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShiftType
+		dataType: string
+		lineageTag: 04d7e3e6-ae2c-4f6c-83f0-f7d478ff154d
+		summarizeBy: none
+		sourceColumn: ShiftType
+
+		annotation SummarizationSetBy = Automatic
+
+	column CrewTeam
+		dataType: string
+		lineageTag: 5a83bb39-7542-4fea-9063-44991d4a6bbc
+		summarizeBy: none
+		sourceColumn: CrewTeam
+
+		annotation SummarizationSetBy = Automatic
+
+	column StartHour
+		dataType: int64
+		formatString: 0
+		lineageTag: d39e99b3-6dc5-4fd7-a08a-bd124524e934
+		summarizeBy: sum
+		sourceColumn: StartHour
+
+		annotation SummarizationSetBy = Automatic
+
+	column EndHour
+		dataType: int64
+		formatString: 0
+		lineageTag: d11aa3c6-594e-4a65-81f2-db0d8e376b10
+		summarizeBy: sum
+		sourceColumn: EndHour
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimShift = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data"),
+				    #"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_DimShift csv" = Source{[#"Folder Path"="C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\",Name="DimShift.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_DimShift csv",[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ShiftKey", type text}, {"ShiftName", type text}, {"ShiftType", type text}, {"CrewTeam", type text}, {"StartHour", Int64.Type}, {"EndHour", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

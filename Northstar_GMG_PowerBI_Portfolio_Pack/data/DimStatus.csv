@@ -1,0 +1,42 @@
+SystemStatusCode,SystemStatusName,GMGLeafCode,GMGLeafName,StatusFamily,GMGPath,GMG_L1_Code,GMG_L1_Name,GMG_L2_Code,GMG_L2_Name,GMG_L3_Code,GMG_L3_Name,GMG_L4_Code,GMG_L4_Name,GMG_L5_Code,GMG_L5_Name,IsScheduled,IsAvailable,IsOperating,IsWorking,IsProductive,IsStandby,IsDowntime,IsDelay,SortOrder
+UT_OFF,Unscheduled / off roster,UT,Unscheduled Time,Unscheduled,CT > UT,UT,Unscheduled Time,,,,,,,,,0,0,0,0,0,0,0,0,10
+DT_PM,Planned maintenance,DT,Downtime,Planned Maintenance,CT > ST > DT,ST,Scheduled Time,DT,Downtime,,,,,,,1,0,0,0,0,0,1,0,20
+DT_BD_HYD,Hydraulic breakdown,DT,Downtime,Breakdown,CT > ST > DT,ST,Scheduled Time,DT,Downtime,,,,,,,1,0,0,0,0,0,1,0,31
+DT_BD_ELE,Electrical breakdown,DT,Downtime,Breakdown,CT > ST > DT,ST,Scheduled Time,DT,Downtime,,,,,,,1,0,0,0,0,0,1,0,32
+DT_BD_TYR,Tyres / tracks breakdown,DT,Downtime,Breakdown,CT > ST > DT,ST,Scheduled Time,DT,Downtime,,,,,,,1,0,0,0,0,0,1,0,33
+DT_BD_ENG,Engine breakdown,DT,Downtime,Breakdown,CT > ST > DT,ST,Scheduled Time,DT,Downtime,,,,,,,1,0,0,0,0,0,1,0,34
+DT_BD_BRK,Brakes breakdown,DT,Downtime,Breakdown,CT > ST > DT,ST,Scheduled Time,DT,Downtime,,,,,,,1,0,0,0,0,0,1,0,35
+DT_BD_TRN,Transmission breakdown,DT,Downtime,Breakdown,CT > ST > DT,ST,Scheduled Time,DT,Downtime,,,,,,,1,0,0,0,0,0,1,0,36
+DT_BD_STR,Structural breakdown,DT,Downtime,Breakdown,CT > ST > DT,ST,Scheduled Time,DT,Downtime,,,,,,,1,0,0,0,0,0,1,0,37
+DT_BD_SVC,Service-related breakdown,DT,Downtime,Breakdown,CT > ST > DT,ST,Scheduled Time,DT,Downtime,,,,,,,1,0,0,0,0,0,1,0,38
+DT_BD_OTH,Other breakdown,DT,Downtime,Breakdown,CT > ST > DT,ST,Scheduled Time,DT,Downtime,,,,,,,1,0,0,0,0,0,1,0,39
+DT_MD_PARTS,Maintenance delay - waiting for parts,DT,Downtime,Maintenance Delay,CT > ST > DT,ST,Scheduled Time,DT,Downtime,,,,,,,1,0,0,0,0,0,1,1,41
+DT_MD_BAY,Maintenance delay - waiting for bay,DT,Downtime,Maintenance Delay,CT > ST > DT,ST,Scheduled Time,DT,Downtime,,,,,,,1,0,0,0,0,0,1,1,42
+DT_MD_TECH,Maintenance delay - waiting for technician,DT,Downtime,Maintenance Delay,CT > ST > DT,ST,Scheduled Time,DT,Downtime,,,,,,,1,0,0,0,0,0,1,1,43
+DT_MD_TOOL,Maintenance delay - waiting for tooling,DT,Downtime,Maintenance Delay,CT > ST > DT,ST,Scheduled Time,DT,Downtime,,,,,,,1,0,0,0,0,0,1,1,44
+DT_MD_OTHER,Other maintenance delay,DT,Downtime,Maintenance Delay,CT > ST > DT,ST,Scheduled Time,DT,Downtime,,,,,,,1,0,0,0,0,0,1,1,45
+SBO_NO_OPERATOR,No operator assigned,SBO,Operating Standby,Operating Standby,CT > ST > AT > SB > SBO,ST,Scheduled Time,AT,Available Time,SB,Standby,SBO,Operating Standby,,,1,1,0,0,0,1,0,1,50
+SBO_CRIB_MEAL,Crib / meal break,SBO,Operating Standby,Operating Standby,CT > ST > AT > SB > SBO,ST,Scheduled Time,AT,Available Time,SB,Standby,SBO,Operating Standby,,,1,1,0,0,0,1,0,1,51
+SBO_OTHER,Other operating standby,SBO,Operating Standby,Operating Standby,CT > ST > AT > SB > SBO,ST,Scheduled Time,AT,Available Time,SB,Standby,SBO,Operating Standby,,,1,1,0,0,0,1,0,1,59
+SBE_BLAST_REENTRY,Blast / re-entry,SBE,External Standby,External Standby,CT > ST > AT > SB > SBE,ST,Scheduled Time,AT,Available Time,SB,Standby,SBE,External Standby,,,1,1,0,0,0,1,0,1,60
+SBE_NO_FACE,No face available,SBE,External Standby,External Standby,CT > ST > AT > SB > SBE,ST,Scheduled Time,AT,Available Time,SB,Standby,SBE,External Standby,,,1,1,0,0,0,1,0,1,61
+SBE_VENTILATION,Ventilation constraint,SBE,External Standby,External Standby,CT > ST > AT > SB > SBE,ST,Scheduled Time,AT,Available Time,SB,Standby,SBE,External Standby,,,1,1,0,0,0,1,0,1,62
+SBE_GROUND_CONTROL,Ground control constraint,SBE,External Standby,External Standby,CT > ST > AT > SB > SBE,ST,Scheduled Time,AT,Available Time,SB,Standby,SBE,External Standby,,,1,1,0,0,0,1,0,1,63
+SBE_OTHER,Other external standby,SBE,External Standby,External Standby,CT > ST > AT > SB > SBE,ST,Scheduled Time,AT,Available Time,SB,Standby,SBE,External Standby,,,1,1,0,0,0,1,0,1,69
+OD_TRAVEL_EMPTY,Travelling empty,OD,Operating Delay,Operating Delay,CT > ST > AT > OT > OD,ST,Scheduled Time,AT,Available Time,OT,Operating Time,OD,Operating Delay,,,1,1,1,0,0,0,0,1,70
+OD_QUEUE_LOAD,Queuing at load point,OD,Operating Delay,Operating Delay,CT > ST > AT > OT > OD,ST,Scheduled Time,AT,Available Time,OT,Operating Time,OD,Operating Delay,,,1,1,1,0,0,0,0,1,71
+OD_SHIFT_CHANGE,Shift change,OD,Operating Delay,Operating Delay,CT > ST > AT > OT > OD,ST,Scheduled Time,AT,Available Time,OT,Operating Time,OD,Operating Delay,,,1,1,1,0,0,0,0,1,72
+OD_CONGESTION,Congestion,OD,Operating Delay,Operating Delay,CT > ST > AT > OT > OD,ST,Scheduled Time,AT,Available Time,OT,Operating Time,OD,Operating Delay,,,1,1,1,0,0,0,0,1,73
+OD_WAIT_LOADER,Waiting for loader,OD,Operating Delay,Operating Delay,CT > ST > AT > OT > OD,ST,Scheduled Time,AT,Available Time,OT,Operating Time,OD,Operating Delay,,,1,1,1,0,0,0,0,1,74
+OD_SCALE_CLEAN,Scaling / clean-up delay,OD,Operating Delay,Operating Delay,CT > ST > AT > OT > OD,ST,Scheduled Time,AT,Available Time,OT,Operating Time,OD,Operating Delay,,,1,1,1,0,0,0,0,1,75
+OD_OTHER,Other operating delay,OD,Operating Delay,Operating Delay,CT > ST > AT > OT > OD,ST,Scheduled Time,AT,Available Time,OT,Operating Time,OD,Operating Delay,,,1,1,1,0,0,0,0,1,79
+NP_REPOSITION,Repositioning / setup,NP,Non-Productive Time,Non-Productive,CT > ST > AT > OT > WT > NP,ST,Scheduled Time,AT,Available Time,OT,Operating Time,WT,Working Time,NP,Non-Productive Time,1,1,1,1,0,0,0,0,80
+NP_CLEANUP,Working clean-up,NP,Non-Productive Time,Non-Productive,CT > ST > AT > OT > WT > NP,ST,Scheduled Time,AT,Available Time,OT,Operating Time,WT,Working Time,NP,Non-Productive Time,1,1,1,1,0,0,0,0,81
+NP_SETUP,Equipment setup / preparation,NP,Non-Productive Time,Non-Productive,CT > ST > AT > OT > WT > NP,ST,Scheduled Time,AT,Available Time,OT,Operating Time,WT,Working Time,NP,Non-Productive Time,1,1,1,1,0,0,0,0,82
+NP_SUPPORT,Support task / non-production work,NP,Non-Productive Time,Non-Productive,CT > ST > AT > OT > WT > NP,ST,Scheduled Time,AT,Available Time,OT,Operating Time,WT,Working Time,NP,Non-Productive Time,1,1,1,1,0,0,0,0,83
+NP_OTHER,Other non-productive work,NP,Non-Productive Time,Non-Productive,CT > ST > AT > OT > WT > NP,ST,Scheduled Time,AT,Available Time,OT,Operating Time,WT,Working Time,NP,Non-Productive Time,1,1,1,1,0,0,0,0,89
+PT_HAULAGE,Productive haulage,PT,Productive Time,Productive,CT > ST > AT > OT > WT > PT,ST,Scheduled Time,AT,Available Time,OT,Operating Time,WT,Working Time,PT,Productive Time,1,1,1,1,1,0,0,0,90
+PT_LOADING,Productive loading / mucking,PT,Productive Time,Productive,CT > ST > AT > OT > WT > PT,ST,Scheduled Time,AT,Available Time,OT,Operating Time,WT,Working Time,PT,Productive Time,1,1,1,1,1,0,0,0,91
+PT_DRILLING,Productive drilling,PT,Productive Time,Productive,CT > ST > AT > OT > WT > PT,ST,Scheduled Time,AT,Available Time,OT,Operating Time,WT,Working Time,PT,Productive Time,1,1,1,1,1,0,0,0,92
+PT_BOLTING,Productive bolting,PT,Productive Time,Productive,CT > ST > AT > OT > WT > PT,ST,Scheduled Time,AT,Available Time,OT,Operating Time,WT,Working Time,PT,Productive Time,1,1,1,1,1,0,0,0,93
+PT_AUXILIARY,Productive auxiliary work,PT,Productive Time,Productive,CT > ST > AT > OT > WT > PT,ST,Scheduled Time,AT,Available Time,OT,Operating Time,WT,Working Time,PT,Productive Time,1,1,1,1,1,0,0,0,94

@@ -1,0 +1,146 @@
+table FactPlan
+	lineageTag: 97a865be-c1c2-4fc7-8340-27e53bb82066
+
+	column PlanRecordID
+		dataType: string
+		lineageTag: f91df1cc-c9b3-4c2f-855c-03a376dc4f55
+		summarizeBy: none
+		sourceColumn: PlanRecordID
+
+		annotation SummarizationSetBy = Automatic
+
+	column FiscalYear
+		dataType: int64
+		formatString: 0
+		lineageTag: cd847620-67d1-4938-960c-99b9beaaa6d9
+		summarizeBy: sum
+		sourceColumn: FiscalYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column FiscalMonthNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: 7a415ac9-2585-48af-8a37-d6538494398f
+		summarizeBy: sum
+		sourceColumn: FiscalMonthNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthStart
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: e7c76762-6d59-474d-8102-333f9f2f4e5d
+		summarizeBy: none
+		sourceColumn: MonthStart
+
+		variation Variation
+			isDefault
+			relationship: 3e73f598-18a1-462c-bae2-aa973ddb7367
+			defaultHierarchy: LocalDateTable_1e07e56e-03a6-4d68-b4ed-1f71dcf71799.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ActivityID
+		dataType: string
+		lineageTag: 7cd6b127-a576-44dc-a35a-1c4663649239
+		summarizeBy: none
+		sourceColumn: ActivityID
+
+		annotation SummarizationSetBy = Automatic
+
+	column PlanQuantity
+		dataType: double
+		lineageTag: 34c66460-2e18-418f-92ea-841a3f3b39a4
+		summarizeBy: sum
+		sourceColumn: PlanQuantity
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TargetPA
+		dataType: double
+		lineageTag: b7f46f91-2731-43d2-aa66-e911b4a8828d
+		summarizeBy: sum
+		sourceColumn: TargetPA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TargetUoA
+		dataType: double
+		lineageTag: fc166267-58fd-47d2-b9e0-576535329088
+		summarizeBy: sum
+		sourceColumn: TargetUoA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TargetWorkingEfficiency
+		dataType: double
+		lineageTag: 06557fc4-c531-40e8-be54-6fd694002365
+		summarizeBy: sum
+		sourceColumn: TargetWorkingEfficiency
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TargetProductiveShareOfWorking
+		dataType: double
+		lineageTag: 0924be3c-b451-42c4-b7d6-5f0e7f4c8aef
+		summarizeBy: sum
+		sourceColumn: TargetProductiveShareOfWorking
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TargetRatePerWorkingHour
+		dataType: int64
+		formatString: 0
+		lineageTag: fcefe0fb-1e67-494a-a842-71737a3bcb48
+		summarizeBy: sum
+		sourceColumn: TargetRatePerWorkingHour
+
+		annotation SummarizationSetBy = Automatic
+
+	column PlanScheduledHours
+		dataType: double
+		lineageTag: 9cc71775-4536-4270-99f4-43df4e2e7ab7
+		summarizeBy: sum
+		sourceColumn: PlanScheduledHours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SourceSystem
+		dataType: string
+		lineageTag: 335c6d68-404f-4a08-9fec-58817b347a59
+		summarizeBy: none
+		sourceColumn: SourceSystem
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactPlan = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data"),
+				    #"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_FactPlan csv" = Source{[#"Folder Path"="C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\",Name="FactPlan.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_FactPlan csv",[Delimiter=",", Columns=13, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"PlanRecordID", type text}, {"FiscalYear", Int64.Type}, {"FiscalMonthNumber", Int64.Type}, {"MonthStart", type date}, {"ActivityID", type text}, {"PlanQuantity", type number}, {"TargetPA", type number}, {"TargetUoA", type number}, {"TargetWorkingEfficiency", type number}, {"TargetProductiveShareOfWorking", type number}, {"TargetRatePerWorkingHour", Int64.Type}, {"PlanScheduledHours", type number}, {"SourceSystem", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

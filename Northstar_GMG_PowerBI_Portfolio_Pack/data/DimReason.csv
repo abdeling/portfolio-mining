@@ -1,0 +1,21 @@
+ReasonID,Reason,ControlClass,ReasonFamily,GMGLeafCode,DefaultSystemStatusCode
+R-NOOP,No operator assigned,Controllable,Standby,SBO,SBO_NO_OPERATOR
+R-BLAST,Blast / re-entry,Inherent,Standby,SBE,SBE_BLAST_REENTRY
+R-NOFACE,No face available,Controllable,Standby,SBE,SBE_NO_FACE
+R-VENT,Ventilation,Inherent,Standby,SBE,SBE_VENTILATION
+R-CRIB,Crib / meal break,Planned,Standby,SBO,SBO_CRIB_MEAL
+R-TRAVE,Travelling empty,Inherent,Operating Delay,OD,OD_TRAVEL_EMPTY
+R-GROUND,Ground control,Inherent,Standby,SBE,SBE_GROUND_CONTROL
+R-QUEUE,Queuing at load point,Controllable,Operating Delay,OD,OD_QUEUE_LOAD
+R-SHIFT,Shift change,Controllable,Operating Delay,OD,OD_SHIFT_CHANGE
+R-CONG,Congestion,Controllable,Operating Delay,OD,OD_CONGESTION
+R-WLOAD,Waiting for loader,Controllable,Operating Delay,OD,OD_WAIT_LOADER
+R-SCALE,Scaling / clean-up,Planned,Operating Delay,OD,OD_SCALE_CLEAN
+R-PARTS,Waiting for parts,Controllable,Maintenance Delay,DT,DT_MD_PARTS
+R-BAY,Waiting for bay,Controllable,Maintenance Delay,DT,DT_MD_BAY
+R-TECH,Waiting for technician,Controllable,Maintenance Delay,DT,DT_MD_TECH
+R-TOOL,Waiting for tooling,Controllable,Maintenance Delay,DT,DT_MD_TOOL
+R-NP-REPOS,Repositioning / setup,Planned,Non-Productive,NP,NP_REPOSITION
+R-NP-CLEAN,Working clean-up,Planned,Non-Productive,NP,NP_CLEANUP
+R-NP-SETUP,Equipment setup / preparation,Planned,Non-Productive,NP,NP_SETUP
+R-NP-SUPPORT,Support task / non-production work,Planned,Non-Productive,NP,NP_SUPPORT

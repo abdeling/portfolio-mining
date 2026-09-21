@@ -1,0 +1,6 @@
+ActivityID,ActivityName,UnitOfMeasure,PrimaryClass
+ACT-HAUL,Haulage,t,Haul truck
+ACT-LOAD,Loading,t,LHD
+ACT-DEV,Development,m,Jumbo
+ACT-GS,Ground support,bolts,Bolter
+ACT-AUX,Auxiliary,trips,Utility

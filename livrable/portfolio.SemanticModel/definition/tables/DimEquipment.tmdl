@@ -1,0 +1,100 @@
+table DimEquipment
+	lineageTag: 41ce276d-6a55-47ae-92ab-959b19b44229
+
+	column UnitCode
+		dataType: string
+		lineageTag: 65e6e86b-6ac0-4317-b5ed-a3e1f135c551
+		summarizeBy: none
+		sourceColumn: UnitCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column EquipmentClass
+		dataType: string
+		lineageTag: bb6fc416-ef04-45ba-acd0-3797f6c442a3
+		summarizeBy: none
+		sourceColumn: EquipmentClass
+
+		annotation SummarizationSetBy = Automatic
+
+	column Make
+		dataType: string
+		lineageTag: 2027ac83-6e5e-46f0-a585-70f58d14a8b3
+		summarizeBy: none
+		sourceColumn: Make
+
+		annotation SummarizationSetBy = Automatic
+
+	column Model
+		dataType: string
+		lineageTag: 29c38f3d-c2b4-4466-9002-2f932e06f0fd
+		summarizeBy: none
+		sourceColumn: Model
+
+		annotation SummarizationSetBy = Automatic
+
+	column CommissionDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: cbf98864-1be9-405b-964e-816a5d1e21b6
+		summarizeBy: none
+		sourceColumn: CommissionDate
+
+		variation Variation
+			isDefault
+			relationship: 9726b6b1-2b1f-42fe-8565-42f3ab7b9049
+			defaultHierarchy: LocalDateTable_d6c4516d-6c23-4a56-9e95-220f4658def5.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column NominalCapacityTonnes
+		dataType: int64
+		formatString: 0
+		lineageTag: 9235d264-e16e-4e9a-910e-d79161814498
+		summarizeBy: sum
+		sourceColumn: NominalCapacityTonnes
+
+		annotation SummarizationSetBy = Automatic
+
+	column HomeArea
+		dataType: string
+		lineageTag: 363a6a73-b724-4ec6-b61e-6ad3a84a372c
+		summarizeBy: none
+		sourceColumn: HomeArea
+
+		annotation SummarizationSetBy = Automatic
+
+	column Criticality
+		dataType: string
+		lineageTag: ce8832c4-862b-4901-a613-02180feb6fc0
+		summarizeBy: none
+		sourceColumn: Criticality
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: 7759b583-7f77-46d4-a642-d33475440595
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimEquipment = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data"),
+				    #"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_DimEquipment csv" = Source{[#"Folder Path"="C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\",Name="DimEquipment.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_DimEquipment csv",[Delimiter=",", Columns=9, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"UnitCode", type text}, {"EquipmentClass", type text}, {"Make", type text}, {"Model", type text}, {"CommissionDate", type date}, {"NominalCapacityTonnes", Int64.Type}, {"HomeArea", type text}, {"Criticality", type text}, {"Status", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

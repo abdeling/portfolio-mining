@@ -1,0 +1,10 @@
+ComponentID,ComponentName,SystemGroup
+CMP-HYD,Hydraulics,Powertrain
+CMP-ELE,Electrical,Electrical
+CMP-TYR,Tyres / tracks,Running gear
+CMP-ENG,Engine,Powertrain
+CMP-BRK,Brakes,Safety
+CMP-TRN,Transmission,Powertrain
+CMP-STR,Structural,Structure
+CMP-SVC,Service,Service
+CMP-OTH,Other,Other

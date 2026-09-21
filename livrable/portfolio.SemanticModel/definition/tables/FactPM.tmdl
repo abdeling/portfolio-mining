@@ -1,0 +1,141 @@
+table FactPM
+	lineageTag: a8f61eb3-e139-4bf2-9757-09983f41ab1a
+
+	column PMServiceID
+		dataType: string
+		lineageTag: 1ca82b66-06cd-4931-943b-39e910b28b89
+		summarizeBy: none
+		sourceColumn: PMServiceID
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitCode
+		dataType: string
+		lineageTag: ea9bb884-592c-4ef0-8543-d4e80aaa3ff9
+		summarizeBy: none
+		sourceColumn: UnitCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column WorkOrderID
+		dataType: string
+		lineageTag: 3c0fd258-7e47-4111-a52f-6791a321248a
+		summarizeBy: none
+		sourceColumn: WorkOrderID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ComponentID
+		dataType: string
+		lineageTag: 8e50c50a-041b-4e62-a6c6-c212776be77d
+		summarizeBy: none
+		sourceColumn: ComponentID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ServiceDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 486f0ea0-656c-40ef-b6ed-6e4a013951ee
+		summarizeBy: none
+		sourceColumn: ServiceDate
+
+		variation Variation
+			isDefault
+			relationship: 7ffafce8-5717-4858-b36b-63b7b4d921e8
+			defaultHierarchy: LocalDateTable_a6ca752f-ca4a-4714-bb87-a98e6cb0e09a.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 4f486be0-b971-492a-bb71-23ec0e412155
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column TargetSMU
+		dataType: int64
+		formatString: 0
+		lineageTag: ae7ee26f-175f-49fa-a9c9-40cde5fd7db3
+		summarizeBy: sum
+		sourceColumn: TargetSMU
+
+		annotation SummarizationSetBy = Automatic
+
+	column ActualSMU
+		dataType: double
+		lineageTag: cd30e83b-436e-4d82-a944-685c1d0ef148
+		summarizeBy: sum
+		sourceColumn: ActualSMU
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PMIntervalSMU
+		dataType: int64
+		formatString: 0
+		lineageTag: a58a7db7-ef84-4985-86e2-7e7bbefc8be8
+		summarizeBy: sum
+		sourceColumn: PMIntervalSMU
+
+		annotation SummarizationSetBy = Automatic
+
+	column IntervalDeviationPct
+		dataType: double
+		lineageTag: 3f84bc15-5798-4861-963e-d6b233441f09
+		summarizeBy: sum
+		sourceColumn: IntervalDeviationPct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WithinTolerance10Pct
+		dataType: int64
+		formatString: 0
+		lineageTag: 1aba7294-c2e5-4d08-b1d8-7185bbeda824
+		summarizeBy: sum
+		sourceColumn: WithinTolerance10Pct
+
+		annotation SummarizationSetBy = Automatic
+
+	column LabourHours
+		dataType: double
+		lineageTag: 64832d90-29f8-4541-919f-06ee57195d25
+		summarizeBy: sum
+		sourceColumn: LabourHours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SourceSystem
+		dataType: string
+		lineageTag: 4aad8707-b833-4564-8069-c6aaff6d711f
+		summarizeBy: none
+		sourceColumn: SourceSystem
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactPM = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data"),
+				    #"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_FactPM csv" = Source{[#"Folder Path"="C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\",Name="FactPM.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_FactPM csv",[Delimiter=",", Columns=13, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"PMServiceID", type text}, {"UnitCode", type text}, {"WorkOrderID", type text}, {"ComponentID", type text}, {"ServiceDate", type date}, {"DateKey", Int64.Type}, {"TargetSMU", Int64.Type}, {"ActualSMU", type number}, {"PMIntervalSMU", Int64.Type}, {"IntervalDeviationPct", type number}, {"WithinTolerance10Pct", Int64.Type}, {"LabourHours", type number}, {"SourceSystem", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

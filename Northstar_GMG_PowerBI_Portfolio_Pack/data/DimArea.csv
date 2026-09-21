@@ -1,0 +1,7 @@
+AreaID,AreaName,Level,Zone,AreaType
+A01,North Zone,Level 470,North,Production
+A02,South Zone,Level 500,South,Production
+A03,East Zone,Level 530,East,Development
+A04,West Zone,Level 560,West,Development
+A05,Central Ore Pass,Level 470,Central,Infrastructure
+A06,Crusher & Loadout,Level 420,Central,Infrastructure

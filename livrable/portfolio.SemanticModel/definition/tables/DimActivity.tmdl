@@ -1,0 +1,52 @@
+table DimActivity
+	lineageTag: 15dfc85c-2403-4993-93b2-ad8080fd8687
+
+	column ActivityID
+		dataType: string
+		lineageTag: df16009c-0e1e-45bf-a2bc-f9c4286b9a40
+		summarizeBy: none
+		sourceColumn: ActivityID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ActivityName
+		dataType: string
+		lineageTag: 77e98ed2-f383-453f-9705-5d2c0d069d94
+		summarizeBy: none
+		sourceColumn: ActivityName
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitOfMeasure
+		dataType: string
+		lineageTag: d0451e00-9e3a-49b3-bc67-9d8baeefd5c6
+		summarizeBy: none
+		sourceColumn: UnitOfMeasure
+
+		annotation SummarizationSetBy = Automatic
+
+	column PrimaryClass
+		dataType: string
+		lineageTag: 076a5bd5-8846-4c2a-8503-7a4d063838b1
+		summarizeBy: none
+		sourceColumn: PrimaryClass
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimActivity = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data"),
+				    #"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_DimActivity csv" = Source{[#"Folder Path"="C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\",Name="DimActivity.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_DimActivity csv",[Delimiter=",", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Imported CSV",{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}}),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"ActivityID", type text}, {"ActivityName", type text}, {"UnitOfMeasure", type text}, {"PrimaryClass", type text}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

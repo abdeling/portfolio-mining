@@ -1,0 +1,50 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["DimActivity","DimArea","DimComponent","DimDate","DimEquipment","DimReason","DimShift","DimStatus","FactCondition","FactFailure","FactPlan","FactPM","FactProduction","FactRoster","FactState","FactWorkOrder","_Measures"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table DimActivity
+ref table DimArea
+ref table DimComponent
+ref table DimDate
+ref table DateTableTemplate_f4e362c5-378f-463b-a958-350530a3828e
+ref table LocalDateTable_a4c5e01e-238a-465e-9494-c6a1fecef1e8
+ref table LocalDateTable_65909ad6-6cbb-4b96-a203-f86b7691d2f7
+ref table DimEquipment
+ref table LocalDateTable_d6c4516d-6c23-4a56-9e95-220f4658def5
+ref table DimReason
+ref table DimShift
+ref table DimStatus
+ref table FactCondition
+ref table LocalDateTable_2d96bd40-e3f3-41cd-be1d-f2686d6fa349
+ref table FactFailure
+ref table LocalDateTable_6bc998ce-e560-4165-a864-2c4534a04c25
+ref table LocalDateTable_55a60e4f-d9ca-4141-9345-d135a2d0c4da
+ref table LocalDateTable_e760afb8-f2f8-499d-8ae9-14a13c7a673e
+ref table FactPlan
+ref table LocalDateTable_1e07e56e-03a6-4d68-b4ed-1f71dcf71799
+ref table FactPM
+ref table LocalDateTable_a6ca752f-ca4a-4714-bb87-a98e6cb0e09a
+ref table FactProduction
+ref table LocalDateTable_caa2b588-4583-486b-ab1a-86d8cb0b3e77
+ref table FactRoster
+ref table FactState
+ref table LocalDateTable_3bfd1fd1-2ec0-4ac3-babf-00d754e02554
+ref table LocalDateTable_46c02103-cf59-45b4-a0aa-c40852348bc9
+ref table FactWorkOrder
+ref table LocalDateTable_10238839-9cc7-4b7a-9c38-c625e1edb420
+ref table LocalDateTable_e50d742a-c69a-4e02-9015-c96f3e9e0f43
+ref table LocalDateTable_3ac58ce1-754f-4c71-9c17-bea558fa5734
+ref table _Measures
+
+ref cultureInfo en-US
+

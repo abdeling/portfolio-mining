@@ -1,0 +1,243 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 834.93851907292276
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 335.55593758737342,
+            "y": 271.23960518149374
+          },
+          "nodeIndex": "DimActivity",
+          "nodeLineageTag": "15dfc85c-2403-4993-93b2-ad8080fd8687",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 73.590628840496379,
+            "y": 1262.3300800120007
+          },
+          "nodeIndex": "DimArea",
+          "nodeLineageTag": "30dc4c40-5fa6-4e73-843c-602cfa1847ad",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1642.5257297276198,
+            "y": 1106.7802413273132
+          },
+          "nodeIndex": "DimComponent",
+          "nodeLineageTag": "1edd90d4-7340-47f4-b195-9b7e0861d383",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1107.2249887612293,
+            "y": 765.15200962232916
+          },
+          "nodeIndex": "DimDate",
+          "nodeLineageTag": "61fd405d-4e8c-4a89-9345-de0aedd80e5d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 915.07971799252653,
+            "y": 400.0820362440154
+          },
+          "nodeIndex": "DimEquipment",
+          "nodeLineageTag": "41ce276d-6a55-47ae-92ab-959b19b44229",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1876.5257297276198,
+            "y": 905.47981924049373
+          },
+          "nodeIndex": "DimReason",
+          "nodeLineageTag": "8d118a70-4723-4175-806d-1daa967da43b",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 323.7154210926285,
+            "y": 977.59984214105884
+          },
+          "nodeIndex": "DimShift",
+          "nodeLineageTag": "43225be4-a683-4bf9-88d7-d4bb396804f4",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1144.6613819880249,
+            "y": 1684.9596384809875
+          },
+          "nodeIndex": "DimStatus",
+          "nodeLineageTag": "5c7a5778-0197-4ad0-b445-e1aef8ec028e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 919.72381304616977,
+            "y": -50
+          },
+          "nodeIndex": "FactCondition",
+          "nodeLineageTag": "7f228b2a-2f1d-4e81-bce7-3da4a29d016f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1377.6578019207018,
+            "y": 1320.1714899597853
+          },
+          "nodeIndex": "FactFailure",
+          "nodeLineageTag": "f8eb5363-0340-4d05-abab-aad7a852a6d1",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 65.9920063035106
+          },
+          "nodeIndex": "FactPlan",
+          "nodeLineageTag": "97a865be-c1c2-4fc7-8340-27e53bb82066",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1208.4625358596511,
+            "y": 389.76848608853015
+          },
+          "nodeIndex": "FactPM",
+          "nodeLineageTag": "a8f61eb3-e139-4bf2-9757-09983f41ab1a",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 623.907008978889,
+            "y": 244.45012972570976
+          },
+          "nodeIndex": "FactProduction",
+          "nodeLineageTag": "98a438b7-add5-4de1-9843-a0996a091dbc",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 619.41331590386721,
+            "y": 720.651604446142
+          },
+          "nodeIndex": "FactRoster",
+          "nodeLineageTag": "1e710ab6-3514-4bc2-acd7-0619e2b98e56",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1082.3352431503154,
+            "y": 1320.4485882265003
+          },
+          "nodeIndex": "FactState",
+          "nodeLineageTag": "25957dd9-43b6-41f2-a926-49460ee88312",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1399.8488549423953,
+            "y": 750.32505759317871
+          },
+          "nodeIndex": "FactWorkOrder",
+          "nodeLineageTag": "b79874ed-2c52-42b2-af61-5946899ba66c",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2110.52572972762,
+            "y": 965.47981924049373
+          },
+          "nodeIndex": "_Measures",
+          "nodeLineageTag": "99e81754-e687-4fce-928b-91b1166f5688",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100.48644071800483,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

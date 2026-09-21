@@ -1,0 +1,164 @@
+table FactState
+	lineageTag: 25957dd9-43b6-41f2-a926-49460ee88312
+
+	column StateRecordID
+		dataType: string
+		lineageTag: 831a6668-7282-43d5-9a60-884a30448f8b
+		summarizeBy: none
+		sourceColumn: StateRecordID
+
+		annotation SummarizationSetBy = Automatic
+
+	column TimestampStart
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: b7b5efc1-da64-4de1-8280-b0cd3c9b19a3
+		summarizeBy: none
+		sourceColumn: TimestampStart
+
+		variation Variation
+			isDefault
+			relationship: 53ee4f71-b5de-4f75-b00f-1417b334eb2c
+			defaultHierarchy: LocalDateTable_3bfd1fd1-2ec0-4ac3-babf-00d754e02554.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column TimestampEnd
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: e72c5f70-d7b1-41ad-b0db-78ea599fb529
+		summarizeBy: none
+		sourceColumn: TimestampEnd
+
+		variation Variation
+			isDefault
+			relationship: 7ea61765-04c4-461d-9d30-ac3ac5061606
+			defaultHierarchy: LocalDateTable_46c02103-cf59-45b4-a0aa-c40852348bc9.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 708c4ca2-f99b-4a4e-ad5b-9e6001a72fcc
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitCode
+		dataType: string
+		lineageTag: d62e08a6-4d4a-4a44-b89e-f97cfd93b6bb
+		summarizeBy: none
+		sourceColumn: UnitCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShiftKey
+		dataType: string
+		lineageTag: 26ceb82d-ac66-4610-b7dd-a07fd665a849
+		summarizeBy: none
+		sourceColumn: ShiftKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClockHour
+		dataType: int64
+		formatString: 0
+		lineageTag: 7f4193ec-0950-4936-9997-d9514f4765d0
+		summarizeBy: sum
+		sourceColumn: ClockHour
+
+		annotation SummarizationSetBy = Automatic
+
+	column HourOfShift
+		dataType: int64
+		formatString: 0
+		lineageTag: e69bb5c9-8ff8-4695-87ed-de89fd150631
+		summarizeBy: sum
+		sourceColumn: HourOfShift
+
+		annotation SummarizationSetBy = Automatic
+
+	column AreaID
+		dataType: string
+		lineageTag: b9801db5-3a1a-4d5b-af0b-618585942755
+		summarizeBy: none
+		sourceColumn: AreaID
+
+		annotation SummarizationSetBy = Automatic
+
+	column SystemStatusCode
+		dataType: string
+		lineageTag: 8f054994-511e-437f-8cb4-b89b61443f7b
+		summarizeBy: none
+		sourceColumn: SystemStatusCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReasonID
+		dataType: string
+		lineageTag: 45d59202-8ad9-41c9-93db-9f7df5ccb15a
+		summarizeBy: none
+		sourceColumn: ReasonID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ComponentID
+		dataType: string
+		lineageTag: fc76d35a-3c78-4fa5-b2b1-417f2ecc5715
+		summarizeBy: none
+		sourceColumn: ComponentID
+
+		annotation SummarizationSetBy = Automatic
+
+	column EventID
+		dataType: string
+		lineageTag: e6967f6e-6046-49c7-bbce-6d05cf7de8ff
+		summarizeBy: none
+		sourceColumn: EventID
+
+		annotation SummarizationSetBy = Automatic
+
+	column WorkOrderID
+		dataType: string
+		lineageTag: ab3830bc-99b9-4c01-a08b-20da5c2a3628
+		summarizeBy: none
+		sourceColumn: WorkOrderID
+
+		annotation SummarizationSetBy = Automatic
+
+	column DurationHours
+		dataType: double
+		lineageTag: b43d4c64-145e-4152-aecd-75750fb9e0e3
+		summarizeBy: sum
+		sourceColumn: DurationHours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SourceSystem
+		dataType: string
+		lineageTag: 5642f3ba-2ce7-4928-9880-a9ffe3ab69e7
+		summarizeBy: none
+		sourceColumn: SourceSystem
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactState = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data"),
+				    #"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_FactState csv" = Source{[#"Folder Path"="C:\Users\Abdelghani.Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\",Name="FactState.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Abdelghani Bouaddi\Downloads\Northstar_GMG_PowerBI_Portfolio_Pack\Northstar_GMG_PowerBI_Portfolio_Pack\data\_FactState csv",[Delimiter=",", Columns=16, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"StateRecordID", type text}, {"TimestampStart", type datetime}, {"TimestampEnd", type datetime}, {"DateKey", Int64.Type}, {"UnitCode", type text}, {"ShiftKey", type text}, {"ClockHour", Int64.Type}, {"HourOfShift", Int64.Type}, {"AreaID", type text}, {"SystemStatusCode", type text}, {"ReasonID", type text}, {"ComponentID", type text}, {"EventID", type text}, {"WorkOrderID", type text}, {"DurationHours", type number}, {"SourceSystem", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

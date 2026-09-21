@@ -1,0 +1,37 @@
+UnitCode,EquipmentClass,Make,Model,CommissionDate,NominalCapacityTonnes,HomeArea,Criticality,Status
+TR-001,Haul truck,Epiroc,MT42,2019-06-08,42,North Zone,A,Active
+TR-002,Haul truck,Epiroc,MT42,2022-11-15,42,North Zone,A,Active
+TR-003,Haul truck,Epiroc,MT42,2016-04-20,42,North Zone,A,Active
+TR-004,Haul truck,Epiroc,MT42,2019-09-04,42,North Zone,A,Active
+TR-005,Haul truck,Epiroc,MT42,2022-02-11,42,North Zone,A,Active
+TR-006,Haul truck,Epiroc,MT42,2016-07-18,42,North Zone,A,Active
+TR-007,Haul truck,Epiroc,MT42,2019-12-20,42,North Zone,A,Active
+TR-008,Haul truck,Epiroc,MT42,2022-05-07,42,North Zone,A,Active
+TR-009,Haul truck,Epiroc,MT42,2016-10-14,42,North Zone,A,Active
+TR-010,Haul truck,Epiroc,MT42,2019-03-20,42,North Zone,A,Active
+TR-011,Haul truck,Epiroc,MT42,2022-08-03,42,North Zone,A,Active
+TR-012,Haul truck,Epiroc,MT42,2016-01-10,42,North Zone,A,Active
+LH-001,LHD,Sandvik,LH517i,2019-06-08,17,North Zone,A,Active
+LH-002,LHD,Sandvik,LH517i,2022-11-15,17,North Zone,A,Active
+LH-003,LHD,Sandvik,LH517i,2016-04-20,17,North Zone,A,Active
+LH-004,LHD,Sandvik,LH517i,2019-09-04,17,North Zone,A,Active
+LH-005,LHD,Sandvik,LH517i,2022-02-11,17,North Zone,A,Active
+LH-006,LHD,Sandvik,LH517i,2016-07-18,17,North Zone,A,Active
+LH-007,LHD,Sandvik,LH517i,2019-12-20,17,North Zone,A,Active
+LH-008,LHD,Sandvik,LH517i,2022-05-07,17,North Zone,A,Active
+JD-001,Jumbo,Sandvik,DD422i,2019-06-08,0,South Zone,A,Active
+JD-002,Jumbo,Sandvik,DD422i,2022-11-15,0,South Zone,A,Active
+JD-003,Jumbo,Sandvik,DD422i,2016-04-20,0,South Zone,A,Active
+JD-004,Jumbo,Sandvik,DD422i,2019-09-04,0,South Zone,A,Active
+JD-005,Jumbo,Sandvik,DD422i,2022-02-11,0,South Zone,A,Active
+JD-006,Jumbo,Sandvik,DD422i,2016-07-18,0,South Zone,A,Active
+BT-001,Bolter,Epiroc,Boltec E10,2019-06-08,0,East Zone,B,Active
+BT-002,Bolter,Epiroc,Boltec E10,2022-11-15,0,East Zone,B,Active
+BT-003,Bolter,Epiroc,Boltec E10,2016-04-20,0,East Zone,B,Active
+BT-004,Bolter,Epiroc,Boltec E10,2019-09-04,0,East Zone,B,Active
+BT-005,Bolter,Epiroc,Boltec E10,2022-02-11,0,East Zone,B,Active
+BT-006,Bolter,Epiroc,Boltec E10,2016-07-18,0,East Zone,B,Active
+UV-001,Utility,MacLean,Mine-Mate,2019-06-08,0,West Zone,B,Active
+UV-002,Utility,MacLean,Mine-Mate,2022-11-15,0,West Zone,B,Active
+UV-003,Utility,MacLean,Mine-Mate,2016-04-20,0,West Zone,B,Active
+UV-004,Utility,MacLean,Mine-Mate,2019-09-04,0,West Zone,B,Active
