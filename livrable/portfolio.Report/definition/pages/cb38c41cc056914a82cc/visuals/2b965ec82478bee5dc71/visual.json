@@ -23,11 +23,11 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "UnScheScheduled Hours"
+                  "Property": "Unscheduled Hours"
                 }
               },
-              "queryRef": "_Measures.UnScheScheduled Hours",
-              "nativeQueryRef": "UnScheScheduled Hours",
+              "queryRef": "_Measures.Unscheduled Hours",
+              "nativeQueryRef": "Unscheduled Hours",
               "hidden": true
             },
             {
@@ -83,11 +83,11 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "Non Productive Hours"
+                  "Property": "Non-Productive Hours"
                 }
               },
-              "queryRef": "_Measures.Non Productive Hours",
-              "nativeQueryRef": "Non Productive Hours",
+              "queryRef": "_Measures.Non-Productive Hours",
+              "nativeQueryRef": "Non-Productive Hours",
               "hidden": true
             },
             {

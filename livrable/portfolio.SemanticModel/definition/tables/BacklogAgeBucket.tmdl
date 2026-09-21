@@ -1,0 +1,38 @@
+table BacklogAgeBucket
+	lineageTag: dd8a6159-8fd9-48a3-9107-ef218eed1b96
+
+	column Bucket
+		dataType: string
+		lineageTag: 658db952-5e6e-44f3-9903-66141c88b78a
+		summarizeBy: none
+		sortByColumn: Sort
+		sourceColumn: Bucket
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sort
+		dataType: int64
+		formatString: 0
+		lineageTag: 002a27de-986a-4fcf-9723-373c880f48bb
+		summarizeBy: none
+		sourceColumn: Sort
+
+		annotation SummarizationSetBy = Automatic
+
+	partition BacklogAgeBucket = calculated
+		mode: import
+		source = ```
+				DATATABLE (
+				    "Bucket", STRING,
+				    "Sort", INTEGER,
+				    {
+				        { "<7 d", 1 },
+				        { "7-14 d", 2 },
+				        { "14-30 d", 3 },
+				        { "30-60 d", 4 },
+				        { "60+ d", 5 }
+				    }
+				)
+				```
+
+	annotation PBI_Id = 9e1e5d8b9b8145a0820a194bf6ae375a

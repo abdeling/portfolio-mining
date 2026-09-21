@@ -8,7 +8,7 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["DimActivity","DimArea","DimComponent","DimDate","DimEquipment","DimReason","DimShift","DimStatus","FactCondition","FactFailure","FactPlan","FactPM","FactProduction","FactRoster","FactState","FactWorkOrder","_Measures"]
+annotation PBI_QueryOrder = ["DimActivity","DimArea","DimComponent","DimDate","DimEquipment","DimReason","DimShift","DimStatus","FactCondition","FactFailure","FactPlan","FactPM","FactProduction","FactRoster","FactState","FactWorkOrder","BacklogAgeBucket","_Measures"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
@@ -44,6 +44,7 @@ ref table FactWorkOrder
 ref table LocalDateTable_10238839-9cc7-4b7a-9c38-c625e1edb420
 ref table LocalDateTable_e50d742a-c69a-4e02-9015-c96f3e9e0f43
 ref table LocalDateTable_3ac58ce1-754f-4c71-9c17-bea558fa5734
+ref table BacklogAgeBucket
 ref table _Measures
 
 ref cultureInfo en-US

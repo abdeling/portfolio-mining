@@ -34,7 +34,7 @@
               "field": {
                 "NativeVisualCalculation": {
                   "Language": "dax",
-                  "Expression": "-[UnScheScheduled Hours]",
+                  "Expression": "-[Unscheduled Hours]",
                   "Name": "Unscheduled"
                 }
               },
@@ -49,11 +49,11 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "UnScheScheduled Hours"
+                  "Property": "Unscheduled Hours"
                 }
               },
-              "queryRef": "_Measures.UnScheScheduled Hours",
-              "nativeQueryRef": "UnScheScheduled Hours",
+              "queryRef": "_Measures.Unscheduled Hours",
+              "nativeQueryRef": "Unscheduled Hours",
               "hidden": true
             },
             {
@@ -198,7 +198,7 @@
               "field": {
                 "NativeVisualCalculation": {
                   "Language": "dax",
-                  "Expression": "-[Non Productive Hours]",
+                  "Expression": "-[Non-Productive Hours]",
                   "Name": "Non Productive"
                 }
               },
@@ -213,11 +213,11 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "Non Productive Hours"
+                  "Property": "Non-Productive Hours"
                 }
               },
-              "queryRef": "_Measures.Non Productive Hours",
-              "nativeQueryRef": "Non Productive Hours",
+              "queryRef": "_Measures.Non-Productive Hours",
+              "nativeQueryRef": "Non-Productive Hours",
               "hidden": true
             },
             {
@@ -270,7 +270,7 @@
             }
           },
           "selector": {
-            "metadata": "_Measures.UnScheScheduled Hours"
+            "metadata": "_Measures.Unscheduled Hours"
           }
         },
         {

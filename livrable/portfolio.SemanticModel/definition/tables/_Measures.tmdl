@@ -1,145 +1,1503 @@
 table _Measures
-	lineageTag: 99e81754-e687-4fce-928b-91b1166f5688
+	lineageTag: 4550050d-0bd3-433d-8871-286cec0e2dd7
 
 	measure 'Calendar Hours' = ```
 			
 			SUM ( FactState[DurationHours] )
 			
 			```
-		displayFolder: TimeUsageModel
-		lineageTag: db60af42-d7a1-4cf1-86ce-eeba72cd2dcc
+		displayFolder: Time Usage Model
+		lineageTag: b382bf3c-f2ef-4e78-a3bc-5387fab35639
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+	measure 'Unscheduled Hours' = ```
+			
+			CALCULATE ( [Calendar Hours], DimStatus[GMGLeafCode] = "UT" )
+			
+			```
+		displayFolder: Time Usage Model
+		lineageTag: bad44e44-f3d5-4e14-a430-1bdac9584b67
 
-	measure 'Available Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L2_Code]="AT")
-		displayFolder: TimeUsageModel
-		lineageTag: 56f50092-6a56-4e36-ae7e-e2fba3623feb
+	measure 'Non-scheduled Hours' = ```
+			
+			[Unscheduled Hours]
+			
+			```
+		displayFolder: Time Usage Model
+		lineageTag: c5fac01f-e5ff-4b09-b734-013f8a0f67b3
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+	measure 'Scheduled Hours' = ```
+			
+			[Calendar Hours] - [Unscheduled Hours]
+			
+			```
+		displayFolder: Time Usage Model
+		lineageTag: 7e0df979-150a-45d5-bcfb-c79a808a6d02
 
-	measure 'Downtime Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L2_Code]="DT")
-		displayFolder: TimeUsageModel
-		lineageTag: b8e02a3c-0949-42c8-b340-99c21e5023f4
+	measure 'Planned Maintenance Hours' = ```
+			
+			CALCULATE ( [Calendar Hours], DimStatus[StatusFamily] = "Planned Maintenance" )
+			
+			```
+		displayFolder: Time Usage Model
+		lineageTag: 5ade5968-dff9-480f-a403-bf794a988ad2
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+	measure 'Breakdown Hours' = ```
+			
+			CALCULATE ( [Calendar Hours], DimStatus[StatusFamily] = "Breakdown" )
+			
+			```
+		displayFolder: Time Usage Model
+		lineageTag: cccaa498-c653-4a48-9552-16f6e1300b98
 
-	measure 'External Standby Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L4_Code]="SBE")
-		displayFolder: TimeUsageModel
-		lineageTag: a87397be-ce57-4cce-8aca-ce8660768922
+	measure 'Maintenance Delay Hours' = ```
+			
+			CALCULATE ( [Calendar Hours], DimStatus[StatusFamily] = "Maintenance Delay" )
+			
+			```
+		displayFolder: Time Usage Model
+		lineageTag: 91c318f8-7727-4db7-b9c5-1ca117dbfaec
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+	measure 'Downtime Hours' = ```
+			
+			CALCULATE ( [Calendar Hours], DimStatus[GMGLeafCode] = "DT" )
+			
+			```
+		displayFolder: Time Usage Model
+		lineageTag: f3a2652c-82a5-42d4-82a8-0d31bb1dbfbb
 
-	measure 'Non Productive Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L5_Code]="NP")
-		displayFolder: TimeUsageModel
-		lineageTag: 61e6e646-04c0-4324-9b12-55fb2939e1ff
+	measure 'Available Hours' = ```
+			
+			CALCULATE ( [Calendar Hours], DimStatus[IsAvailable] = 1 )
+			
+			```
+		displayFolder: Time Usage Model
+		lineageTag: e53dc5a1-2d9b-4537-98d3-c0a305ff00d8
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+	measure 'Operating Standby Hours' = ```
+			
+			CALCULATE ( [Calendar Hours], DimStatus[GMGLeafCode] = "SBO" )
+			
+			```
+		displayFolder: Time Usage Model
+		lineageTag: 604cea32-7dda-49df-9e8e-ba2d106e629e
 
-	measure 'Operating Delay Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L4_Code]="OD")
-		displayFolder: TimeUsageModel
-		lineageTag: d08b01fd-2215-4c73-96db-f93a25e70bf2
+	measure 'External Standby Hours' = ```
+			
+			CALCULATE ( [Calendar Hours], DimStatus[GMGLeafCode] = "SBE" )
+			
+			```
+		displayFolder: Time Usage Model
+		lineageTag: e0ac889a-32a5-4b23-a94a-2f802f348093
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+	measure 'Standby Hours' = ```
+			
+			[Operating Standby Hours] + [External Standby Hours]
+			
+			```
+		displayFolder: Time Usage Model
+		lineageTag: a1a09f7c-fbfc-41f0-a168-5c74becd5e01
 
-	measure 'Operating Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L3_Code]="OT")
-		displayFolder: TimeUsageModel
-		lineageTag: 128247bc-a9ad-453f-a3fd-b91c0234085c
+	measure 'Operating Delay Hours' = ```
+			
+			CALCULATE ( [Calendar Hours], DimStatus[GMGLeafCode] = "OD" )
+			
+			```
+		displayFolder: Time Usage Model
+		lineageTag: 512bf36d-2e25-4adf-b40b-d5713fddca96
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+	measure 'Operating Hours' = ```
+			
+			CALCULATE ( [Calendar Hours], DimStatus[IsOperating] = 1 )
+			
+			```
+		displayFolder: Time Usage Model
+		lineageTag: 7bbcaf24-22e2-454d-9a34-f189febe1f2e
 
-	measure 'Operating Standby Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L4_Code]="SBO")
-		displayFolder: TimeUsageModel
-		lineageTag: 473fe935-d8e5-4310-bf19-f8a4906695d7
+	measure 'Working Hours' = ```
+			
+			CALCULATE ( [Calendar Hours], DimStatus[IsWorking] = 1 )
+			
+			```
+		displayFolder: Time Usage Model
+		lineageTag: 3f1df78c-0027-4507-94dd-7b20e15aa5eb
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+	measure 'Productive Hours' = ```
+			
+			CALCULATE ( [Calendar Hours], DimStatus[GMGLeafCode] = "PT" )
+			
+			```
+		displayFolder: Time Usage Model
+		lineageTag: a62a7e9c-c6e5-43db-bd7f-46a00bde8dfc
 
-	measure 'Productive Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L5_Code]="PT")
-		displayFolder: TimeUsageModel
-		lineageTag: 0336987a-b02d-4259-abab-b3d90e67c891
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Scheduled Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L1_Code]="ST")
-		displayFolder: TimeUsageModel
-		lineageTag: f7cab108-ee37-4276-b133-5f8a84a97344
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Standby Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L3_Code]="SB")
-		displayFolder: TimeUsageModel
-		lineageTag: 2167d796-12be-4cf3-9998-de4aff435aca
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'UnScheScheduled Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L1_Code]="UT")
-		displayFolder: TimeUsageModel
-		lineageTag: 2e0cd980-56e2-4f92-b2e4-59156fe5e365
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Working Hours' = CALCULATE([Calendar Hours],DimStatus[GMG_L4_Code]="WT")
-		displayFolder: TimeUsageModel
-		lineageTag: ff23c75b-7203-4714-bb28-5104730e1b38
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+	measure 'Non-Productive Hours' = ```
+			
+			CALCULATE ( [Calendar Hours], DimStatus[GMGLeafCode] = "NP" )
+			
+			```
+		displayFolder: Time Usage Model
+		lineageTag: 98ca26e5-e87f-4790-8eab-83c07b4b0f01
 
 	measure 'Physical Availability' = ```
 			
 			DIVIDE ( [Available Hours], [Scheduled Hours] )
 			
 			```
+		displayFolder: Time Usage Model
+		lineageTag: 5facde46-e859-439e-afb7-4ab3616946f8
 		formatString: 0.0%;-0.0%;0.0%
-		lineageTag: de00c014-e725-4ca4-83cb-656fb7e97e2d
 
 	measure 'Use of Availability' = ```
 			
 			DIVIDE ( [Operating Hours], [Available Hours] )
 			
 			```
+		displayFolder: Time Usage Model
+		lineageTag: 73e93d20-0a2b-45ff-b55c-3b4f3172babb
 		formatString: 0.0%;-0.0%;0.0%
-		lineageTag: c6f723bc-b35b-44d2-b9fc-0c3315aff367
+
+	measure 'Working Efficiency' = ```
+			
+			DIVIDE ( [Working Hours], [Operating Hours] )
+			
+			```
+		displayFolder: Time Usage Model
+		lineageTag: b157ce7a-9579-489b-8546-b022fe0fc4ef
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Productive Share of Working' = ```
+			
+			DIVIDE ( [Productive Hours], [Working Hours] )
+			
+			```
+		displayFolder: Time Usage Model
+		lineageTag: d43e4002-fe75-44f8-a25b-36ba03ebdcc3
+		formatString: 0.0%;-0.0%;0.0%
 
 	measure 'Productive Efficiency' = ```
 			
 			DIVIDE ( [Productive Hours], [Operating Hours] )
 			
 			```
+		displayFolder: Time Usage Model
+		lineageTag: 509ae961-ba00-4e92-b0b9-cca5bed0db08
 		formatString: 0.0%;-0.0%;0.0%
-		lineageTag: d20bc652-2306-4220-be7c-f741f4957d8f
 
-	measure 'Failure Count' =
+	measure 'Non-Productive % Working' = ```
 			
-			COUNTROWS ( FactFailure )
-		formatString: 0
-		lineageTag: 7a6b405d-65e3-4868-aab7-3c11f632ec3c
-
-	measure MTBF =
-			
-			DIVIDE ( [Operating Hours], [Failure Count] )
-		formatString: " 0.0 h"
-		lineageTag: 75f0d865-9117-414e-af98-ac24d034eb83
-
-		annotation PBI_FormatHint = {"isCustom":true}
-
-	measure MTTR = ```
-			
-			DIVIDE ( [Active Repair Hours], [Failure Count] )
+			DIVIDE ( [Non-Productive Hours], [Working Hours] )
 			
 			```
-		formatString: " 0.0 h"
-		lineageTag: b5b33c4e-1fe5-466b-a7d0-6bedae0ebad1
+		displayFolder: Time Usage Model
+		lineageTag: 65dc18a7-7f62-41d0-8733-fc037db40d91
+		formatString: 0.0%;-0.0%;0.0%
 
-		annotation PBI_FormatHint = {"isCustom":true}
+	measure 'Productive % Calendar' = ```
+			
+			DIVIDE ( [Productive Hours], [Calendar Hours] )
+			
+			```
+		displayFolder: Time Usage Model
+		lineageTag: cd6cbcd6-4f52-449b-a74a-9cba3ba3b7ab
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Standby % Calendar' = ```
+			
+			DIVIDE ( [Standby Hours], [Calendar Hours] )
+			
+			```
+		displayFolder: Time Usage Model
+		lineageTag: cc9bec1d-ba50-4e35-91bf-1614a6a2d4ee
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Downtime % Scheduled' = ```
+			
+			DIVIDE ( [Downtime Hours], [Scheduled Hours] )
+			
+			```
+		displayFolder: Time Usage Model
+		lineageTag: 8501463d-7fd5-4f33-9269-2ac967f2aafb
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Operating Delay % Operating' = ```
+			
+			DIVIDE ( [Operating Delay Hours], [Operating Hours] )
+			
+			```
+		displayFolder: Time Usage Model
+		lineageTag: 3cafe51b-10f6-4688-96ef-6bb6b238b5d8
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'TUM Reconciliation Difference' = ```
+			
+			VAR _leaf = [Unscheduled Hours] + [Downtime Hours] + [Operating Standby Hours] + [External Standby Hours] + [Operating Delay Hours] + [Non-Productive Hours] + [Productive Hours]
+			RETURN [Calendar Hours] - _leaf
+			
+			```
+		displayFolder: Time Usage Model\Reconciliation
+		lineageTag: 17e874a1-4321-41f5-88f6-f6205ab3a344
+
+	measure 'TUM Reconciliation %' = ```
+			
+			DIVIDE ( [Calendar Hours] - ABS ( [TUM Reconciliation Difference] ), [Calendar Hours] )
+			
+			```
+		displayFolder: Time Usage Model\Reconciliation
+		lineageTag: 93057269-a440-413c-8eb2-4587bb5e591a
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Recon CT = ST + UT' = ```
+			
+			[Calendar Hours] - ( [Scheduled Hours] + [Unscheduled Hours] )
+			
+			```
+		displayFolder: Time Usage Model\Reconciliation
+		lineageTag: d556213f-2cd8-452d-98d3-ef2f0fa946d6
+
+	measure 'Recon ST = AT + DT' = ```
+			
+			[Scheduled Hours] - ( [Available Hours] + [Downtime Hours] )
+			
+			```
+		displayFolder: Time Usage Model\Reconciliation
+		lineageTag: 5061c037-b19d-4944-97d4-6dad7d1550a9
+
+	measure 'Recon AT = OT + SB' = ```
+			
+			[Available Hours] - ( [Operating Hours] + [Standby Hours] )
+			
+			```
+		displayFolder: Time Usage Model\Reconciliation
+		lineageTag: 371b4468-086e-4139-aafa-f32f4e831503
+
+	measure 'Recon SB = SBO + SBE' = ```
+			
+			[Standby Hours] - ( [Operating Standby Hours] + [External Standby Hours] )
+			
+			```
+		displayFolder: Time Usage Model\Reconciliation
+		lineageTag: 403c8fd2-2f7b-4413-a331-b6725bba96fd
+
+	measure 'Recon OT = WT + OD' = ```
+			
+			[Operating Hours] - ( [Working Hours] + [Operating Delay Hours] )
+			
+			```
+		displayFolder: Time Usage Model\Reconciliation
+		lineageTag: 097935f1-8208-453b-9b60-62e5903a33e3
+
+	measure 'Recon WT = PT + NP' = ```
+			
+			[Working Hours] - ( [Productive Hours] + [Non-Productive Hours] )
+			
+			```
+		displayFolder: Time Usage Model\Reconciliation
+		lineageTag: b95b75d0-c32b-4129-9f48-d1ff55c138ec
+
+	measure 'Fleet Median PA' = ```
+			
+			MEDIANX ( ALLSELECTED ( DimEquipment[UnitCode] ), CALCULATE ( [Physical Availability] ) )
+			
+			```
+		displayFolder: Time Usage Model\Benchmarking
+		lineageTag: d85260d3-f84a-47b0-bcef-0a7e2589903e
+
+	measure 'PA vs Fleet Median' = ```
+			
+			( [Physical Availability] - [Fleet Median PA] ) * 100
+			
+			```
+		displayFolder: Time Usage Model\Benchmarking
+		lineageTag: e74be241-f4ce-4f1b-911c-81ab237eee69
+
+	measure 'PA Unit Rank' = ```
+			
+			RANKX ( ALLSELECTED ( DimEquipment[UnitCode] ), [Physical Availability], , DESC, DENSE )
+			
+			```
+		displayFolder: Time Usage Model\Benchmarking
+		lineageTag: aee06e1e-795a-4865-b7c1-a53de5edfa17
+
+	measure 'Class Median PA' = ```
+			
+			VAR _class = SELECTEDVALUE ( DimEquipment[EquipmentClass] )
+			RETURN MEDIANX ( FILTER ( ALLSELECTED ( DimEquipment ), DimEquipment[EquipmentClass] = _class ), CALCULATE ( [Physical Availability] ) )
+			
+			```
+		displayFolder: Time Usage Model\Benchmarking
+		lineageTag: c01e7681-e572-40c6-9c84-61fa3aafe9f2
+
+	measure 'Delay Hours' = ```
+			
+			CALCULATE ( [Calendar Hours], DimStatus[IsDelay] = 1 )
+			
+			```
+		displayFolder: Delays & Standby
+		lineageTag: edf839e1-527a-43a9-892c-e43775c09342
+
+	measure 'Controllable Delay Hours' = ```
+			
+			CALCULATE ( [Delay Hours], DimReason[ControlClass] = "Controllable" )
+			
+			```
+		displayFolder: Delays & Standby
+		lineageTag: 8f14d9c8-9297-46ae-8dcb-6ca6e99d27e3
+
+	measure 'Inherent Delay Hours' = ```
+			
+			CALCULATE ( [Delay Hours], DimReason[ControlClass] = "Inherent" )
+			
+			```
+		displayFolder: Delays & Standby
+		lineageTag: d714f54f-0637-4b81-89a4-f112001ddd33
+
+	measure 'Planned Delay Hours' = ```
+			
+			CALCULATE ( [Delay Hours], DimReason[ControlClass] = "Planned" )
+			
+			```
+		displayFolder: Delays & Standby
+		lineageTag: 7e5bdc2b-360b-4e0a-b0ad-c399523feb10
+
+	measure 'Controllable Share of Delay' = ```
+			
+			DIVIDE ( [Controllable Delay Hours], [Delay Hours] )
+			
+			```
+		displayFolder: Delays & Standby
+		lineageTag: da361f33-1176-46fb-b80e-4dfd6b8b059b
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Delay Share of Calendar' = ```
+			
+			DIVIDE ( [Delay Hours], [Calendar Hours] )
+			
+			```
+		displayFolder: Delays & Standby
+		lineageTag: c3acfd68-b37b-496f-ae30-346c08cbfd91
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Start-of-shift Delay Hours' = ```
+			
+			CALCULATE ( [Delay Hours], FactState[HourOfShift] = 0 )
+			
+			```
+		displayFolder: Delays & Standby
+		lineageTag: bad19b8a-2c6d-4127-b313-3043235a68b9
+
+	measure 'Start-of-shift Delay Share' = ```
+			
+			DIVIDE ( [Start-of-shift Delay Hours], [Delay Hours] )
+			
+			```
+		displayFolder: Delays & Standby
+		lineageTag: fdd350ab-29b5-47f6-b31d-0466a2668b2d
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Largest Delay Reason Hours' = ```
+			
+			MAXX ( ALLSELECTED ( DimReason[Reason] ), CALCULATE ( [Delay Hours] ) )
+			
+			```
+		displayFolder: Delays & Standby
+		lineageTag: e8be4549-b93c-48c9-8525-61c0a94b9631
+
+	measure 'Available-but-not-producing Hours' = ```
+			
+			[Standby Hours] + [Operating Delay Hours] + [Non-Productive Hours]
+			
+			```
+		displayFolder: Delays & Standby
+		lineageTag: 5d1e02a6-7d8b-438f-9988-59fdc6161ef3
+
+	measure 'Controllable Loss Hours' = ```
+			
+			CALCULATE ( [Calendar Hours], DimReason[ControlClass] = "Controllable", NOT ISBLANK ( FactState[ReasonID] ) )
+			
+			```
+		displayFolder: Delays & Standby
+		lineageTag: a1fa3453-10d1-449f-995e-f14c1472347e
+
+	measure 'Planned Non-Productive Hours' = ```
+			
+			CALCULATE ( [Non-Productive Hours], DimReason[ControlClass] = "Planned" )
+			
+			```
+		displayFolder: Delays & Standby
+		lineageTag: 174bbe01-67bf-479e-9321-073962eeb79d
+
+	measure 'Failure Count' = ```
+			
+			COUNTROWS ( FactFailure )
+			
+			```
+		displayFolder: Reliability
+		lineageTag: 39296cd5-8933-4510-8dec-fad35746cad2
 
 	measure 'Active Repair Hours' = ```
 			
 			SUM ( FactFailure[ActiveRepairHours] )
 			
 			```
-		formatString: " 0.0 h"
-		lineageTag: e3d7b7a6-00a5-4e40-b92a-b0c7554fc8c6
+		displayFolder: Reliability
+		lineageTag: d57b657e-7604-4366-91f4-8db810c21b6e
 
-		annotation PBI_FormatHint = {"isCustom":true}
+	measure 'Logistics Wait Hours' = ```
+			
+			SUM ( FactFailure[LogisticsWaitHours] )
+			
+			```
+		displayFolder: Reliability
+		lineageTag: b239f264-12b9-4d02-90e6-87c03f85903d
+
+	measure 'Failure Downtime Hours' = ```
+			
+			SUM ( FactFailure[TotalDownHours] )
+			
+			```
+		displayFolder: Reliability
+		lineageTag: f80a9d7d-b3bc-41e6-8d00-f4a2e44d20fe
+
+	measure MTBF = ```
+			
+			DIVIDE ( [Operating Hours], [Failure Count] )
+			
+			```
+		displayFolder: Reliability
+		lineageTag: a2ca0316-3bf0-4d01-a43c-989472480c5d
+		formatString: " 0.0 h"
+
+	measure MTTR = ```
+			
+			DIVIDE ( [Active Repair Hours], [Failure Count] )
+			
+			```
+		displayFolder: Reliability
+		lineageTag: 3c97374d-2177-4576-a79b-c9fe57b84b45
+		formatString: " 0.0 h"
+
+	measure MDT = ```
+			
+			DIVIDE ( [Active Repair Hours] + [Logistics Wait Hours], [Failure Count] )
+			
+			```
+		displayFolder: Reliability
+		lineageTag: 5f5cd28a-6167-49ce-ae8f-eae84612c2e2
+		formatString: " 0.0 h"
+
+	measure 'Failure Frequency / 100 Op h' = ```
+			
+			DIVIDE ( [Failure Count] * 100, [Operating Hours] )
+			
+			```
+		displayFolder: Reliability
+		lineageTag: 9fa56a23-291b-4e31-b6c2-8a05f0743639
+
+	measure 'Inherent Availability Ai' = ```
+			
+			DIVIDE ( [MTBF], [MTBF] + [MTTR] )
+			
+			```
+		displayFolder: Reliability
+		lineageTag: 367eb92a-83cf-4b07-8e02-33448f2b511e
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Achieved Availability Aa' = ```
+			
+			DIVIDE ( [Operating Hours], [Operating Hours] + [Active Repair Hours] + [Planned Maintenance Hours] )
+			
+			```
+		displayFolder: Reliability
+		lineageTag: 868d6be0-19eb-493d-9608-953262e6912d
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Operational Availability Ao' = ```
+			
+			DIVIDE ( [Operating Hours], [Operating Hours] + [Active Repair Hours] + [Planned Maintenance Hours] + [Logistics Wait Hours] )
+			
+			```
+		displayFolder: Reliability
+		lineageTag: 8da3f0d9-7147-4871-97cf-d60dabdbb51b
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'PM Burden' = ```
+			
+			( [Inherent Availability Ai] - [Achieved Availability Aa] ) * 100
+			
+			```
+		displayFolder: Reliability
+		lineageTag: 696c7013-c937-4c29-81f8-e870c8759fab
+
+	measure 'Logistics Burden' = ```
+			
+			( [Achieved Availability Aa] - [Operational Availability Ao] ) * 100
+			
+			```
+		displayFolder: Reliability
+		lineageTag: 627d8ab6-3958-4808-8c5b-c6e6027596b3
+
+	measure 'MTBF Monthly Mean' = ```
+			
+			VAR _months = ALLSELECTED ( DimDate[FiscalMonthNumber] )
+			RETURN AVERAGEX ( _months, CALCULATE ( [MTBF] ) )
+			
+			```
+		displayFolder: Reliability
+		lineageTag: 3dd7c730-14a4-4840-abef-91607728e3e1
+		formatString: " 0.0 h"
+
+	measure 'MTBF Monthly StdDev' = ```
+			
+			VAR _months = ALLSELECTED ( DimDate[FiscalMonthNumber] )
+			RETURN STDEVX.S ( _months, CALCULATE ( [MTBF] ) )
+			
+			```
+		displayFolder: Reliability
+		lineageTag: 5c59b6dd-a1fc-4136-8089-8514f3cbc2b1
+		formatString: " 0.0 h"
+
+	measure 'MTBF UCL' = ```
+			
+			[MTBF Monthly Mean] + 3 * [MTBF Monthly StdDev]
+			
+			```
+		displayFolder: Reliability
+		lineageTag: a978e42a-6d74-4732-81ca-16a2b6e880fd
+		formatString: " 0.0 h"
+
+	measure 'MTBF LCL' = ```
+			
+			MAX ( 0, [MTBF Monthly Mean] - 3 * [MTBF Monthly StdDev] )
+			
+			```
+		displayFolder: Reliability
+		lineageTag: 7bd170b9-cbc0-4e04-9d2e-1ed2dd9e86da
+		formatString: " 0.0 h"
+
+	measure 'Component Failure Share' = ```
+			
+			DIVIDE ( [Failure Count], CALCULATE ( [Failure Count], REMOVEFILTERS ( DimComponent ) ) )
+			
+			```
+		displayFolder: Reliability
+		lineageTag: 6c8c6dca-4685-432c-80a5-84ff351fc7d4
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Component Failure Downtime Share' = ```
+			
+			DIVIDE ( [Failure Downtime Hours], CALCULATE ( [Failure Downtime Hours], REMOVEFILTERS ( DimComponent ) ) )
+			
+			```
+		displayFolder: Reliability
+		lineageTag: 00accc5e-a3b5-4d8b-949f-81c5d70b6afa
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Work Orders' = ```
+			
+			COUNTROWS ( FactWorkOrder )
+			
+			```
+		displayFolder: Maintenance
+		lineageTag: 5f000c44-8636-4f8b-b004-2736e469a042
+
+	measure 'WO Labour Hours' = ```
+			
+			SUM ( FactWorkOrder[LabourHours] )
+			
+			```
+		displayFolder: Maintenance
+		lineageTag: 9af890fa-e591-4988-9d61-9798ae9bcf53
+
+	measure 'Planned Labour Hours' = ```
+			
+			CALCULATE ( [WO Labour Hours], FactWorkOrder[WorkType] = "Preventive" )
+			
+			```
+		displayFolder: Maintenance
+		lineageTag: 0989156d-f2ac-4bca-9d42-cf7e5e3b7065
+
+	measure 'Planned Work Ratio' = ```
+			
+			DIVIDE ( [Planned Labour Hours], [WO Labour Hours] )
+			
+			```
+		displayFolder: Maintenance
+		lineageTag: 14716cee-333b-4e69-9980-f52fd202cc8a
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Maintenance Ratio' = ```
+			
+			DIVIDE ( [WO Labour Hours], [Operating Hours] )
+			
+			```
+		displayFolder: Maintenance
+		lineageTag: 7f8f1651-69a7-40ec-9ae0-e7c0b53f29cb
+
+	measure 'WO Wait Hours' = ```
+			
+			SUM ( FactWorkOrder[WaitHours] )
+			
+			```
+		displayFolder: Maintenance
+		lineageTag: 50660e46-a1f8-4c83-8db4-58fcf1c2d834
+
+	measure 'WO Active Repair Hours' = ```
+			
+			SUM ( FactWorkOrder[ActiveRepairHours] )
+			
+			```
+		displayFolder: Maintenance
+		lineageTag: 99ff12cc-e357-48d6-ba57-63afc9ce2e40
+
+	measure 'Wait Share of MDT' = ```
+			
+			DIVIDE ( [WO Wait Hours], [WO Wait Hours] + [WO Active Repair Hours] )
+			
+			```
+		displayFolder: Reliability
+		lineageTag: 0b954028-a2b4-426f-8e2a-b91713909a5d
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Open Work Orders As Of' = ```
+			
+			VAR _asof = MAX ( DimDate[Date] ) + 1
+			RETURN
+			CALCULATE (
+			    COUNTROWS ( FactWorkOrder ),
+			    REMOVEFILTERS ( DimDate ),
+			    FILTER ( FactWorkOrder, FactWorkOrder[StartTimestamp] < _asof && ( ISBLANK ( FactWorkOrder[CloseTimestamp] ) || FactWorkOrder[CloseTimestamp] >= _asof ) )
+			)
+			
+			```
+		displayFolder: Maintenance
+		lineageTag: 806bf9f9-1b74-40a7-8c89-60d93d2280c9
+
+	measure 'Open P1 Work Orders As Of' = ```
+			
+			VAR _asof = MAX ( DimDate[Date] ) + 1
+			RETURN
+			CALCULATE (
+			    COUNTROWS ( FactWorkOrder ),
+			    REMOVEFILTERS ( DimDate ),
+			    FactWorkOrder[Priority] = "P1",
+			    FILTER ( FactWorkOrder, FactWorkOrder[StartTimestamp] < _asof && ( ISBLANK ( FactWorkOrder[CloseTimestamp] ) || FactWorkOrder[CloseTimestamp] >= _asof ) )
+			)
+			
+			```
+		displayFolder: Maintenance
+		lineageTag: 585914fc-3483-4fd7-984f-184984010bed
+
+	measure 'Open Backlog Hours As Of' = ```
+			
+			VAR _asof = MAX ( DimDate[Date] ) + 1
+			RETURN
+			CALCULATE (
+			    SUM ( FactWorkOrder[EstimatedRemainingLabourHours] ),
+			    REMOVEFILTERS ( DimDate ),
+			    FILTER ( FactWorkOrder, FactWorkOrder[StartTimestamp] < _asof && ( ISBLANK ( FactWorkOrder[CloseTimestamp] ) || FactWorkOrder[CloseTimestamp] >= _asof ) )
+			)
+			
+			```
+		displayFolder: Maintenance
+		lineageTag: d1e2ddbc-dd1d-4b0b-a875-68c6713f2ad0
+
+	measure 'Average Open WO Age Days' = ```
+			
+			VAR _asof = MAX ( DimDate[Date] ) + 1
+			RETURN
+			CALCULATE (
+			    AVERAGEX ( FILTER ( FactWorkOrder, FactWorkOrder[StartTimestamp] < _asof && ( ISBLANK ( FactWorkOrder[CloseTimestamp] ) || FactWorkOrder[CloseTimestamp] >= _asof ) ), DATEDIFF ( FactWorkOrder[StartTimestamp], _asof, DAY ) ),
+			    REMOVEFILTERS ( DimDate )
+			)
+			
+			```
+		displayFolder: Maintenance
+		lineageTag: 0ca03b19-df40-4c5d-b00f-ed7c5ab2dfce
+
+	measure 'Open WO 30+ Days' = ```
+			
+			VAR _asof = MAX ( DimDate[Date] ) + 1
+			RETURN
+			CALCULATE (
+			    COUNTROWS ( FactWorkOrder ),
+			    REMOVEFILTERS ( DimDate ),
+			    FILTER ( FactWorkOrder, FactWorkOrder[StartTimestamp] < _asof - 30 && ( ISBLANK ( FactWorkOrder[CloseTimestamp] ) || FactWorkOrder[CloseTimestamp] >= _asof ) )
+			)
+			
+			```
+		displayFolder: Maintenance
+		lineageTag: 047feb5a-4028-457c-a18e-5ea3d34190c0
+
+	measure 'Open WO 30+ %' = ```
+			
+			DIVIDE ( [Open WO 30+ Days], [Open Work Orders As Of] )
+			
+			```
+		displayFolder: Maintenance
+		lineageTag: 5a49a3a7-9fce-4324-90e3-efd255d91add
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'PM Services' = ```
+			
+			COUNTROWS ( FactPM )
+			
+			```
+		displayFolder: Maintenance
+		lineageTag: 77e1f87c-a56f-4921-b8f1-98af0e091d26
+
+	measure 'PM Within Tolerance' = ```
+			
+			CALCULATE ( [PM Services], FactPM[WithinTolerance10Pct] = 1 )
+			
+			```
+		displayFolder: Maintenance
+		lineageTag: 1675fe7f-bd6d-4c8b-8203-076314f4fba3
+
+	measure 'PM Compliance' = ```
+			
+			DIVIDE ( [PM Within Tolerance], [PM Services] )
+			
+			```
+		displayFolder: Maintenance
+		lineageTag: e53a3d11-3580-4fc0-bc13-0af8924e16bb
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'PM Past Tolerance' = ```
+			
+			CALCULATE ( [PM Services], FactPM[IntervalDeviationPct] > 10 )
+			
+			```
+		displayFolder: Maintenance
+		lineageTag: f7b46275-5f39-4cbb-8357-ddd85fa85d50
+
+	measure 'Average PM Interval Deviation' = ```
+			
+			DIVIDE ( AVERAGE ( FactPM[IntervalDeviationPct] ), 100 )
+			
+			```
+		displayFolder: Maintenance
+		lineageTag: a81af467-572c-4992-b349-d6e27d6a15fc
+
+	measure 'Component Downtime Rank' = ```
+			
+			RANKX ( ALLSELECTED ( DimComponent[ComponentName] ), [Breakdown Hours], , DESC, DENSE )
+			
+			```
+		displayFolder: Reliability
+		lineageTag: ff568dc1-3f26-4c5f-8c41-c7ff0d9ef8b2
+
+	measure 'Component Downtime Cumulative' = ```
+			
+			VAR _rank = [Component Downtime Rank]
+			RETURN SUMX ( TOPN ( _rank, ALLSELECTED ( DimComponent[ComponentName] ), [Breakdown Hours], DESC ), [Breakdown Hours] )
+			
+			```
+		displayFolder: Reliability
+		lineageTag: 6935075b-5c49-4d71-b8d5-f27a0dd052b2
+
+	measure 'Component Downtime Cumulative %' = ```
+			
+			DIVIDE ( [Component Downtime Cumulative], CALCULATE ( [Breakdown Hours], REMOVEFILTERS ( DimComponent ) ) )
+			
+			```
+		displayFolder: Reliability
+		lineageTag: 3f2a180f-c6d5-4041-8a82-0e8982769d05
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Production Quantity' = ```
+			
+			SUM ( FactProduction[Quantity] )
+			
+			```
+		displayFolder: Production
+		lineageTag: c804d371-e2aa-467c-9622-e1508268c2a1
+
+	measure 'Plan Quantity' = ```
+			
+			VAR _months = VALUES ( DimDate[FiscalMonthNumber] )
+			VAR _activities = VALUES ( DimActivity[ActivityID] )
+			RETURN
+			CALCULATE (
+			    SUM ( FactPlan[PlanQuantity] ),
+			    TREATAS ( _months, FactPlan[FiscalMonthNumber] ),
+			    TREATAS ( _activities, FactPlan[ActivityID] )
+			)
+			
+			```
+		displayFolder: Production
+		lineageTag: d0ebe235-1012-46aa-bb60-2b1a044fe881
+
+	measure 'Achievement %' = ```
+			
+			DIVIDE ( [Production Quantity], [Plan Quantity] )
+			
+			```
+		displayFolder: Production
+		lineageTag: 62c4965b-9515-4e35-9f3b-7249194bd762
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Tonnes Hauled' = ```
+			
+			CALCULATE ( [Production Quantity], DimActivity[ActivityID] = "ACT-HAUL" )
+			
+			```
+		displayFolder: Production
+		lineageTag: f5660cd3-70c0-41cc-b19e-993f4fd2e02a
+
+	measure 'Haulage Plan Tonnes' = ```
+			
+			CALCULATE ( [Plan Quantity], DimActivity[ActivityID] = "ACT-HAUL" )
+			
+			```
+		displayFolder: Production
+		lineageTag: d4158da6-55ca-4333-9a6a-3c2ed69fbd0b
+
+	measure 'Haulage Achievement %' = ```
+			
+			DIVIDE ( [Tonnes Hauled], [Haulage Plan Tonnes] )
+			
+			```
+		displayFolder: Production
+		lineageTag: 837aaef5-f956-4706-83b4-0961ca7d31eb
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Loading Tonnes' = ```
+			
+			CALCULATE ( [Production Quantity], DimActivity[ActivityID] = "ACT-LOAD" )
+			
+			```
+		displayFolder: Production
+		lineageTag: 2e57c80d-7e37-48f9-9686-e7ef6eb5b7f6
+
+	measure 'Development Metres' = ```
+			
+			CALCULATE ( [Production Quantity], DimActivity[ActivityID] = "ACT-DEV" )
+			
+			```
+		displayFolder: Production
+		lineageTag: c5f5871c-48d2-4ab1-8570-ab841ea56825
+
+	measure 'Ground Support Bolts' = ```
+			
+			CALCULATE ( [Production Quantity], DimActivity[ActivityID] = "ACT-GS" )
+			
+			```
+		displayFolder: Production
+		lineageTag: 902cd380-8648-4485-9e19-94d4c27759bc
+
+	measure 'Auxiliary Trips' = ```
+			
+			CALCULATE ( [Production Quantity], DimActivity[ActivityID] = "ACT-AUX" )
+			
+			```
+		displayFolder: Production
+		lineageTag: 081a1914-144c-402e-8551-2a8b21ae12e4
+
+	measure 'Haul Truck Scheduled Hours' = ```
+			
+			CALCULATE ( [Scheduled Hours], DimEquipment[EquipmentClass] = "Haul truck" )
+			
+			```
+		displayFolder: Production
+		lineageTag: c87fb9c3-8a59-43d4-9289-13617211c798
+
+	measure 'Haul Truck Available Hours' = ```
+			
+			CALCULATE ( [Available Hours], DimEquipment[EquipmentClass] = "Haul truck" )
+			
+			```
+		displayFolder: Production
+		lineageTag: 8c0ceadd-fdb0-4943-9cf2-5779a2265d18
+
+	measure 'Haul Truck Operating Hours' = ```
+			
+			CALCULATE ( [Operating Hours], DimEquipment[EquipmentClass] = "Haul truck" )
+			
+			```
+		displayFolder: Production
+		lineageTag: 77da2d5f-4f4b-45e9-9fb7-094940ea0be5
+
+	measure 'Haul Truck Working Hours' = ```
+			
+			CALCULATE ( [Working Hours], DimEquipment[EquipmentClass] = "Haul truck" )
+			
+			```
+		displayFolder: Production
+		lineageTag: 5f5e3b68-b252-481c-b6cf-92f68c05014d
+
+	measure 'Haul Truck Productive Hours' = ```
+			
+			CALCULATE ( [Productive Hours], DimEquipment[EquipmentClass] = "Haul truck" )
+			
+			```
+		displayFolder: Production
+		lineageTag: 3ef80078-ceac-4495-a5d2-2e7d6abbb01e
+
+	measure 'Haul Truck Non-Productive Hours' = ```
+			
+			CALCULATE ( [Non-Productive Hours], DimEquipment[EquipmentClass] = "Haul truck" )
+			
+			```
+		displayFolder: Production
+		lineageTag: 7468ab10-f0cf-4b18-bc87-fffba3839456
+
+	measure 'Haul Truck PA' = ```
+			
+			CALCULATE ( [Physical Availability], DimEquipment[EquipmentClass] = "Haul truck" )
+			
+			```
+		displayFolder: Production
+		lineageTag: fb6707b5-62c8-494d-9e78-1efca9d92c59
+
+	measure 'Haul Truck UoA' = ```
+			
+			CALCULATE ( [Use of Availability], DimEquipment[EquipmentClass] = "Haul truck" )
+			
+			```
+		displayFolder: Production
+		lineageTag: e2999416-2f0f-4a0b-b1ca-29142790b957
+
+	measure 'Haul Truck Working Efficiency' = ```
+			
+			CALCULATE ( [Working Efficiency], DimEquipment[EquipmentClass] = "Haul truck" )
+			
+			```
+		displayFolder: Production
+		lineageTag: f2716397-e754-45ef-9ae0-aad26df865c9
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Haul Truck Prod Eff' = ```
+			
+			CALCULATE ( [Productive Efficiency], DimEquipment[EquipmentClass] = "Haul truck" )
+			
+			```
+		displayFolder: Production
+		lineageTag: 71da4496-90a6-4736-9396-7515550557ec
+
+	measure 'Tonnes / Productive h' = ```
+			
+			DIVIDE ( [Tonnes Hauled], [Haul Truck Productive Hours] )
+			
+			```
+		displayFolder: Production
+		lineageTag: 8399a244-44ca-4aee-b4b8-c2e3d6104d5f
+
+	measure 'Tonnes / Working h' = ```
+			
+			DIVIDE ( [Tonnes Hauled], [Haul Truck Working Hours] )
+			
+			```
+		displayFolder: Production
+		lineageTag: 9ad1619e-f532-4dbf-8e37-73586e178a7e
+
+	measure 'Tonnes / Operating h' = ```
+			
+			DIVIDE ( [Tonnes Hauled], [Haul Truck Operating Hours] )
+			
+			```
+		displayFolder: Production
+		lineageTag: 9f142a9f-d39b-4e4d-a78b-0b170eff5260
+
+	measure 'Tonnes / Scheduled h' = ```
+			
+			DIVIDE ( [Tonnes Hauled], [Haul Truck Scheduled Hours] )
+			
+			```
+		displayFolder: Production
+		lineageTag: 6c18a817-bfca-4e34-bbec-36c2097dca04
+
+	measure 'Tonnes / Unit' = ```
+			
+			DIVIDE ( [Tonnes Hauled], CALCULATE ( DISTINCTCOUNT ( DimEquipment[UnitCode] ), DimEquipment[EquipmentClass] = "Haul truck" ) * 1000 )
+			
+			```
+		displayFolder: Production
+		lineageTag: ec13ec72-ad45-4758-bee9-a6000aec0d76
+
+	measure 'Haulage Variance Tonnes' = ```
+			
+			[Tonnes Hauled] - [Haulage Plan Tonnes]
+			
+			```
+		displayFolder: Production
+		lineageTag: 719c1522-fad8-49a2-94d3-1b66351719d0
+
+	measure 'Haulage Variance kt' = ```
+			
+			DIVIDE ( [Haulage Variance Tonnes], 1000 )
+			
+			```
+		displayFolder: Production
+		lineageTag: a2f07d30-8d2d-4ea9-8e55-bedfc9b7e5e8
+
+	measure 'Mean Haul Distance' = ```
+			
+			CALCULATE ( AVERAGE ( FactProduction[HaulDistanceKm] ), DimActivity[ActivityID] = "ACT-HAUL" )
+			
+			```
+		displayFolder: Production\Targets
+		lineageTag: 0e0fc6f0-8c57-4bfd-b619-0f418de7c405
+
+	measure 'Mean Road Condition Index' = ```
+			
+			CALCULATE ( AVERAGE ( FactProduction[RoadConditionIndex] ), DimActivity[ActivityID] = "ACT-HAUL" )
+			
+			```
+		displayFolder: Equipment Condition
+		lineageTag: f1f97db9-a404-4a44-bc73-c6975f75c5fe
+
+	measure 'Mean Congestion Index' = ```
+			
+			CALCULATE ( AVERAGE ( FactProduction[CongestionIndex] ), DimActivity[ActivityID] = "ACT-HAUL" )
+			
+			```
+		displayFolder: Production\Targets
+		lineageTag: 1401bc40-7499-4f92-b418-fd14314b3aaf
+
+	measure 'Plan Scheduled Hours' = ```
+			
+			VAR _months = VALUES ( DimDate[FiscalMonthNumber] )
+			RETURN CALCULATE ( SUM ( FactPlan[PlanScheduledHours] ), TREATAS ( _months, FactPlan[FiscalMonthNumber] ), FactPlan[ActivityID] = "ACT-HAUL" )
+			
+			```
+		displayFolder: Production\Targets
+		lineageTag: f1ff6d07-e9d0-4a8f-9fae-5877ab614b43
+
+	measure 'Target PA' = ```
+			
+			VAR _months = VALUES ( DimDate[FiscalMonthNumber] )
+			RETURN CALCULATE ( AVERAGE ( FactPlan[TargetPA] ), TREATAS ( _months, FactPlan[FiscalMonthNumber] ), FactPlan[ActivityID] = "ACT-HAUL" )
+			
+			```
+		displayFolder: Production\Targets
+		lineageTag: ade2601c-1900-499d-ac1b-f9527c410509
+
+	measure 'Target UoA' = ```
+			
+			VAR _months = VALUES ( DimDate[FiscalMonthNumber] )
+			RETURN CALCULATE ( AVERAGE ( FactPlan[TargetUoA] ), TREATAS ( _months, FactPlan[FiscalMonthNumber] ), FactPlan[ActivityID] = "ACT-HAUL" )
+			
+			```
+		displayFolder: Production\Targets
+		lineageTag: 5e6a9a4b-5b5b-4fd7-a9d3-254e96c5a6cc
+
+	measure 'Target Working Efficiency' = ```
+			
+			VAR _months = VALUES ( DimDate[FiscalMonthNumber] )
+			RETURN CALCULATE ( AVERAGE ( FactPlan[TargetWorkingEfficiency] ), TREATAS ( _months, FactPlan[FiscalMonthNumber] ), FactPlan[ActivityID] = "ACT-HAUL" )
+			
+			```
+		displayFolder: Production\Targets
+		lineageTag: 2b1350d0-2d95-4ddc-ba4c-63d8ecc6008a
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Target Productive Efficiency' = ```
+			
+			VAR _months = VALUES ( DimDate[FiscalMonthNumber] )
+			VAR _wt = CALCULATE ( AVERAGE ( FactPlan[TargetWorkingEfficiency] ), TREATAS ( _months, FactPlan[FiscalMonthNumber] ), FactPlan[ActivityID] = "ACT-HAUL" )
+			VAR _ptwt = CALCULATE ( AVERAGE ( FactPlan[TargetProductiveShareOfWorking] ), TREATAS ( _months, FactPlan[FiscalMonthNumber] ), FactPlan[ActivityID] = "ACT-HAUL" )
+			RETURN _wt * _ptwt
+			
+			```
+		displayFolder: Production\Targets
+		lineageTag: 8f298e2f-fcc4-464d-8df7-8defe71b74ef
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Target Productive Share of Working' = ```
+			
+			VAR _months = VALUES ( DimDate[FiscalMonthNumber] )
+			RETURN CALCULATE ( AVERAGE ( FactPlan[TargetProductiveShareOfWorking] ), TREATAS ( _months, FactPlan[FiscalMonthNumber] ), FactPlan[ActivityID] = "ACT-HAUL" )
+			
+			```
+		displayFolder: Production\Targets
+		lineageTag: 986a3a99-b161-4ea9-a8a4-9d10c3db1612
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Target Haulage Rate' = ```
+			
+			VAR _months = VALUES ( DimDate[FiscalMonthNumber] )
+			RETURN CALCULATE ( AVERAGE ( FactPlan[TargetRatePerWorkingHour] ), TREATAS ( _months, FactPlan[FiscalMonthNumber] ), FactPlan[ActivityID] = "ACT-HAUL" )
+			
+			```
+		displayFolder: Production
+		lineageTag: 584c52cc-a0c6-438a-9834-524445801bc1
+
+	measure 'Bridge Budget Tonnes' = ```
+			
+			[Plan Scheduled Hours] * [Target PA] * [Target UoA] * [Target Working Efficiency] * [Target Haulage Rate]
+			
+			```
+		displayFolder: Production
+		lineageTag: 8ba995c4-46c7-46e7-a3c7-b52f29917299
+
+	measure 'Bridge Schedule Impact' = ```
+			
+			( [Haul Truck Scheduled Hours] - [Plan Scheduled Hours] ) * [Target PA] * [Target UoA] * [Target Working Efficiency] * [Target Haulage Rate]
+			
+			```
+		displayFolder: Production\Variance Bridge & Drivers
+		lineageTag: 812efe0e-05c5-413e-a1ab-9ec751256a9e
+
+	measure 'Bridge Availability Impact' = ```
+			
+			[Haul Truck Scheduled Hours] * ( [Haul Truck PA] - [Target PA] ) * [Target UoA] * [Target Working Efficiency] * [Target Haulage Rate]
+			
+			```
+		displayFolder: Production\Variance Bridge & Drivers
+		lineageTag: f1a70e56-950d-403e-a631-4c7d944465be
+
+	measure 'Bridge Utilisation Impact' = ```
+			
+			[Haul Truck Scheduled Hours] * [Haul Truck PA] * ( [Haul Truck UoA] - [Target UoA] ) * [Target Working Efficiency] * [Target Haulage Rate]
+			
+			```
+		displayFolder: Production\Variance Bridge & Drivers
+		lineageTag: 1f720619-36e5-42a5-8331-ba65465e6beb
+
+	measure 'Bridge Working Efficiency Impact' = ```
+			
+			[Haul Truck Scheduled Hours] * [Haul Truck PA] * [Haul Truck UoA] * ( [Haul Truck Working Efficiency] - [Target Working Efficiency] ) * [Target Haulage Rate]
+			
+			```
+		displayFolder: Production\Variance Bridge & Drivers
+		lineageTag: 5b40b2b5-45ca-4f8f-873d-6d18c8a8bf8c
+
+	measure 'Bridge Productive Efficiency Impact' = ```
+			
+			[Bridge Working Efficiency Impact]
+			
+			```
+		displayFolder: Production\Variance Bridge & Drivers
+		lineageTag: 59911a2a-b40c-4a00-b6b9-aee0f631f587
+
+	measure 'Bridge Rate Impact' = ```
+			
+			[Haul Truck Scheduled Hours] * [Haul Truck PA] * [Haul Truck UoA] * [Haul Truck Working Efficiency] * ( [Tonnes / Working h] - [Target Haulage Rate] )
+			
+			```
+		displayFolder: Production\Variance Bridge & Drivers
+		lineageTag: 938d54e9-c0c9-4275-b331-b507621ee87a
+
+	measure 'Bridge Calculated Actual' = ```
+			
+			[Bridge Budget Tonnes] + [Bridge Schedule Impact] + [Bridge Availability Impact] + [Bridge Utilisation Impact] + [Bridge Working Efficiency Impact] + [Bridge Rate Impact]
+			
+			```
+		displayFolder: Production\Variance Bridge & Drivers
+		lineageTag: db3a0e6d-e8b0-4cd7-9d58-6a6996b70d82
+
+	measure 'Bridge Reconciliation Difference' = ```
+			
+			[Tonnes Hauled] - [Bridge Calculated Actual]
+			
+			```
+		displayFolder: Production\Variance Bridge & Drivers
+		lineageTag: 044504f1-4f2a-44e9-890f-3e394628b8a8
+
+	measure 'Correlation — Haul Distance vs Rate' = ```
+			
+			VAR _t = ADDCOLUMNS ( FILTER ( FactProduction, FactProduction[ActivityID] = "ACT-HAUL" && FactProduction[EventDurationMinutes] > 0 && NOT ISBLANK ( FactProduction[HaulDistanceKm] ) ), "__x", FactProduction[HaulDistanceKm], "__y", DIVIDE ( FactProduction[Quantity], FactProduction[EventDurationMinutes] / 60.0 ) )
+			VAR _ax = AVERAGEX ( _t, [__x] )
+			VAR _ay = AVERAGEX ( _t, [__y] )
+			VAR _num = SUMX ( _t, ( [__x] - _ax ) * ( [__y] - _ay ) )
+			VAR _dx = SUMX ( _t, POWER ( [__x] - _ax, 2 ) )
+			VAR _dy = SUMX ( _t, POWER ( [__y] - _ay, 2 ) )
+			RETURN DIVIDE ( _num, SQRT ( _dx * _dy ) )
+			
+			```
+		displayFolder: Production\Variance Bridge & Drivers
+		lineageTag: 9965c0d7-dd8b-4073-af42-2f280d02933d
+		formatString: "0.00"
+
+	measure 'Correlation — Road Condition vs Rate' = ```
+			
+			VAR _t = ADDCOLUMNS ( FILTER ( FactProduction, FactProduction[ActivityID] = "ACT-HAUL" && FactProduction[EventDurationMinutes] > 0 && NOT ISBLANK ( FactProduction[RoadConditionIndex] ) ), "__x", FactProduction[RoadConditionIndex], "__y", DIVIDE ( FactProduction[Quantity], FactProduction[EventDurationMinutes] / 60.0 ) )
+			VAR _ax = AVERAGEX ( _t, [__x] )
+			VAR _ay = AVERAGEX ( _t, [__y] )
+			VAR _num = SUMX ( _t, ( [__x] - _ax ) * ( [__y] - _ay ) )
+			VAR _dx = SUMX ( _t, POWER ( [__x] - _ax, 2 ) )
+			VAR _dy = SUMX ( _t, POWER ( [__y] - _ay, 2 ) )
+			RETURN DIVIDE ( _num, SQRT ( _dx * _dy ) )
+			
+			```
+		displayFolder: Equipment Condition
+		lineageTag: cf7686b6-e6d2-4a21-b041-bbd0eabc8b1e
+		formatString: "0.00"
+
+	measure 'Correlation — Congestion vs Rate' = ```
+			
+			VAR _t = ADDCOLUMNS ( FILTER ( FactProduction, FactProduction[ActivityID] = "ACT-HAUL" && FactProduction[EventDurationMinutes] > 0 && NOT ISBLANK ( FactProduction[CongestionIndex] ) ), "__x", FactProduction[CongestionIndex], "__y", DIVIDE ( FactProduction[Quantity], FactProduction[EventDurationMinutes] / 60.0 ) )
+			VAR _ax = AVERAGEX ( _t, [__x] )
+			VAR _ay = AVERAGEX ( _t, [__y] )
+			VAR _num = SUMX ( _t, ( [__x] - _ax ) * ( [__y] - _ay ) )
+			VAR _dx = SUMX ( _t, POWER ( [__x] - _ax, 2 ) )
+			VAR _dy = SUMX ( _t, POWER ( [__y] - _ay, 2 ) )
+			RETURN DIVIDE ( _num, SQRT ( _dx * _dy ) )
+			
+			```
+		displayFolder: Production\Variance Bridge & Drivers
+		lineageTag: 92199c2e-4695-4b46-b595-d9f83bbfe542
+		formatString: "0.00"
+
+	measure 'Correlation — Crew Skill vs Rate' = ```
+			
+			VAR _t = ADDCOLUMNS ( FILTER ( FactProduction, FactProduction[ActivityID] = "ACT-HAUL" && FactProduction[EventDurationMinutes] > 0 ), "__x", LOOKUPVALUE ( FactRoster[OperatorSkillIndex], FactRoster[DateKey], FactProduction[DateKey], FactRoster[UnitCode], FactProduction[UnitCode], FactRoster[ShiftKey], FactProduction[ShiftKey] ), "__y", DIVIDE ( FactProduction[Quantity], FactProduction[EventDurationMinutes] / 60.0 ) )
+			VAR _valid = FILTER ( _t, NOT ISBLANK ( [__x] ) )
+			VAR _ax = AVERAGEX ( _valid, [__x] )
+			VAR _ay = AVERAGEX ( _valid, [__y] )
+			VAR _num = SUMX ( _valid, ( [__x] - _ax ) * ( [__y] - _ay ) )
+			VAR _dx = SUMX ( _valid, POWER ( [__x] - _ax, 2 ) )
+			VAR _dy = SUMX ( _valid, POWER ( [__y] - _ay, 2 ) )
+			RETURN DIVIDE ( _num, SQRT ( _dx * _dy ) )
+			
+			```
+		displayFolder: Production\Variance Bridge & Drivers
+		lineageTag: 1f381f01-23ce-4d50-add6-16bf16c81f1a
+		formatString: "0.00"
+
+	measure 'Correlation — Unit Derating vs Rate' = ```
+			
+			VAR _t = ADDCOLUMNS ( FILTER ( FactProduction, FactProduction[ActivityID] = "ACT-HAUL" && FactProduction[EventDurationMinutes] > 0 ), "__x", 1 - LOOKUPVALUE ( FactCondition[ConditionIndex], FactCondition[DateKey], FactProduction[DateKey], FactCondition[UnitCode], FactProduction[UnitCode] ), "__y", DIVIDE ( FactProduction[Quantity], FactProduction[EventDurationMinutes] / 60.0 ) )
+			VAR _valid = FILTER ( _t, NOT ISBLANK ( [__x] ) )
+			VAR _ax = AVERAGEX ( _valid, [__x] )
+			VAR _ay = AVERAGEX ( _valid, [__y] )
+			VAR _num = SUMX ( _valid, ( [__x] - _ax ) * ( [__y] - _ay ) )
+			VAR _dx = SUMX ( _valid, POWER ( [__x] - _ax, 2 ) )
+			VAR _dy = SUMX ( _valid, POWER ( [__y] - _ay, 2 ) )
+			RETURN DIVIDE ( _num, SQRT ( _dx * _dy ) )
+			
+			```
+		displayFolder: Production\Variance Bridge & Drivers
+		lineageTag: de228cea-f016-4dac-9e8e-e48bc59e1867
+		formatString: "0.00"
+
+	measure 'Selected Unit' = ```
+			
+			SELECTEDVALUE ( DimEquipment[UnitCode], "Multiple units" )
+			
+			```
+		displayFolder: Utility
+		lineageTag: 7aeb5df5-0adc-4896-b9bb-f863b7e941c7
+
+	measure 'Latest Condition Index' = ```
+			
+			MAXX ( TOPN ( 1, FactCondition, FactCondition[ReadingTimestamp], DESC ), FactCondition[ConditionIndex] )
+			
+			```
+		displayFolder: Equipment Condition
+		lineageTag: f3510345-0f59-4dfd-9d8f-f1284d9ba473
+
+	measure 'Latest SMU' = ```
+			
+			MAXX ( TOPN ( 1, FactCondition, FactCondition[ReadingTimestamp], DESC ), FactCondition[SMUHours] )
+			
+			```
+		displayFolder: Equipment Condition
+		lineageTag: 703a1641-77aa-4e76-bfe9-de3547608e35
+
+	measure 'Latest Hydraulic Oil Temp' = ```
+			
+			MAXX ( TOPN ( 1, FactCondition, FactCondition[ReadingTimestamp], DESC ), FactCondition[HydraulicOilTempC] )
+			
+			```
+		displayFolder: Equipment Condition
+		lineageTag: 003dea6d-e3dc-4115-8a95-ad54ceaa26ad
+
+	measure 'Latest Fe Particles' = ```
+			
+			MAXX ( TOPN ( 1, FactCondition, FactCondition[ReadingTimestamp], DESC ), FactCondition[FeParticlesPPM] )
+			
+			```
+		displayFolder: Equipment Condition
+		lineageTag: 65b25adb-d4a3-4377-a708-9a13f57d09c0
+
+	measure 'Brake Test Days Overdue' = ```
+			
+			MAXX ( TOPN ( 1, FactCondition, FactCondition[ReadingTimestamp], DESC ), FactCondition[BrakeTestDaysOverdue] )
+			
+			```
+		displayFolder: Equipment Condition
+		lineageTag: 7a9381ae-7100-40ec-9561-17613f7d1667
+
+	measure 'Active Condition Alerts' = ```
+			
+			MAXX ( TOPN ( 1, FactCondition, FactCondition[ReadingTimestamp], DESC ), FactCondition[ActiveAlertCount] )
+			
+			```
+		displayFolder: Equipment Condition
+		lineageTag: a242ce1d-663c-4236-a0c9-03215c377f0a
+
+	measure 'Last PM Actual SMU' = ```
+			
+			MAXX ( TOPN ( 1, FactPM, FactPM[ServiceDate], DESC ), FactPM[ActualSMU] )
+			
+			```
+		displayFolder: Maintenance
+		lineageTag: 556a6e37-b8fd-48fd-b31a-b70ff158974f
+
+	measure 'Last PM Interval' = ```
+			
+			MAXX ( TOPN ( 1, FactPM, FactPM[ServiceDate], DESC ), FactPM[PMIntervalSMU] )
+			
+			```
+		displayFolder: Maintenance
+		lineageTag: c94a835e-fa7c-43f1-83c4-c5b0e1a42f52
+
+	measure 'Next PM at SMU' = ```
+			
+			[Last PM Actual SMU] + [Last PM Interval]
+			
+			```
+		displayFolder: Equipment Condition
+		lineageTag: 88d07911-d654-49b5-9ab9-417122bc27e6
+
+	measure 'SMU Remaining to PM' = ```
+			
+			MAX ( 0, [Next PM at SMU] - [Latest SMU] )
+			
+			```
+		displayFolder: Equipment Condition
+		lineageTag: 3e02e438-e470-499e-b8a2-002fb2cdbba7
+
+	measure 'MTBF Class Median' = ```
+			
+			VAR _class = SELECTEDVALUE ( DimEquipment[EquipmentClass] )
+			RETURN MEDIANX ( FILTER ( ALLSELECTED ( DimEquipment ), DimEquipment[EquipmentClass] = _class ), CALCULATE ( [MTBF] ) )
+			
+			```
+		displayFolder: Reliability
+		lineageTag: 68792a12-9e67-46db-b271-04d500045de6
+		formatString: " 0.0 h"
+
+	measure 'MTBF vs Class Median' = ```
+			
+			[MTBF] - [MTBF Class Median]
+			
+			```
+		displayFolder: Reliability
+		lineageTag: b0128899-aca2-4555-9126-9d0605d80271
+
+	measure 'Availability Loss vs Fleet Median' = ```
+			
+			MAX ( 0, ( [Fleet Median PA] - [Physical Availability] ) * 100 )
+			
+			```
+		displayFolder: Time Usage Model\Benchmarking
+		lineageTag: 584f1674-ca0b-4705-a6c1-d29b53663f48
+
+	measure 'Hydraulics Breakdown Share' = ```
+			
+			DIVIDE ( CALCULATE ( [Breakdown Hours], DimComponent[ComponentName] = "Hydraulics" ), [Breakdown Hours] )
+			
+			```
+		displayFolder: Reliability
+		lineageTag: e0aa8b1c-e137-4544-aea8-1ad7ab5adfed
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Actual Loss Hours' = ```
+			
+			[Scheduled Hours] - [Productive Hours]
+			
+			```
+		displayFolder: Production Opportunity
+		lineageTag: 26000eea-7c6a-479b-834a-9eae3f9cc39c
+
+	measure 'Opportunity Reduction %' = ```
+			
+			0.20
+			
+			```
+		displayFolder: Production Opportunity
+		lineageTag: 8c3803fc-2451-47cf-b283-5f9e97508232
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Top 2 Controllable Reasons Hours' = ```
+			
+			VAR _reasons = CALCULATETABLE ( VALUES ( DimReason[Reason] ), DimReason[ControlClass] = "Controllable" )
+			RETURN SUMX ( TOPN ( 2, _reasons, [Delay Hours], DESC ), [Delay Hours] )
+			
+			```
+		displayFolder: Delays & Standby
+		lineageTag: 502e6fee-37e4-467f-ae58-040149603657
+
+	measure 'Reason Benchmark Gap Hours' = ```
+			
+			[Top 2 Controllable Reasons Hours] * [Opportunity Reduction %]
+			
+			```
+		displayFolder: Delays & Standby
+		lineageTag: 118b3750-1bca-4255-b050-f4a43d8ea9e5
+
+	measure 'Estimated Opportunity Tonnes' = ```
+			
+			DIVIDE ( [Reason Benchmark Gap Hours] * [Haul Truck Working Efficiency] * [Tonnes / Working h], 1000 )
+			
+			```
+		displayFolder: Production
+		lineageTag: b3e85192-4d29-4729-b8b9-b99c13671172
+
+	measure 'Unit Controllable Loss Rate' = ```
+			
+			DIVIDE ( [Controllable Delay Hours], [Calendar Hours] )
+			
+			```
+		displayFolder: Delays & Standby
+		lineageTag: 39f25ae7-352c-420d-95fe-6c2bb8ca0962
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Best Quartile Unit Controllable Loss Rate' = ```
+			
+			VAR _units = ALLSELECTED ( DimEquipment[UnitCode] )
+			RETURN PERCENTILEX.INC ( _units, CALCULATE ( [Unit Controllable Loss Rate] ), 0.25 )
+			
+			```
+		displayFolder: Delays & Standby
+		lineageTag: 6230d7fa-9d8f-4bff-bd10-46e2e4f4b7f8
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Unit Benchmark Gap Hours' = ```
+			
+			VAR _bq = [Best Quartile Unit Controllable Loss Rate]
+			VAR _units = ALLSELECTED ( DimEquipment[UnitCode] )
+			RETURN
+			SUMX (
+			    _units,
+			    VAR _rate = CALCULATE ( [Unit Controllable Loss Rate] )
+			    VAR _cal = CALCULATE ( [Calendar Hours] )
+			    RETURN MAX ( 0, ( _rate - _bq ) * _cal )
+			)
+			
+			```
+		displayFolder: Delays & Standby
+		lineageTag: a4cc818f-9c1c-42ca-a2e5-57953e6e7193
+
+	measure 'Opportunity vs Plan %' = ```
+			
+			DIVIDE ( [Estimated Opportunity Tonnes] * 1000, [Haulage Plan Tonnes] )
+			
+			```
+		displayFolder: Production Opportunity
+		lineageTag: 84502d31-9a01-4cd0-8dcf-0542c35fa5a7
+		formatString: 0.0%;-0.0%;0.0%
+
+	measure 'Open WOs by Age Bucket' = ```
+			
+			VAR _asof = MAX ( DimDate[Date] ) + 1
+			VAR _bucket = SELECTEDVALUE ( BacklogAgeBucket[Bucket] )
+			RETURN
+			CALCULATE (
+			    COUNTROWS ( FactWorkOrder ),
+			    REMOVEFILTERS ( DimDate ),
+			    FILTER (
+			        FactWorkOrder,
+			        VAR _age = DATEDIFF ( FactWorkOrder[StartTimestamp], _asof, DAY )
+			        VAR _open = FactWorkOrder[StartTimestamp] < _asof && ( ISBLANK ( FactWorkOrder[CloseTimestamp] ) || FactWorkOrder[CloseTimestamp] >= _asof )
+			        RETURN _open && SWITCH ( _bucket, "<7 d", _age < 7, "7-14 d", _age >= 7 && _age < 14, "14-30 d", _age >= 14 && _age < 30, "30-60 d", _age >= 30 && _age < 60, "60+ d", _age >= 60, FALSE () )
+			    )
+			)
+			
+			```
+		displayFolder: Maintenance
+		lineageTag: 27d976b9-3adb-42d3-9055-c3624133937b
 
 	partition _Measures = m
 		mode: import
@@ -152,4 +1510,3 @@ table _Measures
 				    #"Removed Columns"
 
 	annotation PBI_ResultType = Table
-
